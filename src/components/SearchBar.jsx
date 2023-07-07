@@ -23,7 +23,7 @@ export const SearchBar = ({ setSearchResults }) => {
 
     const timer = setTimeout(fetchData, 2000)
 
-  return () => clearTimeout(timer)
+    return () => clearTimeout(timer)
   }, [searchString])
 
   const handleChange = useCallback((searchString) => {
