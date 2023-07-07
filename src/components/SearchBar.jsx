@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+
 import { useCallback, useEffect, useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 
@@ -16,8 +17,7 @@ export const SearchBar = ({ setSearchResults }) => {
         const response = await fetch(fetchURL)
         const data = await response.json()
 
-        // Do something with the data
-        setSearchResults(data)
+        setSearchResults(data.data.results)
       }
     }
 
@@ -42,5 +42,5 @@ export const SearchBar = ({ setSearchResults }) => {
 }
 
 SearchBar.propTypes = {
-  setSearchResults: PropTypes.func.isRequired,
+  setSearchResults: PropTypes.func.isRequired
 }
