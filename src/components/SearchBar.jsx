@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types'
 import { useCallback, useEffect, useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 
-export const SearchBar = () => {
+export const SearchBar = ({ setSearchResults }) => {
   const [searchString, setSearchString] = useState('')
 
   const url = 'http://gateway.marvel.com/v1/public/characters?'
@@ -16,7 +17,7 @@ export const SearchBar = () => {
         const data = await response.json()
 
         // Do something with the data
-        console.log(data)
+        setSearchResults(data)
       }
     }
 
@@ -38,4 +39,8 @@ export const SearchBar = () => {
       />
     </div>
   )
+}
+
+SearchBar.propTypes = {
+  setSearchResults: PropTypes.func.isRequired,
 }
