@@ -18,6 +18,7 @@ export const SearchBar = ({ setSearchResults }) => {
         const data = await response.json()
 
         setSearchResults(data.data.results)
+        console.log(data.data.results)
       }
     }
 
