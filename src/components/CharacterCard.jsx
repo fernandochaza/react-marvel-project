@@ -54,7 +54,6 @@ const StyledCharacterName = styled.span`
 `
 export const CharacterCard = ({ character }) => {
   const img = `${character.thumbnail.path}.${character.thumbnail.extension}`
-  console.log(img)
   return (
     <StyledResultsCard>
       <StyledCardImg src={img} alt={character.name} />

@@ -21,7 +21,7 @@ function App () {
       <CardsContainer results={cardsData}>
         {cardsData && cardsData.length > 0
           ? cardsData.map((character) => {
-              return <CharacterCard key='1' character={character} />
+              return <CharacterCard key={character.id} character={character} />
             })
           : null}
       </CardsContainer>

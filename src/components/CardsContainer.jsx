@@ -17,7 +17,7 @@ export const CardsContainer = ({ results }) => {
     <StyledCardsContainer className='cards-container'>
       {results && results.length > 0
         ? results.map((result) => {
-            return <CharacterCard key='1' character={result} />
+            return <CharacterCard key={result.id} character={result} />
           })
         : null}
     </StyledCardsContainer>
