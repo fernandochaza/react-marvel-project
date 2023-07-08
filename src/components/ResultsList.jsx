@@ -20,7 +20,7 @@ export const ResultList = ({ results }) => {
       <ul>
         {results && results.length > 0
           ? results.map((result) => {
-              return <li key={result.name}>{result.name}</li>
+              return <li key={result.id}>{result.name}</li>
             })
           : null}
       </ul>
