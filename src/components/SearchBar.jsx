@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { FaSearch } from 'react-icons/fa'
+import { BsSearch } from 'react-icons/bs'
 
 import { urlBuilder } from './urlBuilder'
 
@@ -20,6 +20,7 @@ const Input = styled.input`
   width: 100%;
   height: 36px;
   padding-left: 8px;
+  margin: 0 20px;
 
   &:focus {
     outline: none;
@@ -31,10 +32,11 @@ const Input = styled.input`
     color: rgb(214, 211, 211);
   }
 `
-const SearchIcon = styled(FaSearch)`
-  margin-right: 1rem;
+const SearchIcon = styled(BsSearch)`
+  margin: 0 auto;
   width: 24px;
   height: 100%;
+  min-width: 24px;
   filter: opacity(15%);
 `
 
