@@ -12,11 +12,11 @@ const StyledCardsContainer = styled.div`
   margin: 1rem auto;
 `
 
-export const CardsContainer = ({ results }) => {
+export const CardsContainer = ({ characters }) => {
   return (
     <StyledCardsContainer className='cards-container'>
-      {results && results.length > 0
-        ? results.map((result) => {
+      {characters && characters.length > 0
+        ? characters.map((result) => {
             return <CharacterCard key={result.id} character={result} />
           })
         : null}
@@ -25,5 +25,5 @@ export const CardsContainer = ({ results }) => {
 }
 
 CardsContainer.propTypes = {
-  results: PropTypes.array.isRequired
+  characters: PropTypes.array.isRequired
 }
