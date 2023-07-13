@@ -59,7 +59,7 @@ header {
 }
 
 .search-bar input::placeholder {
-  color: rgb(214, 211, 211);;
+  color: rgb(214, 211, 211);
 }
 
 .results-container {

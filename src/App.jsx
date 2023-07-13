@@ -1,23 +1,15 @@
 import { useState } from 'react'
-import { SearchBar } from './components/SearchBar'
-import { ResultList } from './components/ResultsList'
 import { CharacterCard } from './components/CharacterCard'
 import { CardsContainer } from './components/CardsContainer'
+import { Header } from './components/Header'
 import './App.css'
 
 function App () {
-  const [searchResults, setSearchResults] = useState([])
   const [cardsData, setCardsData] = useState([])
 
   return (
     <div className='App'>
-      <div className='search-bar-container'>
-        <SearchBar
-          setSearchResults={setSearchResults}
-          setCardsData={setCardsData}
-        />
-        <ResultList results={searchResults} />
-      </div>
+      <Header setCardsData={setCardsData} />
       <CardsContainer characters={cardsData}>
         {cardsData && cardsData.length > 0
           ? cardsData.map((character) => {
