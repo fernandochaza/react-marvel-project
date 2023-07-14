@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Routes, Route } from 'react-router-dom'
 
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -41,10 +42,9 @@ export const Header = ({ setCardsData }) => {
       />
       <Separator />
       {/* <div className='search-bar-container'> */}
-      <SearchBar
-        setSearchResults={setSearchResults}
-        setCardsData={setCardsData}
-      />
+        <Routes>
+          <Route path='/:query' component={<SearchBar setSearchResults={setSearchResults} setCardsData={setCardsData} />} />
+        </Routes>
       <ResultList results={searchResults} />
       <FavoriteStar alt="Add to favorite button"/>
       {/* </div>

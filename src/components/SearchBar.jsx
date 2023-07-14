@@ -47,7 +47,7 @@ export const SearchBar = ({ setSearchResults, setCardsData, ...props }) => {
   const api = 'http://gateway.marvel.com/v1/public/characters?'
   const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
 
-  const url = urlBuilder(api, apiKey, searchString, 10)
+  const url = urlBuilder(api, apiKey, searchString, 9)
 
   useEffect(() => {
     const fetchData = async () => {
