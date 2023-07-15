@@ -13,6 +13,8 @@ const StyledCardsContainer = styled.div`
 `
 
 export const CardsContainer = ({ characters }) => {
+  console.log('Mounting Cards Container...')
+
   return (
     <StyledCardsContainer className='cards-container'>
       {characters && characters.length > 0

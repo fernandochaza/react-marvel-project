@@ -7,6 +7,8 @@ import './App.css'
 function App () {
   const [cardsData, setCardsData] = useState([])
 
+  console.log('Mounting App...')
+
   return (
     <div className='App'>
       <Header setCardsData={setCardsData} />

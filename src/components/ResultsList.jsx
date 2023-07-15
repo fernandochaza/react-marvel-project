@@ -15,6 +15,8 @@ const StyledListContainer = styled.div`
 `
 
 export const ResultList = ({ results }) => {
+  console.log('Mounting ResultsList...')
+
   return (
     <StyledListContainer className='list-container'>
       <ul>

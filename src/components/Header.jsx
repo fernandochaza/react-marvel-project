@@ -1,11 +1,10 @@
 import { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
 
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { BsStar } from 'react-icons/bs'
 
-import { SearchBar } from './SearchBar'
+import { SearchForm } from './SearchForm'
 import { ResultList } from './ResultsList'
 import { Logo } from './Logo'
 
@@ -34,6 +33,8 @@ const FavoriteStar = styled(BsStar)`
 export const Header = ({ setCardsData }) => {
   const [searchResults, setSearchResults] = useState([])
 
+  console.log('Mounting Header...')
+
   return (
     <StyledHeader>
       <Logo
@@ -42,14 +43,15 @@ export const Header = ({ setCardsData }) => {
       />
       <Separator />
       {/* <div className='search-bar-container'> */}
-        <Routes>
-          <Route path='/:query' component={<SearchBar setSearchResults={setSearchResults} setCardsData={setCardsData} />} />
-        </Routes>
+      <SearchForm
+        setSearchResults={setSearchResults}
+        setCardsData={setCardsData}
+      />
       <ResultList results={searchResults} />
-      <FavoriteStar alt="Add to favorite button"/>
+      <FavoriteStar alt='Add to favorite button' />
       {/* </div>
       <a href="#"><img className="star-icon" src="star.png" alt="Add to favorite icon" /></a> */}
-      <Separator $mgRight/>
+      <Separator $mgRight />
     </StyledHeader>
   )
 }
