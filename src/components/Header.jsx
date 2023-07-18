@@ -2,9 +2,8 @@ import { useState } from 'react'
 
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { BsStar } from 'react-icons/bs'
 
-import { SearchBar } from './SearchBar'
+import { SearchForm } from './SearchForm'
 import { ResultList } from './ResultsList'
 import { Logo } from './Logo'
 
@@ -22,17 +21,8 @@ const Separator = styled.div`
   margin: ${(props) => (props.$mgRight ? '0 32px' : '0 20px')};
 `
 
-const FavoriteStar = styled(BsStar)`
-  margin: 0 auto;
-  width: 24px;
-  min-width: 24px;
-  height: 100%;
-  filter: opacity(15%);
-`
-
 export const Header = ({ setCardsData }) => {
   const [searchResults, setSearchResults] = useState([])
-
   return (
     <StyledHeader>
       <Logo
@@ -41,15 +31,12 @@ export const Header = ({ setCardsData }) => {
       />
       <Separator />
       {/* <div className='search-bar-container'> */}
-      <SearchBar
+      <SearchForm
         setSearchResults={setSearchResults}
         setCardsData={setCardsData}
       />
       <ResultList results={searchResults} />
-      <FavoriteStar alt="Add to favorite button"/>
-      {/* </div>
-      <a href="#"><img className="star-icon" src="star.png" alt="Add to favorite icon" /></a> */}
-      <Separator $mgRight/>
+      <Separator $mgRight />
     </StyledHeader>
   )
 }

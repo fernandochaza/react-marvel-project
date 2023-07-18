@@ -27,12 +27,13 @@ const StyledCardBg = styled.div`
   top: 0;
   left: 0;
   z-index: 2;
-  background: rgb(175,179,179);
+  background: rgb(175, 179, 179);
   background: linear-gradient(
-    190deg, 
-    rgba(175,179,179,0.1) 0%, 
-    rgba(255,255,255,0.1) 50%, 
-    rgba(75,77,77,0.8) 100%); 
+    190deg,
+    rgba(175, 179, 179, 0.1) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(75, 77, 77, 0.8) 100%
+  );
 `
 
 const StyledAddToFavorites = styled.a`
