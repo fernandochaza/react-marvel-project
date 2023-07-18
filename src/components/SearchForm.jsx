@@ -2,14 +2,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { BsSearch } from 'react-icons/bs'
+import { BsSearch, BsStar } from 'react-icons/bs'
 
 import { useSearchParams } from 'react-router-dom'
 
-import { fetchSearchByInput } from './fetchers/fetchSearchByInput'
-import getRandomCharacter from './getRandomCharacter'
+import { fetchSearchByInput } from '../Utils/fetchers/fetchSearchByInput'
+import getRandomCharacter from '../Utils/getRandomCharacter'
 
-const StyledSearchBar = styled.form`
+const StyledForm = styled.form`
   width: 70%;
   max-width: 900px;
   display: flex;
@@ -43,6 +43,14 @@ const SearchIcon = styled(BsSearch)`
   filter: opacity(15%);
 `
 
+const FavoriteStar = styled(BsStar)`
+  margin: 0 auto;
+  width: 24px;
+  min-width: 24px;
+  height: 100%;
+  filter: opacity(15%);
+`
+
 const api = 'http://gateway.marvel.com/v1/public/characters?'
 const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
 
@@ -65,7 +73,6 @@ export const SearchForm = ({ setSearchResults, setCardsData, ...props }) => {
         : getRandomCharacter()
 
     if (query !== '') {
-      console.log('FETCHING ' + query)
       const results = await fetchSearchByInput({
         api,
         apiKey,
@@ -97,8 +104,8 @@ export const SearchForm = ({ setSearchResults, setCardsData, ...props }) => {
   }, [])
 
   return (
-    <StyledSearchBar className='input-container' {...props}>
-      <SearchIcon id='search-icon' />
+    <StyledForm {...props}>
+      <SearchIcon />
       <Input
         type='text'
         placeholder='Buscar'
@@ -107,7 +114,8 @@ export const SearchForm = ({ setSearchResults, setCardsData, ...props }) => {
         onKeyDown={handleEnterKey}
       />
       <button type='submit' style={{ display: 'none' }}></button>
-    </StyledSearchBar>
+      <FavoriteStar alt='Add to favorite button' />
+    </StyledForm>
   )
 }
 
