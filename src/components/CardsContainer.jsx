@@ -1,7 +1,7 @@
-import PropTypes from 'prop-types'
-
 import styled from 'styled-components'
 import { CharacterCard } from './CharacterCard'
+import { useAtom } from 'jotai'
+import { charactersResults } from '../atoms'
 
 const StyledCardsContainer = styled.div`
   display: grid;
@@ -12,18 +12,15 @@ const StyledCardsContainer = styled.div`
   margin: 1rem auto;
 `
 
-export const CardsContainer = ({ characters }) => {
+export const CardsContainer = () => {
+  const [searchResults] = useAtom(charactersResults)
   return (
-    <StyledCardsContainer className='cards-container'>
-      {characters && characters.length > 0
-        ? characters.map((result) => {
-            return <CharacterCard key={result.id} character={result} />
+    <StyledCardsContainer>
+      {searchResults && searchResults.length > 0
+        ? searchResults.map((character) => {
+            return <CharacterCard key={character.id} character={character} />
           })
         : null}
     </StyledCardsContainer>
   )
-}
-
-CardsContainer.propTypes = {
-  characters: PropTypes.array.isRequired
 }

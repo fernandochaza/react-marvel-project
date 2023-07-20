@@ -1,11 +1,10 @@
-import { useState } from 'react'
-
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { SearchForm } from './SearchForm'
 import { ResultList } from './ResultsList'
 import { Logo } from './Logo'
+import { useAtom } from 'jotai'
+import { charactersResults } from '../atoms'
 
 const StyledHeader = styled.header`
   display: flex;
@@ -21,8 +20,8 @@ const Separator = styled.div`
   margin: ${(props) => (props.$mgRight ? '0 32px' : '0 20px')};
 `
 
-export const Header = ({ setCardsData }) => {
-  const [searchResults, setSearchResults] = useState([])
+export const Header = () => {
+  const [searchResults] = useAtom(charactersResults)
   return (
     <StyledHeader>
       <Logo
@@ -30,17 +29,9 @@ export const Header = ({ setCardsData }) => {
         alt='Marvel Logo'
       />
       <Separator />
-      {/* <div className='search-bar-container'> */}
-      <SearchForm
-        setSearchResults={setSearchResults}
-        setCardsData={setCardsData}
-      />
-      <ResultList results={searchResults} />
+      <SearchForm />
+      <ResultList results={searchResults}/>
       <Separator $mgRight />
     </StyledHeader>
   )
-}
-
-Header.propTypes = {
-  setCardsData: PropTypes.func.isRequired
 }

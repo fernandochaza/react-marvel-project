@@ -16,7 +16,7 @@ const StyledListContainer = styled.div`
 
 export const ResultList = ({ results }) => {
   return (
-    <StyledListContainer className='list-container'>
+    <StyledListContainer>
       <ul>
         {results && results.length > 0
           ? results.map((result) => {
