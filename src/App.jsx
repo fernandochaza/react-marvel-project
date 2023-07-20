@@ -5,23 +5,24 @@ import './App.css'
 import { useAtom } from 'jotai'
 import { charactersResults } from './atoms'
 
-function App () {
-  // const [cardsData, setCardsData] = useState([])
+function App() {
   const [searchResults] = useAtom(charactersResults)
 
   return (
     <div className='App'>
       <Header />
       <main>
-        <CardsContainer>
-          {searchResults && searchResults.length > 0
-            ? searchResults.map((character) => {
-                return (
-                  <CharacterCard key={character.id} character={character} />
-                )
-              })
-            : null}
-        </CardsContainer>
+        {searchResults && searchResults.length > 0 ? (
+          <CardsContainer>
+            {searchResults.map((character) => {
+              return <CharacterCard key={character.id} character={character} />
+            })}
+          </CardsContainer>
+        ) : (
+          <CardsContainer>
+            <p>No matching results.</p>
+          </CardsContainer>
+        )}
       </main>
     </div>
   )
