@@ -9,7 +9,7 @@ import { useSearchParams } from 'react-router-dom'
 import { fetchSearchByInput } from '../Utils/fetchers/fetchSearchByInput'
 import getRandomCharacter from '../Utils/getRandomCharacter'
 
-import { charactersResults } from '../atoms'
+import { charactersResults, matchingResults } from '../atoms'
 import { fetchRandomCharacter } from '../Utils/fetchers/fetchRandomCharacter'
 
 const StyledForm = styled.form`
@@ -60,12 +60,12 @@ const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
 export const SearchForm = () => {
   const [inputString, setInputString] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const [searchParams, setSearchParams] = useSearchParams('')
+  const [, setSearchParams] = useSearchParams('')
 
   const [, setCardsData] = useAtom(charactersResults)
+  const [, setResultsList] = useAtom(matchingResults)
 
   const handleFetchRandom = useCallback(async () => {
-    console.log('handleFetchRandom')
     const query = getRandomCharacter()
     const results = await fetchRandomCharacter({
       api,
@@ -82,31 +82,48 @@ export const SearchForm = () => {
     handleFetchRandom()
   }, [])
 
-  const handleFetchByInput = useCallback(async () => {
-    if (inputString !== '') {
+  const handleFetchByInput = useCallback(async (query) => {
+    if (query !== '') {
       const results = await fetchSearchByInput({
         api,
         apiKey,
-        query: inputString,
+        query,
         limit: 9
       })
 
+      setResultsList(results)
       setCardsData(results)
       setSearchParams({ character: inputString })
     }
+  }, [])
+
+  useEffect(() => {
+    handleFetchByInput(inputString)
   }, [isSubmitted])
 
-  useEffect(() => {
-    const fetchByInputTimer = setTimeout(handleFetchByInput, 2000)
-    return () => clearTimeout(fetchByInputTimer)
-  }, [isSubmitted, inputString])
+  const handleFetchMatchingResults = useCallback(async (query) => {
+    if (query !== '') {
+      const results = await fetchSearchByInput({
+        api,
+        apiKey,
+        query,
+        limit: 9
+      })
+      setResultsList(results)
+    }
+  }, [])
 
   useEffect(() => {
-    setIsSubmitted(false)
+    const fetchByInputTimer = setTimeout(
+      () => handleFetchMatchingResults(inputString),
+      5000
+    )
+    return () => clearTimeout(fetchByInputTimer)
   }, [inputString])
 
   const handleInputChange = useCallback((inputString) => {
     setInputString(inputString)
+    setIsSubmitted(false)
   }, [])
 
   const handleEnterKey = useCallback(

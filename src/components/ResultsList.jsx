@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const StyledListContainer = styled.div`
-  display: none;
+  display: flex;
   flex-direction: column;
   width: 100%;
   margin-top: 1rem;
@@ -14,7 +14,7 @@ const StyledListContainer = styled.div`
   overflow-y: auto;
 `
 
-export const ResultList = ({ results }) => {
+export const ResultsList = ({ results }) => {
   return (
     <StyledListContainer>
       <ul>
@@ -28,6 +28,6 @@ export const ResultList = ({ results }) => {
   )
 }
 
-ResultList.propTypes = {
+ResultsList.propTypes = {
   results: PropTypes.array.isRequired
 }

@@ -8,12 +8,14 @@ import { charactersResults } from './atoms'
 function App() {
   const [searchResults] = useAtom(charactersResults)
 
+
   return (
     <div className='App'>
-      <Header />
+      <Header>
+      </Header>
       <main>
         {searchResults && searchResults.length > 0 ? (
-          <CardsContainer id="hola">
+          <CardsContainer>
             {searchResults.map((character) => {
               return <CharacterCard key={character.id} character={character} />
             })}
