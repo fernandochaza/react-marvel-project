@@ -1,18 +1,21 @@
-import { useState } from 'react'
 import { CharacterCard } from './components/CharacterCard'
 import { CardsContainer } from './components/CardsContainer'
 import { Header } from './components/Header'
 import './App.css'
+import { useAtom } from 'jotai'
+import { charactersResults } from './atoms'
 
 function App () {
-  const [cardsData, setCardsData] = useState([])
+  // const [cardsData, setCardsData] = useState([])
+  const [searchResults] = useAtom(charactersResults)
+
   return (
     <div className='App'>
-      <Header setCardsData={setCardsData} />
+      <Header />
       <main>
-        <CardsContainer characters={cardsData}>
-          {cardsData && cardsData.length > 0
-            ? cardsData.map((character) => {
+        <CardsContainer>
+          {searchResults && searchResults.length > 0
+            ? searchResults.map((character) => {
                 return (
                   <CharacterCard key={character.id} character={character} />
                 )

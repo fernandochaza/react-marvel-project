@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useAtom } from 'jotai'
 
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { BsSearch, BsStar } from 'react-icons/bs'
 
@@ -8,6 +8,8 @@ import { useSearchParams } from 'react-router-dom'
 
 import { fetchSearchByInput } from '../Utils/fetchers/fetchSearchByInput'
 import getRandomCharacter from '../Utils/getRandomCharacter'
+
+import { charactersResults } from '../atoms'
 
 const StyledForm = styled.form`
   width: 70%;
@@ -54,10 +56,12 @@ const FavoriteStar = styled(BsStar)`
 const api = 'http://gateway.marvel.com/v1/public/characters?'
 const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
 
-export const SearchForm = ({ setSearchResults, setCardsData, ...props }) => {
+export const SearchForm = () => {
   const [inputString, setInputString] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [searchParams, setSearchParams] = useSearchParams('character')
+
+  const [, setCardsData] = useAtom(charactersResults)
 
   const searchCharacter = useMemo(
     () => searchParams.get('character'),
@@ -79,10 +83,8 @@ export const SearchForm = ({ setSearchResults, setCardsData, ...props }) => {
         query,
         limit: 9
       })
-      setSearchResults(results)
 
       setCardsData(results)
-
       setSearchParams({ character: query })
     }
   }, [inputString])
@@ -104,7 +106,7 @@ export const SearchForm = ({ setSearchResults, setCardsData, ...props }) => {
   }, [])
 
   return (
-    <StyledForm {...props}>
+    <StyledForm>
       <SearchIcon />
       <Input
         type='text'
@@ -117,9 +119,4 @@ export const SearchForm = ({ setSearchResults, setCardsData, ...props }) => {
       <FavoriteStar alt='Add to favorite button' />
     </StyledForm>
   )
-}
-
-SearchForm.propTypes = {
-  setSearchResults: PropTypes.func.isRequired,
-  setCardsData: PropTypes.func.isRequired
 }
