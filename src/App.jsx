@@ -13,7 +13,7 @@ function App() {
       <Header />
       <main>
         {searchResults && searchResults.length > 0 ? (
-          <CardsContainer>
+          <CardsContainer id="hola">
             {searchResults.map((character) => {
               return <CharacterCard key={character.id} character={character} />
             })}

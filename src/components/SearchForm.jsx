@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useAtom } from 'jotai'
 
 import styled from 'styled-components'
@@ -10,6 +10,7 @@ import { fetchSearchByInput } from '../Utils/fetchers/fetchSearchByInput'
 import getRandomCharacter from '../Utils/getRandomCharacter'
 
 import { charactersResults } from '../atoms'
+import { fetchRandomCharacter } from '../Utils/fetchers/fetchRandomCharacter'
 
 const StyledForm = styled.form`
   width: 70%;
@@ -59,51 +60,64 @@ const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
 export const SearchForm = () => {
   const [inputString, setInputString] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const [searchParams, setSearchParams] = useSearchParams('character')
+  const [searchParams, setSearchParams] = useSearchParams('')
 
   const [, setCardsData] = useAtom(charactersResults)
 
-  const searchCharacter = useMemo(
-    () => searchParams.get('character'),
-    [searchParams]
-  )
+  const handleFetchRandom = useCallback(async () => {
+    console.log('handleFetchRandom')
+    const query = getRandomCharacter()
+    const results = await fetchRandomCharacter({
+      api,
+      apiKey,
+      query,
+      limit: 9
+    })
+
+    setCardsData(results)
+    setSearchParams({ character: query })
+  })
+
+  useEffect(() => {
+    handleFetchRandom()
+  }, [])
 
   const handleFetchByInput = useCallback(async () => {
-    const query =
-      inputString !== ''
-        ? inputString
-        : searchCharacter !== ''
-        ? searchCharacter
-        : getRandomCharacter()
-
-    if (query !== '') {
+    if (inputString !== '') {
       const results = await fetchSearchByInput({
         api,
         apiKey,
-        query,
+        query: inputString,
         limit: 9
       })
 
       setCardsData(results)
-      setSearchParams({ character: query })
+      setSearchParams({ character: inputString })
     }
-  }, [inputString])
+  }, [isSubmitted])
 
   useEffect(() => {
-    handleFetchByInput()
+    const fetchByInputTimer = setTimeout(handleFetchByInput, 2000)
+    return () => clearTimeout(fetchByInputTimer)
+  }, [isSubmitted, inputString])
+
+  useEffect(() => {
     setIsSubmitted(false)
-  }, [isSubmitted])
+  }, [inputString])
 
   const handleInputChange = useCallback((inputString) => {
     setInputString(inputString)
   }, [])
 
-  const handleEnterKey = useCallback((event) => {
-    if (event.key === 'Enter') {
-      setIsSubmitted(true)
-      event.preventDefault()
-    }
-  }, [])
+  const handleEnterKey = useCallback(
+    (event) => {
+      if (event.key === 'Enter') {
+        setIsSubmitted(true)
+        event.preventDefault()
+      }
+    },
+    [inputString]
+  )
 
   return (
     <StyledForm>
