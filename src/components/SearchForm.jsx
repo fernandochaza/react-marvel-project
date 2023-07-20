@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useAtom } from 'jotai'
 
 import styled from 'styled-components'
@@ -9,7 +9,8 @@ import { useSearchParams } from 'react-router-dom'
 import { fetchSearchByInput } from '../Utils/fetchers/fetchSearchByInput'
 import getRandomCharacter from '../Utils/getRandomCharacter'
 
-import { charactersResults } from '../atoms'
+import { charactersResults, matchingResults } from '../atoms'
+import { fetchRandomCharacter } from '../Utils/fetchers/fetchRandomCharacter'
 
 const StyledForm = styled.form`
   width: 70%;
@@ -59,23 +60,29 @@ const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
 export const SearchForm = () => {
   const [inputString, setInputString] = useState('')
   const [isSubmitted, setIsSubmitted] = useState(false)
-  const [searchParams, setSearchParams] = useSearchParams('character')
+  const [, setSearchParams] = useSearchParams('')
 
   const [, setCardsData] = useAtom(charactersResults)
+  const [, setResultsList] = useAtom(matchingResults)
 
-  const searchCharacter = useMemo(
-    () => searchParams.get('character'),
-    [searchParams]
-  )
+  const handleFetchRandom = useCallback(async () => {
+    const query = getRandomCharacter()
+    const results = await fetchRandomCharacter({
+      api,
+      apiKey,
+      query,
+      limit: 9
+    })
 
-  const handleFetchByInput = useCallback(async () => {
-    const query =
-      inputString !== ''
-        ? inputString
-        : searchCharacter !== ''
-        ? searchCharacter
-        : getRandomCharacter()
+    setCardsData(results)
+    setSearchParams({ character: query })
+  })
 
+  useEffect(() => {
+    handleFetchRandom()
+  }, [])
+
+  const handleFetchByInput = useCallback(async (query) => {
     if (query !== '') {
       const results = await fetchSearchByInput({
         api,
@@ -84,26 +91,50 @@ export const SearchForm = () => {
         limit: 9
       })
 
+      setResultsList(results)
       setCardsData(results)
-      setSearchParams({ character: query })
+      setSearchParams({ character: inputString })
     }
-  }, [inputString])
+  }, [])
 
   useEffect(() => {
-    handleFetchByInput()
-    setIsSubmitted(false)
+    handleFetchByInput(inputString)
   }, [isSubmitted])
+
+  const handleFetchMatchingResults = useCallback(async (query) => {
+    if (query !== '') {
+      const results = await fetchSearchByInput({
+        api,
+        apiKey,
+        query,
+        limit: 9
+      })
+      setResultsList(results)
+    }
+  }, [])
+
+  useEffect(() => {
+    const fetchByInputTimer = setTimeout(
+      () => handleFetchMatchingResults(inputString),
+      5000
+    )
+    return () => clearTimeout(fetchByInputTimer)
+  }, [inputString])
 
   const handleInputChange = useCallback((inputString) => {
     setInputString(inputString)
+    setIsSubmitted(false)
   }, [])
 
-  const handleEnterKey = useCallback((event) => {
-    if (event.key === 'Enter') {
-      setIsSubmitted(true)
-      event.preventDefault()
-    }
-  }, [])
+  const handleEnterKey = useCallback(
+    (event) => {
+      if (event.key === 'Enter') {
+        setIsSubmitted(true)
+        event.preventDefault()
+      }
+    },
+    [inputString]
+  )
 
   return (
     <StyledForm>

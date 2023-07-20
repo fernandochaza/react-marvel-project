@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 
 import { SearchForm } from './SearchForm'
-import { ResultList } from './ResultsList'
+import { ResultsList } from './ResultsList'
 import { Logo } from './Logo'
 import { useAtom } from 'jotai'
-import { charactersResults } from '../atoms'
+import { matchingResults } from '../atoms'
 
 const StyledHeader = styled.header`
   display: flex;
@@ -21,7 +21,7 @@ const Separator = styled.div`
 `
 
 export const Header = () => {
-  const [searchResults] = useAtom(charactersResults)
+  const [searchResults] = useAtom(matchingResults)
   return (
     <StyledHeader>
       <Logo
@@ -30,7 +30,7 @@ export const Header = () => {
       />
       <Separator />
       <SearchForm />
-      <ResultList results={searchResults}/>
+      <ResultsList results={searchResults}/>
       <Separator $mgRight />
     </StyledHeader>
   )
