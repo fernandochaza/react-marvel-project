@@ -1,9 +1,7 @@
 import { useSetAtom } from 'jotai'
 import { useCallback, useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { charactersResults, matchingResults } from '../atoms'
-import getRandomCharacter from '../Utils/getRandomCharacter'
-import { fetchRandomCharacter } from '../Utils/fetchers/fetchRandomCharacter'
+import { charactersResults, matchingResults, userInput } from '../atoms'
 import { fetchSearchByInput } from '../Utils/fetchers/fetchSearchByInput'
 
 const api = 'http://gateway.marvel.com/v1/public/characters?'
@@ -16,23 +14,7 @@ const useFetchCharacters = () => {
 
   const setResultsList = useSetAtom(matchingResults)
   const setCardsData = useSetAtom(charactersResults)
-
-  const handleFetchRandom = useCallback(async () => {
-    const query = getRandomCharacter()
-    const results = await fetchRandomCharacter({
-      api,
-      apiKey,
-      query,
-      limit: 9
-    })
-
-    setCardsData(results)
-    setSearchParams({ character: query })
-  })
-
-  useEffect(() => {
-    handleFetchRandom()
-  }, [])
+  const setUserInput = useSetAtom(userInput)
 
   const handleFetchByInput = useCallback(async (query) => {
     if (query !== '') {
@@ -76,6 +58,7 @@ const useFetchCharacters = () => {
   const handleInputChange = useCallback((inputString) => {
     setInputString(inputString)
     setIsSubmitted(false)
+    setUserInput(inputString)
   }, [])
 
   const handleEnterKey = useCallback(

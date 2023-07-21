@@ -1,7 +1,14 @@
 import styled from 'styled-components'
-import { BsSearch, BsStar } from 'react-icons/bs'
+import { BsSearch} from 'react-icons/bs'
 
 import useFetchCharacters from '../hooks/useFetchCharacters'
+import { useCallback, useEffect } from 'react'
+import getRandomCharacter from '../Utils/getRandomCharacter'
+import { fetchRandomCharacter } from '../Utils/fetchers/fetchRandomCharacter'
+import { useSetAtom } from 'jotai'
+import { charactersResults } from '../atoms'
+import { useSearchParams } from 'react-router-dom'
+import { AddFavoriteSearch } from './AddFavoriteSearchButton'
 
 const StyledForm = styled.form`
   width: 70%;
@@ -37,16 +44,30 @@ const SearchIcon = styled(BsSearch)`
   filter: opacity(15%);
 `
 
-const FavoriteStar = styled(BsStar)`
-  margin: 0 auto;
-  width: 24px;
-  min-width: 24px;
-  height: 100%;
-  filter: opacity(15%);
-`
+const api = 'http://gateway.marvel.com/v1/public/characters?'
+const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
 
 export const SearchForm = () => {
   const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
+  const setCardsData = useSetAtom(charactersResults)
+  const [, setSearchParams] = useSearchParams('')
+
+  const handleFetchRandom = useCallback(async () => {
+    const query = getRandomCharacter()
+    const results = await fetchRandomCharacter({
+      api,
+      apiKey,
+      query,
+      limit: 9
+    })
+
+    setCardsData(results)
+    setSearchParams({ character: query })
+  })
+
+  useEffect(() => {
+    handleFetchRandom()
+  }, [])
 
   return (
     <StyledForm>
@@ -59,7 +80,7 @@ export const SearchForm = () => {
         onKeyDown={handleEnterKey}
       />
       <button type='submit' style={{ display: 'none' }}></button>
-      <FavoriteStar alt='Add to favorite button' />
+      <AddFavoriteSearch alt='Add to favorite button' />
     </StyledForm>
   )
 }
