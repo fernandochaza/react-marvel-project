@@ -30,8 +30,8 @@ export const Header = () => {
       />
       <Separator />
       <SearchForm />
-      <ResultsList results={searchResults}/>
       <Separator $mgRight />
+      <ResultsList results={searchResults} />
     </StyledHeader>
   )
 }
