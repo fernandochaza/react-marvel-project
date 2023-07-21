@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const StyledListContainer = styled.div`
-  display: flex;
+  display: none;
   flex-direction: column;
   width: 100%;
   margin-top: 1rem;

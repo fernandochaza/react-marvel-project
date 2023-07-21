@@ -8,7 +8,6 @@ import { charactersResults } from './atoms'
 function App() {
   const [searchResults] = useAtom(charactersResults)
 
-
   return (
     <div className='App'>
       <Header>
