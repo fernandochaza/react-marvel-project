@@ -1,30 +1,36 @@
 import { useAtom, useSetAtom } from 'jotai'
-import { useCallback, useEffect} from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { charactersResults, matchingResults, userInput } from '../atoms'
 import { fetchSearchByInput } from '../Utils/fetchers/fetchSearchByInput'
-import { handleFavoriteSearches } from '../Utils/handleLocalFavoriteSearches'
-
-const api = 'http://gateway.marvel.com/v1/public/characters?'
-const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
+import { handleSearchHistory } from '../Utils/handleSearchHistory'
 
 const useFetchCharacters = () => {
   const [currentInput, setCurrentInput] = useAtom(userInput)
   const [, setSearchParams] = useSearchParams('')
+
+  const charactersEndpoint = useMemo(
+    () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
+    []
+  )
+
+  const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
 
   const setResultsList = useSetAtom(matchingResults)
   const setCardsData = useSetAtom(charactersResults)
 
   const handleFetchByInput = useCallback(async (query) => {
     if (query !== '') {
-      const results = await fetchSearchByInput({
-        api,
+      const fetchedCharacters = await fetchSearchByInput({
+        api: charactersEndpoint,
         apiKey,
+        param: 'nameStartsWith=',
         query,
-        limit: 9
+        limit: 20
       })
-      setResultsList(results)
-      setCardsData(results)
+
+      setResultsList(fetchedCharacters)
+      setCardsData(fetchedCharacters)
       setSearchParams({ character: query })
     }
   }, [])
@@ -36,10 +42,11 @@ const useFetchCharacters = () => {
   const handleFetchMatchingResults = useCallback(async (userQuery) => {
     if (userQuery !== '') {
       const results = await fetchSearchByInput({
-        api,
+        api: charactersEndpoint,
         apiKey,
+        param: 'nameStartsWith=',
         query: userQuery,
-        limit: 9
+        limit: 10
       })
       setResultsList(results)
     }
@@ -61,7 +68,7 @@ const useFetchCharacters = () => {
     (event) => {
       if (event.key === 'Enter') {
         handleFetchByInput(event.target.value)
-        handleFavoriteSearches(event.target.value)
+        handleSearchHistory(event.target.value)
         event.preventDefault()
       }
     },
