@@ -1,30 +1,46 @@
-import styled from 'styled-components'
-
-import useFetchCharacters from '../hooks/useFetchCharacters'
-import { useCallback, useEffect } from 'react'
-import getRandomCharacter from '../Utils/getRandomCharacter'
-import { fetchRandomCharacter } from '../Utils/fetchers/fetchRandomCharacter'
+import { useCallback, useEffect, useMemo } from 'react'
 import { useAtom, useSetAtom } from 'jotai'
-import { charactersResults, favoriteSearches } from '../atoms'
-import { FavoriteSearchesList } from './FavoriteSearchesList/FavoriteSearchesList'
-import { FavoriteSearchItem } from './FavoriteSearchesList/FavoriteSearchItem'
-import { FavoriteItemLink } from './FavoriteSearchesList/FavoriteItemLink'
+import styled from 'styled-components'
+import { BsSearch } from 'react-icons/bs'
+
+import { charactersResults, favoriteCharacters, isSearchHistoryDisplayed, searchHistory } from '../atoms'
+import useFetchCharacters from '../hooks/useFetchCharacters'
+import getRandomCharacter from '../Utils/getRandomCharacter'
+
+import { fetchRandomCharacter } from '../Utils/fetchers/fetchRandomCharacter'
+import { SearchHistoryContainer } from './SearchHistoryList/SearchHistoryContainer'
+import { SearchHistoryItem } from './SearchHistoryList/SearchHistoryItem'
+import { HistoryItemLink } from './SearchHistoryList/HistoryItemLink'
+import { FavoriteCardsButton } from './FavoriteCardsButton'
 
 const StyledForm = styled.form`
-  width: 70%;
+  width: 50%;
   min-width: 400px;
-  max-width: 800px;
+  max-width: 600px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   margin: 0 auto;
 `
 
 const Input = styled.input`
-  margin: 0;
+  width: 100%;
+  border: none;
+  outline: none;
+
+  &::placeholder {
+    color: rgb(214, 211, 211);
+  }
+`
+
+const InputContainer = styled.div`
+  display: flex;
+  margin: 0 20px 0 0;
   border: 1px solid rgba(1, 1, 1, 0.1);
   border-radius: 8px;
   width: 100%;
+  min-width: 400px;
+  max-width: 800px;
   height: 40px;
   padding-left: 8px;
 
@@ -33,24 +49,40 @@ const Input = styled.input`
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     transition: box-shadow 0.3s ease;
   }
-
-  &::placeholder {
-    color: rgb(214, 211, 211);
-  }
 `
 
-const api = 'http://gateway.marvel.com/v1/public/characters?'
-const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
+const SubmitButton = styled.button`
+  background-color: transparent;
+  border: none;
+`
+
+const SearchIcon = styled(BsSearch)`
+  margin: 0 16px;
+  width: 24px;
+  height: 100%;
+  cursor: pointer;
+  filter: opacity(15%);
+`
 
 export const SearchForm = () => {
-  const [favorites, setFavorites] = useAtom(favoriteSearches)
-  const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
+  const [currentSearchHistory, setCurrentSearchHistory] = useAtom(searchHistory)
+  const setLocalFavorites = useSetAtom(favoriteCharacters)
   const setCardsData = useSetAtom(charactersResults)
+  const [displaySearchHistory, setDisplaySearchHistory] = useAtom(isSearchHistoryDisplayed)
+  const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
+
+
+  const charactersEndpoint = useMemo(
+    () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
+    []
+  )
+
+  const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
 
   const handleFetchRandom = useCallback(async () => {
     const query = getRandomCharacter()
     const results = await fetchRandomCharacter({
-      api,
+      api: charactersEndpoint,
       apiKey,
       query,
       limit: 9
@@ -63,35 +95,58 @@ export const SearchForm = () => {
     handleFetchRandom()
   }, [])
 
-  const handleDisplayFavorites = useCallback(() => {
-    const storedFavorites = localStorage.getItem('favoriteSearches')
+  useEffect(() => {
+    displayFavoriteCards()
+  }, [])
+
+  const displayFavoriteCards = useCallback(() => {
+    const storedFavorites = localStorage.getItem('favoriteCharacters')
     const favorites = storedFavorites ? JSON.parse(storedFavorites) : null
-    setFavorites(favorites)
+    if (favorites) {
+      setLocalFavorites(favorites)
+    }
+  })
+
+  const handleDisplaySearchHistory = useCallback(() => {
+    const storedSearchHistory = localStorage.getItem('searchHistory')
+    const searchHistory = storedSearchHistory ? JSON.parse(storedSearchHistory) : null
+    setCurrentSearchHistory(searchHistory)
+    setDisplaySearchHistory(true)
+
   }, [])
 
   return (
-    <StyledForm action='#' autoComplete='on'>
-      <Input
-        type='text'
-        placeholder='Buscar'
-        autoComplete='on'
-        value={inputString}
-        onChange={(event) => handleInputChange(event.target.value)}
-        onKeyDown={handleEnterKey}
-        onClick={handleDisplayFavorites}
-      />
-      {!inputString && favorites ? (
-        <FavoriteSearchesList>
-          {favorites.map((favoriteItem) => {
+    <StyledForm >
+      <InputContainer>
+        <Input
+          type='text'
+          placeholder='Search...'
+          autoComplete='on'
+          value={inputString}
+          aria-label='Search a Marvel character'
+          onChange={(event) => handleInputChange(event.target.value)}
+          onKeyDown={handleEnterKey}
+          onClick={handleDisplaySearchHistory}
+        />
+        <SubmitButton type='submit'>
+          <SearchIcon aria-label='Search Button' />
+        </SubmitButton>
+      </InputContainer>
+      {!inputString && currentSearchHistory && displaySearchHistory ? (
+        <SearchHistoryContainer>
+          {currentSearchHistory.map((searchItem) => {
             return (
-              <FavoriteSearchItem key={favoriteItem}>
-                <FavoriteItemLink text={favoriteItem} />
-              </FavoriteSearchItem>
+              <SearchHistoryItem key={searchItem}>
+                <HistoryItemLink
+                  aria-label={`Search results for: ${searchItem}`}
+                  text={searchItem}
+                />
+              </SearchHistoryItem>
             )
           })}
-        </FavoriteSearchesList>
+        </SearchHistoryContainer>
       ) : null}
-      <button type='submit' style={{ display: 'none' }}></button>
+      <FavoriteCardsButton />
     </StyledForm>
   )
 }
