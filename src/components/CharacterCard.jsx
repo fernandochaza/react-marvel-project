@@ -1,8 +1,12 @@
+import { useCallback } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { AiOutlineStar } from 'react-icons/ai'
 
-const StyledResultsCard = styled.article`
+import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
+import { useAtom } from 'jotai'
+import { favoriteCharacters } from '../atoms'
+
+const CardContainer = styled.article`
   position: relative;
   width: 256px;
   height: 380px;
@@ -10,7 +14,7 @@ const StyledResultsCard = styled.article`
   border-radius: 4px;
 `
 
-const StyledCardImg = styled.img`
+const BackgroundImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -18,7 +22,17 @@ const StyledCardImg = styled.img`
   border-radius: 4px;
 `
 
-const StyledCardBg = styled.div`
+const AddedFavorite = styled(AiFillStar)`
+  width: 100%;
+  height: 100%;
+`
+
+const NotFavorite = styled(AiOutlineStar)`
+  width: 100%;
+  height: 100%;
+`
+
+const CardInnerShadow = styled.div`
   height: 100%;
   width: 100%;
   border-radius: 4px;
@@ -36,14 +50,19 @@ const StyledCardBg = styled.div`
   );
 `
 
-const StyledAddToFavorites = styled.a`
+const AddFavoriteButton = styled.span`
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 3;
+  cursor: pointer;
+
+  width: 32px;
+  height: 32px;
+  color: white;
 `
 
-const StyledCharacterName = styled.span`
+const CharacterName = styled.span`
   position: absolute;
   bottom: 10px;
   left: 10px;
@@ -54,16 +73,71 @@ const StyledCharacterName = styled.span`
   z-index: 3;
 `
 export const CharacterCard = ({ character }) => {
-  const img = `${character.thumbnail.path}.${character.thumbnail.extension}`
+  const [, setLocalFavorites] = useAtom(favoriteCharacters)
+
+  const handleFavoriteCard = (character) => {
+    if (character) {
+      const storedFavorites = localStorage.getItem('favoriteCharacters')
+      const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
+
+      const isCharacterInFavorites = favorites.some(
+        (favCharacter) => favCharacter.id === character.id
+      )
+      if (!isCharacterInFavorites) {
+        const updatedFavorites = [...favorites, character]
+        localStorage.setItem(
+          'favoriteCharacters',
+          JSON.stringify(updatedFavorites)
+        )
+        setLocalFavorites(updatedFavorites)
+      } else {
+        const updatedFavorites = favorites.filter(
+          (item) => item.id !== character.id
+        )
+        localStorage.setItem(
+          'favoriteCharacters',
+          JSON.stringify(updatedFavorites)
+        )
+        setLocalFavorites(updatedFavorites)
+      }
+    }
+  }
+
+  const isFavorite = useCallback((characterId) => {
+    const storedFavorites = localStorage.getItem('favoriteCharacters')
+    const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
+
+    const isCharacterInFavorites = favorites.some(
+      (favCharacter) => favCharacter.id === characterId
+    )
+
+    return isCharacterInFavorites
+  })
+
+  const handleCardClick = (characterId) => {
+    console.log(characterId)
+  }
+
   return (
-    <StyledResultsCard>
-      <StyledCardImg src={img} alt={character.name} />
-      <StyledCardBg />
-      <StyledAddToFavorites href='#'>
-        <AiOutlineStar id='star-icon' alt='Add to favorite icon' />
-      </StyledAddToFavorites>
-      <StyledCharacterName>{character.name}</StyledCharacterName>
-    </StyledResultsCard>
+    <CardContainer>
+      <BackgroundImage
+        src={
+          character.thumbnail.path !==
+          'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available'
+            ? `${character.thumbnail.path}.${character.thumbnail.extension}`
+            : 'https://i.pinimg.com/564x/db/b2/12/dbb2129035f83c491af200bb58e257cc.jpg'
+        }
+        alt={character.name}
+      />
+      <CardInnerShadow onClick={() => handleCardClick(character.id)} />
+      <AddFavoriteButton
+        alt='Add to favorite icon'
+        onClick={() => handleFavoriteCard(character)}
+      >
+        {isFavorite(character.id) ? <AddedFavorite /> : <NotFavorite />}
+      </AddFavoriteButton>
+      <CharacterName>{character.name}</CharacterName>
+    </CardContainer>
   )
 }
 
