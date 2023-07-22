@@ -6,7 +6,6 @@ import { Logo } from './Logo'
 import { useAtom } from 'jotai'
 import { matchingResults } from '../atoms'
 import { BsSearch } from 'react-icons/bs'
-// import { AddFavoriteSearch } from './AddFavoriteSearchButton'
 
 const StyledHeader = styled.header`
   display: flex;
@@ -23,7 +22,7 @@ const StyledHeader = styled.header`
 const VerticalDivision = styled.div`
   border-left: 2px solid rgba(0, 0, 0, 0.06);
   height: 32px;
-  margin: ${(props) => (props.$mgRight ? '0 32px 0 0' : '0 auto')};
+  margin-right: 40px;
 `
 
 const SearchIcon = styled(BsSearch)`
@@ -42,12 +41,12 @@ export const Header = () => {
         src='https://upload.wikimedia.org/wikipedia/commons/b/b9/Marvel_Logo.svg'
         alt='Marvel Logo'
       />
-      <VerticalDivision />
+
       <SearchIcon />
       <SearchForm />
       {/* <AddFavoriteSearch alt='Add to favorite button' /> */}
-      <VerticalDivision $mgRight />
       <ResultsList results={searchResults} />
+      <VerticalDivision />
     </StyledHeader>
   )
 }

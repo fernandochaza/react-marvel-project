@@ -1,11 +1,11 @@
 import styled from 'styled-components'
 
 import useFetchCharacters from '../hooks/useFetchCharacters'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 import getRandomCharacter from '../Utils/getRandomCharacter'
 import { fetchRandomCharacter } from '../Utils/fetchers/fetchRandomCharacter'
-import { useSetAtom } from 'jotai'
-import { charactersResults } from '../atoms'
+import { useAtom, useSetAtom } from 'jotai'
+import { charactersResults, favoriteSearches } from '../atoms'
 import { FavoriteSearchesList } from './FavoriteSearchesList/FavoriteSearchesList'
 import { FavoriteSearchItem } from './FavoriteSearchesList/FavoriteSearchItem'
 import { FavoriteItemLink } from './FavoriteSearchesList/FavoriteItemLink'
@@ -43,7 +43,7 @@ const api = 'http://gateway.marvel.com/v1/public/characters?'
 const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
 
 export const SearchForm = () => {
-  const [favorites, setFavorites] = useState([])
+  const [favorites, setFavorites] = useAtom(favoriteSearches)
   const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
   const setCardsData = useSetAtom(charactersResults)
 
@@ -66,7 +66,6 @@ export const SearchForm = () => {
   const handleDisplayFavorites = useCallback(() => {
     const storedFavorites = localStorage.getItem('favoriteSearches')
     const favorites = storedFavorites ? JSON.parse(storedFavorites) : null
-    console.log(favorites)
     setFavorites(favorites)
   }, [])
 
