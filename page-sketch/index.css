@@ -16,9 +16,9 @@ header .main-logo {
 }
 
 header .search-icon {
-  margin-right: 1rem;
+  margin: 1rem;
   width: 30px;
-  height: 100%;
+  height: auto;
   filter: opacity(15%);
 }
 
@@ -44,7 +44,7 @@ header {
   box-shadow: 0 2px 4px rgba(197, 197, 197, 0.5);
 }
 
-.search-bar {
+.search-form {
   width: 70%;
   max-width: 900px;
   display: flex;
@@ -53,13 +53,49 @@ header {
 }
 
 .search-bar input {
+  margin-top: .6rem;
   border: none;
   width: 100%;
   height: 36px;
 }
 
-.search-bar input::placeholder {
+.search-form input::placeholder {
   color: rgb(214, 211, 211);
+}
+
+.search-bar {
+  width: 100%;
+}
+
+.favorite-searches {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  list-style: none;
+  background-color: rgb(230, 230, 230);
+  border-radius: 4px;
+  position: relative;
+  z-index: 4;
+  padding: .0 1rem;
+  height: 220px;
+  overflow-y: auto;
+}
+
+.favorite-searches a {
+  text-decoration: none;
+  color: black;
+}
+
+.favorite-search-icon {
+  width: 24px;
+  margin-right: .5rem;
+  filter: opacity(35%);
+}
+
+.favorite-searches li {
+  padding: .5rem 0;
+  display: flex;
+  align-items: center;
 }
 
 .results-container {
