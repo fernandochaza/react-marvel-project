@@ -1,30 +1,32 @@
 import styled from 'styled-components'
-import { BsSearch} from 'react-icons/bs'
 
 import useFetchCharacters from '../hooks/useFetchCharacters'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import getRandomCharacter from '../Utils/getRandomCharacter'
 import { fetchRandomCharacter } from '../Utils/fetchers/fetchRandomCharacter'
 import { useSetAtom } from 'jotai'
 import { charactersResults } from '../atoms'
-import { useSearchParams } from 'react-router-dom'
-import { AddFavoriteSearch } from './AddFavoriteSearchButton'
+import { FavoriteSearchesList } from './FavoriteSearchesList/FavoriteSearchesList'
+import { FavoriteSearchItem } from './FavoriteSearchesList/FavoriteSearchItem'
+import { FavoriteItemLink } from './FavoriteSearchesList/FavoriteItemLink'
 
 const StyledForm = styled.form`
   width: 70%;
-  max-width: 900px;
+  min-width: 400px;
+  max-width: 800px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  margin: auto auto;
+  margin: 0 auto;
 `
 
 const Input = styled.input`
+  margin: 0;
   border: 1px solid rgba(1, 1, 1, 0.1);
   border-radius: 8px;
   width: 100%;
-  height: 36px;
+  height: 40px;
   padding-left: 8px;
-  margin: 0 20px;
 
   &:focus {
     outline: none;
@@ -36,21 +38,14 @@ const Input = styled.input`
     color: rgb(214, 211, 211);
   }
 `
-const SearchIcon = styled(BsSearch)`
-  margin: 0 auto;
-  width: 24px;
-  height: 100%;
-  min-width: 24px;
-  filter: opacity(15%);
-`
 
 const api = 'http://gateway.marvel.com/v1/public/characters?'
 const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
 
 export const SearchForm = () => {
+  const [favorites, setFavorites] = useState([])
   const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
   const setCardsData = useSetAtom(charactersResults)
-  const [, setSearchParams] = useSearchParams('')
 
   const handleFetchRandom = useCallback(async () => {
     const query = getRandomCharacter()
@@ -62,25 +57,42 @@ export const SearchForm = () => {
     })
 
     setCardsData(results)
-    setSearchParams({ character: query })
   })
 
   useEffect(() => {
     handleFetchRandom()
   }, [])
 
+  const handleDisplayFavorites = useCallback(() => {
+    const storedFavorites = localStorage.getItem('favoriteSearches')
+    const favorites = storedFavorites ? JSON.parse(storedFavorites) : null
+    console.log(favorites)
+    setFavorites(favorites)
+  }, [])
+
   return (
-    <StyledForm>
-      <SearchIcon />
+    <StyledForm action='#' autoComplete='on'>
       <Input
         type='text'
         placeholder='Buscar'
+        autoComplete='on'
         value={inputString}
         onChange={(event) => handleInputChange(event.target.value)}
         onKeyDown={handleEnterKey}
+        onClick={handleDisplayFavorites}
       />
+      {!inputString && favorites ? (
+        <FavoriteSearchesList>
+          {favorites.map((favoriteItem) => {
+            return (
+              <FavoriteSearchItem key={favoriteItem}>
+                <FavoriteItemLink text={favoriteItem} />
+              </FavoriteSearchItem>
+            )
+          })}
+        </FavoriteSearchesList>
+      ) : null}
       <button type='submit' style={{ display: 'none' }}></button>
-      <AddFavoriteSearch alt='Add to favorite button' />
     </StyledForm>
   )
 }
