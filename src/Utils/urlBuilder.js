@@ -1,5 +1,5 @@
-export const urlBuilder = (url, apiKey, searchString, limit) => {
+export const urlBuilder = (url, apiKey, param, query, limit) => {
   let urlBuilt = url
-  urlBuilt += `nameStartsWith=${searchString}&limit=${limit}&apikey=${apiKey}`
+  urlBuilt += `${param}${query}&limit=${limit}&apikey=${apiKey}`
   return urlBuilt
 }
