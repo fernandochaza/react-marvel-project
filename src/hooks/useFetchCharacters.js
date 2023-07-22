@@ -1,20 +1,19 @@
-import { useSetAtom } from 'jotai'
-import { useCallback, useEffect, useState } from 'react'
+import { useAtom, useSetAtom } from 'jotai'
+import { useCallback, useEffect} from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { charactersResults, matchingResults, userInput } from '../atoms'
 import { fetchSearchByInput } from '../Utils/fetchers/fetchSearchByInput'
+import { handleFavoriteSearches } from '../Utils/handleLocalFavoriteSearches'
 
 const api = 'http://gateway.marvel.com/v1/public/characters?'
 const apiKey = 'f4e63a51401e5c498e1740d446ae8f5d'
 
 const useFetchCharacters = () => {
-  const [inputString, setInputString] = useState('')
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [currentInput, setCurrentInput] = useAtom(userInput)
   const [, setSearchParams] = useSearchParams('')
 
   const setResultsList = useSetAtom(matchingResults)
   const setCardsData = useSetAtom(charactersResults)
-  const setUserInput = useSetAtom(userInput)
 
   const handleFetchByInput = useCallback(async (query) => {
     if (query !== '') {
@@ -24,7 +23,6 @@ const useFetchCharacters = () => {
         query,
         limit: 9
       })
-
       setResultsList(results)
       setCardsData(results)
       setSearchParams({ character: query })
@@ -32,15 +30,15 @@ const useFetchCharacters = () => {
   }, [])
 
   useEffect(() => {
-    handleFetchByInput(inputString)
-  }, [isSubmitted])
+    handleFetchByInput(currentInput)
+  }, [])
 
-  const handleFetchMatchingResults = useCallback(async (query) => {
-    if (query !== '') {
+  const handleFetchMatchingResults = useCallback(async (userQuery) => {
+    if (userQuery !== '') {
       const results = await fetchSearchByInput({
         api,
         apiKey,
-        query,
+        query: userQuery,
         limit: 9
       })
       setResultsList(results)
@@ -49,32 +47,28 @@ const useFetchCharacters = () => {
 
   useEffect(() => {
     const fetchByInputTimer = setTimeout(
-      () => handleFetchMatchingResults(inputString),
+      () => handleFetchMatchingResults(currentInput),
       3000
     )
     return () => clearTimeout(fetchByInputTimer)
-  }, [inputString])
+  }, [currentInput])
 
-  const handleInputChange = useCallback((inputString) => {
-    setInputString(inputString)
-    setIsSubmitted(false)
-    setUserInput(inputString)
+  const handleInputChange = useCallback((userQuery) => {
+    setCurrentInput(userQuery)
   }, [])
 
   const handleEnterKey = useCallback(
     (event) => {
       if (event.key === 'Enter') {
-        setIsSubmitted(true)
+        handleFetchByInput(event.target.value)
+        handleFavoriteSearches(event.target.value)
         event.preventDefault()
       }
     },
-    [inputString]
+    [currentInput]
   )
-  return [
-    handleInputChange,
-    handleEnterKey,
-    inputString
-  ]
+
+  return [handleInputChange, handleEnterKey, currentInput]
 }
 
 export default useFetchCharacters
