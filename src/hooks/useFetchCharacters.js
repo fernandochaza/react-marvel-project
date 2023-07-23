@@ -31,7 +31,7 @@ const useFetchCharacters = () => {
 
       setResultsList(fetchedCharacters)
       setCardsData(fetchedCharacters)
-      setSearchParams({ character: query })
+      setSearchParams({ character: `"${query}"` })
     }
   }, [])
 

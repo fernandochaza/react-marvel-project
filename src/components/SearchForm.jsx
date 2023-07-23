@@ -3,7 +3,12 @@ import { useAtom, useSetAtom } from 'jotai'
 import styled from 'styled-components'
 import { BsSearch } from 'react-icons/bs'
 
-import { charactersResults, favoriteCharacters, isSearchHistoryDisplayed, searchHistory } from '../atoms'
+import {
+  charactersResults,
+  favoriteCharacters,
+  isSearchHistoryDisplayed,
+  searchHistory
+} from '../atoms'
 import useFetchCharacters from '../hooks/useFetchCharacters'
 import getRandomCharacter from '../Utils/getRandomCharacter'
 
@@ -12,6 +17,7 @@ import { SearchHistoryContainer } from './SearchHistoryList/SearchHistoryContain
 import { SearchHistoryItem } from './SearchHistoryList/SearchHistoryItem'
 import { HistoryItemLink } from './SearchHistoryList/HistoryItemLink'
 import { FavoriteCardsButton } from './FavoriteCardsButton'
+import useFetchByUrl from '../hooks/useFetchByUrl'
 
 const StyledForm = styled.form`
   width: 50%;
@@ -68,16 +74,21 @@ export const SearchForm = () => {
   const [currentSearchHistory, setCurrentSearchHistory] = useAtom(searchHistory)
   const setLocalFavorites = useSetAtom(favoriteCharacters)
   const setCardsData = useSetAtom(charactersResults)
-  const [displaySearchHistory, setDisplaySearchHistory] = useAtom(isSearchHistoryDisplayed)
+  const [displaySearchHistory, setDisplaySearchHistory] = useAtom(
+    isSearchHistoryDisplayed
+  )
   const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
+  const [handleFetchCharacter] = useFetchByUrl()
 
-
+  const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
   const charactersEndpoint = useMemo(
     () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
     []
   )
 
-  const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
+  useEffect(() => {
+    handleFetchCharacter()
+  }, [])
 
   const handleFetchRandom = useCallback(async () => {
     const query = getRandomCharacter()
@@ -109,14 +120,15 @@ export const SearchForm = () => {
 
   const handleDisplaySearchHistory = useCallback(() => {
     const storedSearchHistory = localStorage.getItem('searchHistory')
-    const searchHistory = storedSearchHistory ? JSON.parse(storedSearchHistory) : null
+    const searchHistory = storedSearchHistory
+      ? JSON.parse(storedSearchHistory)
+      : null
     setCurrentSearchHistory(searchHistory)
     setDisplaySearchHistory(true)
-
   }, [])
 
   return (
-    <StyledForm >
+    <StyledForm>
       <InputContainer>
         <Input
           type='text'
