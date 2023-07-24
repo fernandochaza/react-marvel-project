@@ -1,12 +1,13 @@
 import { useCallback, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { fetchSearchByInput } from '../Utils/fetchers/fetchSearchByInput'
+import { fetchCharacter } from '../Utils/fetchers/fetchCharacter'
 import { fetchComicsByCharacter } from '../Utils/fetchers/fetchComicsByCharacter'
 import { useSetAtom } from 'jotai'
-import { charactersResults } from '../atoms'
+import { charactersResults, handleApiError } from '../atoms'
 
 const useFetchByUrl = () => {
   const setCardsData = useSetAtom(charactersResults)
+  const setApiError = useSetAtom(handleApiError)
   const [searchParams] = useSearchParams()
 
   const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
@@ -15,41 +16,44 @@ const useFetchByUrl = () => {
     []
   )
 
-  const handleFetchCharacter = useCallback(async () => {
+  const fetchUrlCharacter = useCallback(async () => {
+
     const characterParam = searchParams.get('character')
       ? encodeURIComponent(searchParams.get('character').replace(/"/g, ''))
       : undefined
-    let character
     const comicParam = searchParams.get('comic')
       ? encodeURIComponent(searchParams.get('comic').replace(/"/g, ''))
       : undefined
     if (characterParam) {
-      character = await fetchSearchByInput({
-        api: charactersEndpoint,
-        apiKey,
-        param: 'nameStartsWith=',
-        query: characterParam,
-        limit: 20
-      })
-
-      if (comicParam) {
-        const characterComics = await fetchComicsByCharacter({
+      try {
+          const character = await fetchCharacter({
+          api: charactersEndpoint,
           apiKey,
-          characterId: character.id,
-          comic: comicParam,
+          query: characterParam,
           limit: 20
         })
 
-        Promise.all([character, characterComics]).then((values) => {
-          console.log(values)
-        })
-      } else {
-        setCardsData(character)
+        if (comicParam) {
+          const characterComics = await fetchComicsByCharacter({
+            apiKey,
+            characterId: character.id,
+            comic: comicParam,
+            limit: 20
+          })
+
+          Promise.all([character, characterComics]).then((values) => {
+            console.log(values)
+          })
+        } else {
+          setCardsData(character)
+        }
+      } catch (error) {
+        setApiError(error)
       }
     }
   }, [])
 
-  return [handleFetchCharacter]
+  return [fetchUrlCharacter]
 }
 
 export default useFetchByUrl
