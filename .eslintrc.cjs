@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true
   },
-  extends: ['standard', 'plugin:react/recommended'],
+  extends: ['standard', 'plugin:react/recommended', 'prettier'],
   overrides: [
     {
       env: {
@@ -21,6 +21,7 @@ module.exports = {
   },
   plugins: ['react'],
   rules: {
-    'react/react-in-jsx-scope': 'off'
+    'react/react-in-jsx-scope': 'off',
+    indent: 'off'
   }
 }
