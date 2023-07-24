@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useAtom, useSetAtom } from 'jotai'
 import styled from 'styled-components'
 import { BsSearch } from 'react-icons/bs'
@@ -6,18 +6,22 @@ import { BsSearch } from 'react-icons/bs'
 import {
   charactersResults,
   favoriteCharacters,
+  handleApiError,
   isSearchHistoryDisplayed,
   searchHistory
 } from '../atoms'
 import useFetchCharacters from '../hooks/useFetchCharacters'
+import useFetchByUrl from '../hooks/useFetchByUrl'
+import { fetchCharacter } from '../Utils/fetchers/fetchCharacter'
 import getRandomCharacter from '../Utils/getRandomCharacter'
 
-import { fetchRandomCharacter } from '../Utils/fetchers/fetchRandomCharacter'
-import { SearchHistoryContainer } from './SearchHistoryList/SearchHistoryContainer'
-import { SearchHistoryItem } from './SearchHistoryList/SearchHistoryItem'
-import { HistoryItemLink } from './SearchHistoryList/HistoryItemLink'
+import {
+  SearchHistoryContainer,
+  SearchHistoryItem
+} from './SearchHistory'
+import { HistoryItem } from './SearchHistory/HistoryItem'
 import { FavoriteCardsButton } from './FavoriteCardsButton'
-import useFetchByUrl from '../hooks/useFetchByUrl'
+import { useSearchParams } from 'react-router-dom'
 
 const StyledForm = styled.form`
   width: 50%;
@@ -71,14 +75,17 @@ const SearchIcon = styled(BsSearch)`
 `
 
 export const SearchForm = () => {
-  const [currentSearchHistory, setCurrentSearchHistory] = useAtom(searchHistory)
-  const setLocalFavorites = useSetAtom(favoriteCharacters)
-  const setCardsData = useSetAtom(charactersResults)
   const [displaySearchHistory, setDisplaySearchHistory] = useAtom(
     isSearchHistoryDisplayed
   )
+  const [currentSearchHistory, setCurrentSearchHistory] = useAtom(searchHistory)
+  const setApiError = useSetAtom(handleApiError)
+  const setLocalFavorites = useSetAtom(favoriteCharacters)
+  const setCardsData = useSetAtom(charactersResults)
   const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
-  const [handleFetchCharacter] = useFetchByUrl()
+  const [fetchUrlCharacter] = useFetchByUrl()
+  const [searchParams] = useSearchParams()
+  const inputRef = useRef(null)
 
   const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
   const charactersEndpoint = useMemo(
@@ -86,28 +93,29 @@ export const SearchForm = () => {
     []
   )
 
-  useEffect(() => {
-    handleFetchCharacter()
-  }, [])
-
   const handleFetchRandom = useCallback(async () => {
     const query = getRandomCharacter()
-    const results = await fetchRandomCharacter({
-      api: charactersEndpoint,
-      apiKey,
-      query,
-      limit: 9
-    })
-
-    setCardsData(results)
+    try {
+      const results = await fetchCharacter({
+        api: charactersEndpoint,
+        apiKey,
+        query,
+        limit: 30
+      })
+      setApiError(null)
+      setCardsData(results)
+    } catch (error) {
+      setApiError('Error fetching data: ' + error.message)
+    }
   })
 
   useEffect(() => {
-    handleFetchRandom()
-  }, [])
-
-  useEffect(() => {
-    displayFavoriteCards()
+    const characterParam = searchParams.get('character')
+    if (characterParam) {
+      fetchUrlCharacter()
+    } else {
+      handleFetchRandom()
+    }
   }, [])
 
   const displayFavoriteCards = useCallback(() => {
@@ -118,6 +126,10 @@ export const SearchForm = () => {
     }
   })
 
+  useEffect(() => {
+    displayFavoriteCards()
+  }, [])
+
   const handleDisplaySearchHistory = useCallback(() => {
     const storedSearchHistory = localStorage.getItem('searchHistory')
     const searchHistory = storedSearchHistory
@@ -126,6 +138,12 @@ export const SearchForm = () => {
     setCurrentSearchHistory(searchHistory)
     setDisplaySearchHistory(true)
   }, [])
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [inputString])
 
   return (
     <StyledForm>
@@ -139,6 +157,7 @@ export const SearchForm = () => {
           onChange={(event) => handleInputChange(event.target.value)}
           onKeyDown={handleEnterKey}
           onClick={handleDisplaySearchHistory}
+          ref={inputRef}
         />
         <SubmitButton type='submit'>
           <SearchIcon aria-label='Search Button' />
@@ -149,7 +168,7 @@ export const SearchForm = () => {
           {currentSearchHistory.map((searchItem) => {
             return (
               <SearchHistoryItem key={searchItem}>
-                <HistoryItemLink
+                <HistoryItem
                   aria-label={`Search results for: ${searchItem}`}
                   text={searchItem}
                 />
