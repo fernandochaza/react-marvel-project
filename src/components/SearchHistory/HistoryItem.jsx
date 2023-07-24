@@ -9,6 +9,10 @@ import { RxCross1 } from 'react-icons/rx'
 import { searchHistory, userInput } from '../../atoms'
 import { deleteSearchHistoryItem } from '../../Utils/deleteSearchHistoryItem'
 
+const ItemContainer = styled.span`
+  cursor: pointer;
+`
+
 const DeleteButtonContainer = styled.span`
   margin: 0 0 0 auto;
 `
@@ -17,13 +21,9 @@ const DeleteButton = styled(RxCross1)`
   cursor: pointer;
 `
 
-const ItemContainer = styled.span`
-  cursor: pointer;
-`
-
-export const HistoryItemLink = ({ text }) => {
+export const HistoryItem = ({ text }) => {
   const setSearchHistory = useSetAtom(searchHistory)
-  const setInput = useSetAtom(userInput)
+  const setInputValue = useSetAtom(userInput)
 
   const handleDeleteItem = useCallback((itemToDelete) => {
     const newSearchHistory = deleteSearchHistoryItem(itemToDelete)
@@ -31,7 +31,7 @@ export const HistoryItemLink = ({ text }) => {
   })
 
   const handleSetInput = useCallback((itemToSearch) => {
-    setInput(itemToSearch)
+    setInputValue(itemToSearch)
   })
 
   return (
@@ -46,6 +46,6 @@ export const HistoryItemLink = ({ text }) => {
   )
 }
 
-HistoryItemLink.propTypes = {
+HistoryItem.propTypes = {
   text: PropTypes.string.isRequired
 }
