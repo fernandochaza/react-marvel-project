@@ -1,10 +1,10 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
-import { useAtom } from 'jotai'
-import { favoriteCharacters } from '../atoms'
+import { useSetAtom } from 'jotai'
+import { favoriteCharacters, modalCharacter, modalVisibility } from '../atoms'
 
 const CardContainer = styled.article`
   position: relative;
@@ -36,6 +36,7 @@ const CardInnerShadow = styled.div`
   height: 100%;
   width: 100%;
   border-radius: 4px;
+  cursor: pointer;
 
   position: absolute;
   top: 0;
@@ -73,7 +74,11 @@ const CharacterName = styled.span`
   z-index: 3;
 `
 export const CharacterCard = ({ character }) => {
-  const [, setLocalFavorites] = useAtom(favoriteCharacters)
+  const setLocalFavorites = useSetAtom(favoriteCharacters)
+  const setIsModalActive = useSetAtom(modalVisibility)
+  const setCurrentModalCharacter = useSetAtom(modalCharacter)
+  const [isCurrentCharacterFavorite, setIsCurrentCharacterFavorite] =
+    useState(false)
 
   const handleFavoriteCard = (character) => {
     if (character) {
@@ -90,6 +95,7 @@ export const CharacterCard = ({ character }) => {
           JSON.stringify(updatedFavorites)
         )
         setLocalFavorites(updatedFavorites)
+        setIsCurrentCharacterFavorite(true)
       } else {
         const updatedFavorites = favorites.filter(
           (item) => item.id !== character.id
@@ -99,45 +105,49 @@ export const CharacterCard = ({ character }) => {
           JSON.stringify(updatedFavorites)
         )
         setLocalFavorites(updatedFavorites)
+        setIsCurrentCharacterFavorite(false)
       }
     }
   }
 
-  const isFavorite = useCallback((characterId) => {
+  useEffect(() => {
     const storedFavorites = localStorage.getItem('favoriteCharacters')
     const favorites = storedFavorites ? JSON.parse(storedFavorites) : []
 
     const isCharacterInFavorites = favorites.some(
-      (favCharacter) => favCharacter.id === characterId
+      (favCharacter) => favCharacter.id === character.id
     )
 
-    return isCharacterInFavorites
-  })
+    setIsCurrentCharacterFavorite(isCharacterInFavorites)
+  }, [character])
 
-  const handleCardClick = (characterId) => {
-    console.log(characterId)
-  }
+  const handleCardClick = useCallback(() => {
+    setIsModalActive(true)
+    setCurrentModalCharacter(character)
+  }, [])
 
   return (
-    <CardContainer>
-      <BackgroundImage
-        src={
-          character.thumbnail.path !==
-          'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available'
-            ? `${character.thumbnail.path}.${character.thumbnail.extension}`
-            : 'https://i.pinimg.com/564x/db/b2/12/dbb2129035f83c491af200bb58e257cc.jpg'
-        }
-        alt={character.name}
-      />
-      <CardInnerShadow onClick={() => handleCardClick(character.id)} />
-      <AddFavoriteButton
-        alt='Add to favorite icon'
-        onClick={() => handleFavoriteCard(character)}
-      >
-        {isFavorite(character.id) ? <AddedFavorite /> : <NotFavorite />}
-      </AddFavoriteButton>
-      <CharacterName>{character.name}</CharacterName>
-    </CardContainer>
+    <>
+      <CardContainer>
+        <BackgroundImage
+          src={
+            character.thumbnail.path !==
+            'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available'
+              ? `${character.thumbnail.path}.${character.thumbnail.extension}`
+              : 'https://i.pinimg.com/564x/db/b2/12/dbb2129035f83c491af200bb58e257cc.jpg'
+          }
+          alt={character.name}
+        />
+        <CardInnerShadow onClick={() => handleCardClick()} />
+        <AddFavoriteButton
+          alt='Add to favorite icon'
+          onClick={() => handleFavoriteCard(character)}
+        >
+          {isCurrentCharacterFavorite ? <AddedFavorite /> : <NotFavorite />}
+        </AddFavoriteButton>
+        <CharacterName>{character.name}</CharacterName>
+      </CardContainer>
+    </>
   )
 }
 

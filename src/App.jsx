@@ -2,28 +2,37 @@ import { CharacterCard } from './components/CharacterCard'
 import { CardsContainer } from './components/CardsContainer'
 import { Header } from './components/Header'
 import './App.css'
-import { useAtom } from 'jotai'
-import { charactersResults } from './atoms'
+import { useAtomValue } from 'jotai'
+import { charactersResults, handleApiError, modalVisibility } from './atoms'
+import { CharacterModal } from './components/CharacterModal'
 
 function App() {
-  const [searchResults] = useAtom(charactersResults)
+  const searchResults = useAtomValue(charactersResults)
+  const apiError = useAtomValue(handleApiError)
+  const isModalActive = useAtomValue(modalVisibility)
 
   return (
     <div className='App'>
-      <Header>
-      </Header>
+      <Header></Header>
       <main>
-        {searchResults && searchResults.length > 0 ? (
-          <CardsContainer>
-            {searchResults.map((character) => {
-              return <CharacterCard key={character.id} character={character} />
-            })}
-          </CardsContainer>
+        {apiError === null ? (
+          searchResults && searchResults.length > 0 ? (
+            <CardsContainer>
+              {searchResults.map((character) => {
+                return (
+                  <CharacterCard key={character.id} character={character} />
+                )
+              })}
+            </CardsContainer>
+          ) : (
+            <CardsContainer>
+              <p>No matching results.</p>
+            </CardsContainer>
+          )
         ) : (
-          <CardsContainer>
-            <p>No matching results.</p>
-          </CardsContainer>
+          <h1>API ERROR: {apiError}</h1>
         )}
+        {isModalActive && <CharacterModal></CharacterModal>}
       </main>
     </div>
   )
@@ -33,6 +42,4 @@ export default App
 
 // Pending Tasks
 // Work first mobile
-// Apply Jotai for global states
 // Organize project folders
-// Use a global state to handle the search results and avoid prop drilling
