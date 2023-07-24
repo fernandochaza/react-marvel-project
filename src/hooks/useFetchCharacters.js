@@ -1,12 +1,15 @@
 import { useAtom, useSetAtom } from 'jotai'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { charactersResults, matchingResults, userInput } from '../atoms'
-import { fetchSearchByInput } from '../Utils/fetchers/fetchSearchByInput'
+import { charactersResults, handleApiError, matchingResults, userInput } from '../atoms'
+import { fetchCharacter } from '../Utils/fetchers/fetchCharacter'
 import { handleSearchHistory } from '../Utils/handleSearchHistory'
 
 const useFetchCharacters = () => {
   const [currentInput, setCurrentInput] = useAtom(userInput)
+  const setApiError = useSetAtom(handleApiError)
+  const setResultsList = useSetAtom(matchingResults)
+  const setCardsData = useSetAtom(charactersResults)
   const [, setSearchParams] = useSearchParams('')
 
   const charactersEndpoint = useMemo(
@@ -16,22 +19,23 @@ const useFetchCharacters = () => {
 
   const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
 
-  const setResultsList = useSetAtom(matchingResults)
-  const setCardsData = useSetAtom(charactersResults)
-
   const handleFetchByInput = useCallback(async (query) => {
     if (query !== '') {
-      const fetchedCharacters = await fetchSearchByInput({
-        api: charactersEndpoint,
-        apiKey,
-        param: 'nameStartsWith=',
-        query,
-        limit: 20
-      })
+       try {
+          const fetchedCharacters = await fetchCharacter({
+          api: charactersEndpoint,
+          apiKey,
+          query,
+          limit: 30
+        })
 
-      setResultsList(fetchedCharacters)
-      setCardsData(fetchedCharacters)
-      setSearchParams({ character: `"${query}"` })
+        setResultsList(fetchedCharacters)
+        setCardsData(fetchedCharacters)
+        setSearchParams({ character: `"${query}"` })
+        setApiError(null)
+      } catch (error) {
+        setApiError('Error fetching data: ' + error.message)
+      }
     }
   }, [])
 
@@ -41,14 +45,18 @@ const useFetchCharacters = () => {
 
   const handleFetchMatchingResults = useCallback(async (userQuery) => {
     if (userQuery !== '') {
-      const results = await fetchSearchByInput({
-        api: charactersEndpoint,
-        apiKey,
-        param: 'nameStartsWith=',
-        query: userQuery,
-        limit: 10
-      })
-      setResultsList(results)
+      try {
+          const results = await fetchCharacter({
+          api: charactersEndpoint,
+          apiKey,
+          query: userQuery,
+          limit: 10
+        })
+        setResultsList(results)
+        setApiError(null)
+      } catch (error) {
+        setApiError(error)
+      }
     }
   }, [])
 
