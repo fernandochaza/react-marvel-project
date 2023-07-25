@@ -3,12 +3,13 @@ import { useSearchParams } from 'react-router-dom'
 import { fetchCharacter } from '../Utils/fetchers/fetchCharacter'
 import { fetchComicsByCharacter } from '../Utils/fetchers/fetchComicsByCharacter'
 import { useSetAtom } from 'jotai'
-import { charactersResults, handleApiError } from '../atoms'
+import { charactersResults, handleApiError, lastFetchData } from '../atoms'
 
 const useFetchByUrl = () => {
   const setCardsData = useSetAtom(charactersResults)
   const setApiError = useSetAtom(handleApiError)
   const [searchParams] = useSearchParams()
+  const setLastFetch = useSetAtom(lastFetchData)  // To implement pagination
 
   const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
   const charactersEndpoint = useMemo(
@@ -30,7 +31,7 @@ const useFetchByUrl = () => {
           api: charactersEndpoint,
           apiKey,
           query: characterParam,
-          limit: 20
+          limit: 8
         })
 
         if (comicParam) {
@@ -45,7 +46,8 @@ const useFetchByUrl = () => {
             console.log(values)
           })
         } else {
-          setCardsData(character)
+          setCardsData(character.results)
+          setLastFetch(character)
         }
       } catch (error) {
         setApiError(error)

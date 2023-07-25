@@ -6,6 +6,8 @@ import { ErrorPage } from './components/ErrorPage'
 import { ComicView } from './components/ComicView'
 
 import './App.css'
+import { ThemeProvider } from 'styled-components'
+import theme from './theme'
 
 function App() {
   const router = createBrowserRouter([
@@ -27,9 +29,11 @@ function App() {
   ])
 
   return (
-    <div className='App'>
-      <RouterProvider router={router} />
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className='App'>
+        <RouterProvider router={router} />
+      </div>
+    </ThemeProvider>
   )
 }
 
