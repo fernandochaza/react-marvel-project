@@ -8,6 +8,7 @@ const StyledCardsContainer = styled.div`
   place-items: center;
   max-width: 1100px;
   margin: 1rem auto;
+  background-color: #fafafa;
 `
 
 export const CardsContainer = ({ children }) => {

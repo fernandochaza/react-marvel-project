@@ -3,18 +3,25 @@ import PropTypes from 'prop-types'
 
 import { fetchComicById } from '../../Utils/fetchers/fetchComicById'
 
-import { ComicItem, ComicThumbnail, CharacterDescription } from './ComicItemStyles'
+import {
+  ComicItem,
+  ComicThumbnail,
+  CharacterDescription, 
+  StyledLink
+} from './ComicItemStyles'
 
 export const ModalComicItem = ({ character, comicUrl }) => {
   const [comicData, setComicData] = useState({})
   const [isLoading, setIsLoading] = useState(true)
+  const [comicId, setComicId] = useState('')
 
   const fetchComicData = useCallback(async () => {
     const urlParts = comicUrl.split('/')
-    const comicId = urlParts.pop()
+    const currentComicId = urlParts.pop()
+    setComicId(currentComicId)
 
     try {
-      const results = await fetchComicById(comicId)
+      const results = await fetchComicById(currentComicId)
       setComicData(results)
       setIsLoading(false)
     } catch (error) {
@@ -25,28 +32,30 @@ export const ModalComicItem = ({ character, comicUrl }) => {
 
   useEffect(() => {
     fetchComicData()
-  }, [fetchComicData])
+  }, [fetchComicData])  
 
   return (
-    <ComicItem>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <>
-          <ComicThumbnail
-            src={`${comicData?.thumbnail?.path}.${comicData?.thumbnail?.extension}`}
-            alt=''
-          />
-          <CharacterDescription>
-            {character.name}
-            <br />
-            {comicData?.description
-              ? comicData?.description
-              : 'No available comic description'}
-          </CharacterDescription>
-        </>
-      )}
-    </ComicItem>
+    <StyledLink to={`/comic/${comicId}`} state={{ comicData }}>
+      <ComicItem>
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            <ComicThumbnail
+              src={`${comicData?.thumbnail?.path}.${comicData?.thumbnail?.extension}`}
+              alt=''
+            />
+            <CharacterDescription>
+              {character.name}
+              <br />
+              {comicData?.description
+                ? comicData?.description
+                : 'No available comic description'}
+            </CharacterDescription>
+          </>
+        )}
+      </ComicItem>
+    </StyledLink>
   )
 }
 

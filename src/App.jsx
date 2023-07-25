@@ -1,14 +1,13 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 
-import { Main } from './components/CardsView'
+import { CardsView } from './components/CardsView'
 import { Header } from './components/Header'
 import { ErrorPage } from './components/ErrorPage'
-import { ComicsView } from './components/ComicView'
+import { ComicView } from './components/ComicView'
 
 import './App.css'
 
 function App() {
-
   const router = createBrowserRouter([
     {
       path: '/',
@@ -17,11 +16,11 @@ function App() {
       children: [
         {
           path: '/',
-          element: <Main />
+          element: <CardsView />
         },
         {
           path: 'comic/:comicId',
-          element: <ComicsView />
+          element: <ComicView />
         }
       ]
     }
@@ -35,7 +34,3 @@ function App() {
 }
 
 export default App
-
-// Pending Tasks
-// Work first mobile
-// Organize project folders
