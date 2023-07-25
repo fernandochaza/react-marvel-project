@@ -2,9 +2,21 @@ import { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { useSetAtom } from 'jotai'
-import { favoriteCharacters, modalCharacter, modalVisibility } from '../../atoms'
+import {
+  favoriteCharacters,
+  modalCharacter,
+  modalVisibility
+} from '../../atoms'
 
-import { AddFavoriteButton, AddedFavorite, BackgroundImage, CardContainer, CardInnerShadow, CharacterName, NotFavorite } from './styles'
+import {
+  AddFavoriteButton,
+  AddedFavorite,
+  BackgroundImage,
+  CardContainer,
+  CardInnerShadow,
+  CharacterName,
+  NotFavorite
+} from './styles'
 
 export const CharacterCard = ({ character }) => {
   const setLocalFavorites = useSetAtom(favoriteCharacters)
@@ -64,9 +76,9 @@ export const CharacterCard = ({ character }) => {
       <CardContainer>
         <BackgroundImage
           src={
-            character.thumbnail.path !==
+            character?.thumbnail?.path !==
             'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available'
-              ? `${character.thumbnail.path}.${character.thumbnail.extension}`
+              ? `${character?.thumbnail?.path}.${character?.thumbnail?.extension}`
               : 'https://i.pinimg.com/564x/db/b2/12/dbb2129035f83c491af200bb58e257cc.jpg'
           }
           alt={character.name}
