@@ -9,6 +9,10 @@ const StyledLogo = styled.img`
 const VerticalDivision = styled.div`
   border-left: 2px solid rgba(0, 0, 0, 0.06);
   height: 32px;
+
+  @media screen and (max-width: ${props => props.theme.breakpointSm}){
+    display: none;
+  }
 `
 
 const StyledLink = styled(Link)`

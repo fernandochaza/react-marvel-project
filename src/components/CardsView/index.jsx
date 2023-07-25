@@ -1,11 +1,13 @@
-import { useAtom, useAtomValue } from 'jotai'
-import { charactersResults, handleApiError, modalVisibility } from '../atoms'
-
-import { CharacterCard } from './CharacterCard'
-import { CardsContainer } from './CardsContainer'
-import { CharacterModal } from './CharacterModal'
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
+
+import { useAtom, useAtomValue } from 'jotai'
+import { charactersResults, handleApiError, modalVisibility } from '../../atoms'
+
+import { CharacterCard } from '../CharacterCard'
+import { CharacterModal } from '../CharacterModal'
+
+import { CardsContainer } from './styles'
 
 export const CardsView = () => {
   const searchResults = useAtomValue(charactersResults)

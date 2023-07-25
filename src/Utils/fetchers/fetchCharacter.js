@@ -1,6 +1,11 @@
-export const fetchCharacter = async ({ api, apiKey, query, limit }) => {
+export const fetchCharacter = async ({ api, apiKey, query, limit, offset=0 }) => {
   try {
-    const url = `${api}&nameStartsWith=${query}&limit=${limit}&apikey=${apiKey}`
+    let url = `${api}&nameStartsWith=${query}&limit=${limit}&apikey=${apiKey}`
+
+    if (offset > 0) {
+      url += `&offset=${offset}`
+    }
+
     const response = await fetch(url)
 
     if (response.status === 401) {
@@ -16,7 +21,7 @@ export const fetchCharacter = async ({ api, apiKey, query, limit }) => {
     }
 
     const data = await response.json()
-    return data.data.results
+    return data.data
   } catch (error) {
     console.error('Error fetching data:', error.message)
     throw error

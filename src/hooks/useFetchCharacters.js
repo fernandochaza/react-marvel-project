@@ -1,7 +1,7 @@
 import { useAtom, useSetAtom } from 'jotai'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { charactersResults, handleApiError, matchingResults, userInput } from '../atoms'
+import { charactersResults, handleApiError, lastFetchData, matchingResults, userInput } from '../atoms'
 import { fetchCharacter } from '../Utils/fetchers/fetchCharacter'
 import { handleSearchHistory } from '../Utils/handleSearchHistory'
 
@@ -11,6 +11,8 @@ const useFetchCharacters = () => {
   const setResultsList = useSetAtom(matchingResults)
   const setCardsData = useSetAtom(charactersResults)
   const [, setSearchParams] = useSearchParams('')
+
+  const setLastFetch = useSetAtom(lastFetchData)  // To implement pagination
 
   const charactersEndpoint = useMemo(
     () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
@@ -26,13 +28,15 @@ const useFetchCharacters = () => {
           api: charactersEndpoint,
           apiKey,
           query,
-          limit: 30
+          limit: 8
         })
 
-        setResultsList(fetchedCharacters)
-        setCardsData(fetchedCharacters)
+        setLastFetch(fetchedCharacters)
+        setResultsList(fetchedCharacters.results)
+        setCardsData(fetchedCharacters.results)
         setSearchParams({ character: `"${query}"` })
         setApiError(null)
+
       } catch (error) {
         setApiError('Error fetching data: ' + error.message)
       }
@@ -50,9 +54,10 @@ const useFetchCharacters = () => {
           api: charactersEndpoint,
           apiKey,
           query: userQuery,
-          limit: 10
+          limit: 8
         })
-        setResultsList(results)
+        setLastFetch(results)
+        setResultsList(results.results)
         setApiError(null)
       } catch (error) {
         setApiError(error)

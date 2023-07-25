@@ -10,6 +10,10 @@ const StyledListContainer = styled.div`
   border-radius: 8px;
   max-height: 300px;
   overflow-y: auto;
+
+  @media screen and (max-width: ${props => props.theme.breakpointSm}){
+
+  }
 `
 
 export { StyledListContainer }

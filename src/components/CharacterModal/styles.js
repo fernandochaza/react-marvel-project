@@ -13,6 +13,9 @@ const Background = styled.div`
 
   align-items: center;
   justify-content: center;
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+  }
 `
 
 const ModalContainer = styled.div`
@@ -25,6 +28,12 @@ const ModalContainer = styled.div`
   border-radius: 16px;
   padding-left: 1rem;
   padding-right: 1rem;
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+    width: 400px;
+    height: 400px;
+    margin-left: -12px;
+  }
 `
 
 const ListContainer = styled.ul`
@@ -72,7 +81,11 @@ const ListContainer = styled.ul`
   }
 
   &::-ms-scrollbar-thumb:hover {
-    background-color: #555; 
+    background-color: #555;
+  }
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+    height: 320px;
   }
 `
 
