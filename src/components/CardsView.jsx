@@ -16,7 +16,7 @@ export const CardsView = () => {
 
   useEffect(() => {
     // If the state "refresh" is true, it means the user clicked on the logo. Deactivate the modal
-    if (state.refresh) {
+    if (state?.refresh) {
       setIsModalActive(false)
     }
   }, [state])

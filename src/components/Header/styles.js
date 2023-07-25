@@ -6,6 +6,7 @@ const StyledHeader = styled.header`
   align-items: center;
   background-color: white;
   box-shadow: 0 2px 4px rgba(197, 197, 197, 0.5);
+  margin-bottom: 4px;
 
   @media screen and (max-width: 600px){
     flex-direction: column;
