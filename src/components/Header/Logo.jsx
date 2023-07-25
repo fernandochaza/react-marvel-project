@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const StyledLogo = styled.img`
@@ -10,11 +11,18 @@ const VerticalDivision = styled.div`
   height: 32px;
 `
 
+const StyledLink = styled(Link)`
+  margin: 0;
+  padding: 0;
+`
+
 export const Logo = ({ src, alt }) => {
   return (
     <>
-      <StyledLogo src={src} alt={alt} />
-      <VerticalDivision />
+      <StyledLink to='/' state={{ refresh: true }}>
+        <StyledLogo src={src} alt={alt} />
+      </StyledLink>
+        <VerticalDivision />
     </>
   )
 }

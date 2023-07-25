@@ -1,36 +1,44 @@
-import { useAtomValue } from 'jotai'
+import { useAtom, useAtomValue } from 'jotai'
 import { charactersResults, handleApiError, modalVisibility } from '../atoms'
 
 import { CharacterCard } from './CharacterCard'
 import { CardsContainer } from './CardsContainer'
 import { CharacterModal } from './CharacterModal'
+import { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
 
-
-export const Main = () => {
+export const CardsView = () => {
   const searchResults = useAtomValue(charactersResults)
   const apiError = useAtomValue(handleApiError)
-  const isModalActive = useAtomValue(modalVisibility)
+  const [isModalActive, setIsModalActive] = useAtom(modalVisibility)
+
+  const { state } = useLocation()
+
+  useEffect(() => {
+    // If the state "refresh" is true, it means the user clicked on the logo. Deactivate the modal
+    if (state.refresh) {
+      setIsModalActive(false)
+    }
+  }, [state])
 
   return (
     <main>
-    {apiError === null ? (
-      searchResults && searchResults.length > 0 ? (
-        <CardsContainer>
-          {searchResults.map((character) => {
-            return (
-              <CharacterCard key={character.id} character={character} />
-            )
-          })}
-        </CardsContainer>
+      {apiError === null ? (
+        searchResults && searchResults.length > 0 ? (
+          <CardsContainer>
+            {searchResults.map((character) => {
+              return <CharacterCard key={character.id} character={character} />
+            })}
+          </CardsContainer>
+        ) : (
+          <CardsContainer>
+            <p>No matching results.</p>
+          </CardsContainer>
+        )
       ) : (
-        <CardsContainer>
-          <p>No matching results.</p>
-        </CardsContainer>
-      )
-    ) : (
-      <h1>API ERROR: {apiError}</h1>
-    )}
-    {isModalActive && <CharacterModal></CharacterModal>}
+        <h1>API ERROR: {apiError}</h1>
+      )}
+      {isModalActive && <CharacterModal></CharacterModal>}
     </main>
   )
 }
