@@ -1,14 +1,23 @@
 import styled from 'styled-components'
 
-import { AiOutlineStar } from 'react-icons/ai'
+import { GoStar } from 'react-icons/go'
 
 const ButtonContainer = styled.div`
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
   cursor: pointer;
+
+  @media screen and (max-width: ${props => props.theme.breakpointSm}){
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    top: 12px;
+    right: 32px;
+  }
 `
 
-const FavoriteCardsIcon = styled(AiOutlineStar)`
+const FavoriteCardsIcon = styled(GoStar)`
   width: 100%;
   height: 100%;
 `

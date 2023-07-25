@@ -1,14 +1,7 @@
-:root {
-  
-}
-
-
-* {
+html {
   box-sizing: border-box;
   font-family: 'SF UI Text', sans-serif;
-}
-
-body {
+  color: #3E3E3E;
   margin: 0;
 }
 

@@ -1,45 +1,40 @@
-import { CharacterCard } from './components/CharacterCard'
-import { CardsContainer } from './components/CardsContainer'
+import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+
+import { CardsView } from './components/CardsView'
 import { Header } from './components/Header'
+import { ErrorPage } from './components/ErrorPage'
+import { ComicView } from './components/ComicView'
+
 import './App.css'
-import { useAtomValue } from 'jotai'
-import { charactersResults, handleApiError, modalVisibility } from './atoms'
-import { CharacterModal } from './components/CharacterModal'
+import { ThemeProvider } from 'styled-components'
+import theme from './theme'
 
 function App() {
-  const searchResults = useAtomValue(charactersResults)
-  const apiError = useAtomValue(handleApiError)
-  const isModalActive = useAtomValue(modalVisibility)
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <Header />,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          path: '/',
+          element: <CardsView />
+        },
+        {
+          path: 'comic/:comicId',
+          element: <ComicView />
+        }
+      ]
+    }
+  ])
 
   return (
-    <div className='App'>
-      <Header />
-      <main>
-        {apiError === null ? (
-          searchResults && searchResults.length > 0 ? (
-            <CardsContainer>
-              {searchResults.map((character) => {
-                return (
-                  <CharacterCard key={character.id} character={character} />
-                )
-              })}
-            </CardsContainer>
-          ) : (
-            <CardsContainer>
-              <p>No matching results.</p>
-            </CardsContainer>
-          )
-        ) : (
-          <h1>API ERROR: {apiError}</h1>
-        )}
-        {isModalActive && <CharacterModal></CharacterModal>}
-      </main>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className='App'>
+        <RouterProvider router={router} />
+      </div>
+    </ThemeProvider>
   )
 }
 
 export default App
-
-// Pending Tasks
-// Work first mobile
-// Organize project folders

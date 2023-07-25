@@ -9,6 +9,11 @@ const StyledForm = styled.form`
   flex-direction: row;
   align-items: center;
   margin: 0 auto;
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+    width: 80%;
+    min-width: 300px;
+  }
 `
 
 const Input = styled.input`
@@ -18,6 +23,10 @@ const Input = styled.input`
 
   &::placeholder {
     color: rgb(214, 211, 211);
+  }
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+    border-radius: 8px;
   }
 `
 
@@ -37,6 +46,11 @@ const InputContainer = styled.div`
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
     transition: box-shadow 0.3s ease;
   }
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+    margin: 0;
+    padding: 0;
+  }
 `
 
 const SubmitButton = styled.button`
@@ -51,4 +65,4 @@ const SearchIcon = styled(BsSearch)`
   cursor: pointer;
   filter: opacity(15%);
 `
-export {StyledForm, Input, InputContainer, SubmitButton, SearchIcon}
+export { StyledForm, Input, InputContainer, SubmitButton, SearchIcon }

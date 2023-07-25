@@ -8,6 +8,10 @@ const CardContainer = styled.article`
   height: 380px;
   border: 1px solid black;
   border-radius: 4px;
+
+  @media screen and (max-width: ${props => props.theme.breakpointSm}){
+    min-width: 75%;
+  }
 `
 
 const BackgroundImage = styled.img`
