@@ -34,14 +34,14 @@ export const ModalComicItem = ({ character, comicUrl }) => {
       ) : (
         <>
           <ComicThumbnail
-            src={`${comicData.thumbnail.path}.${comicData.thumbnail.extension}`}
+            src={`${comicData?.thumbnail?.path}.${comicData?.thumbnail?.extension}`}
             alt=''
           />
           <CharacterDescription>
             {character.name}
             <br />
-            {comicData.description
-              ? comicData.description
+            {comicData?.description
+              ? comicData?.description
               : 'No available comic description'}
           </CharacterDescription>
         </>
