@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { BsSearch } from 'react-icons/bs'
 
 const StyledForm = styled.form`
-  width: 50%;
   min-width: 400px;
   max-width: 600px;
   display: flex;
@@ -11,13 +10,15 @@ const StyledForm = styled.form`
   margin: 0 auto;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    width: 80%;
-    min-width: 300px;
+  }
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointMd}) {
+    min-width: 360px;
   }
 `
 
 const Input = styled.input`
-  width: 100%;
+  width: 90%;
   border: none;
   outline: none;
 
@@ -32,14 +33,13 @@ const Input = styled.input`
 
 const InputContainer = styled.div`
   display: flex;
-  margin: 0 20px 0 0;
   border: 1px solid rgba(1, 1, 1, 0.1);
   border-radius: 8px;
-  width: 100%;
   min-width: 400px;
-  max-width: 800px;
+  max-width: 600px;
   height: 40px;
   padding-left: 8px;
+  margin-right: 40px;
 
   &:focus {
     outline: none;
@@ -49,7 +49,12 @@ const InputContainer = styled.div`
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     margin: 0;
-    padding: 0;
+    padding-left: 8px;
+  }
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointMd}) {
+    min-width: 360px;
+    margin-right: 12px;
   }
 `
 

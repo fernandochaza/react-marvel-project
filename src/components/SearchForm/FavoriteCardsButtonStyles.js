@@ -11,9 +11,7 @@ const ButtonContainer = styled.div`
   @media screen and (max-width: ${props => props.theme.breakpointSm}){
     width: 28px;
     height: 28px;
-    position: absolute;
-    top: 12px;
-    right: 32px;
+    margin-right: -40px;
   }
 `
 

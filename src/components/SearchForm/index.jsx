@@ -14,7 +14,6 @@ import useFetchByUrl from '../../hooks/useFetchByUrl'
 import { fetchCharacter } from '../../Utils/fetchers/fetchCharacter'
 import getRandomCharacter from '../../Utils/getRandomCharacter'
 
-import { FavoriteCardsButton } from './FavoriteCardsButton'
 import { SearchHistoryContainer, SearchHistoryItem } from '../SearchHistory'
 import { HistoryItem } from '../SearchHistory/HistoryItem'
 
@@ -25,6 +24,7 @@ import {
   StyledForm,
   SubmitButton
 } from './styles'
+import { FavoriteCardsButton } from './FavoriteCardsButton'
 
 export const SearchForm = () => {
   const [displaySearchHistory, setDisplaySearchHistory] = useAtom(
@@ -98,38 +98,40 @@ export const SearchForm = () => {
   }, [inputString])
 
   return (
-    <StyledForm>
-      <InputContainer>
-        <Input
-          type='text'
-          placeholder='Search...'
-          autoComplete='on'
-          value={inputString}
-          aria-label='Search a Marvel character'
-          onChange={(event) => handleInputChange(event.target.value)}
-          onKeyDown={handleEnterKey}
-          onClick={handleDisplaySearchHistory}
-          ref={inputRef}
-        />
-        <SubmitButton type='submit'>
-          <SearchIcon aria-label='Search Button' />
-        </SubmitButton>
-      </InputContainer>
-      {!inputString && currentSearchHistory && displaySearchHistory ? (
-        <SearchHistoryContainer>
-          {currentSearchHistory.map((searchItem) => {
-            return (
-              <SearchHistoryItem key={searchItem}>
-                <HistoryItem
-                  aria-label={`Search results for: ${searchItem}`}
-                  text={searchItem}
-                />
-              </SearchHistoryItem>
-            )
-          })}
-        </SearchHistoryContainer>
-      ) : null}
-      <FavoriteCardsButton />
-    </StyledForm>
+    <>
+      <StyledForm>
+        <InputContainer>
+          <Input
+            type='text'
+            placeholder='Search...'
+            autoComplete='on'
+            value={inputString}
+            aria-label='Search a Marvel character'
+            onChange={(event) => handleInputChange(event.target.value)}
+            onKeyDown={handleEnterKey}
+            onClick={handleDisplaySearchHistory}
+            ref={inputRef}
+          />
+          <SubmitButton type='submit'>
+            <SearchIcon aria-label='Search Button' />
+          </SubmitButton>
+        </InputContainer>
+        {!inputString && currentSearchHistory && displaySearchHistory ? (
+          <SearchHistoryContainer>
+            {currentSearchHistory.map((searchItem) => {
+              return (
+                <SearchHistoryItem key={searchItem}>
+                  <HistoryItem
+                    aria-label={`Search results for: ${searchItem}`}
+                    text={searchItem}
+                  />
+                </SearchHistoryItem>
+              )
+            })}
+          </SearchHistoryContainer>
+        ) : null}
+        <FavoriteCardsButton />
+      </StyledForm>
+    </>
   )
 }

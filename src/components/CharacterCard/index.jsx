@@ -73,7 +73,7 @@ export const CharacterCard = ({ character }) => {
 
   return (
     <>
-      <CardContainer>
+      <CardContainer tabIndex={0}>
         <BackgroundImage
           src={
             character?.thumbnail?.path !==

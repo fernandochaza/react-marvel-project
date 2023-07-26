@@ -24,7 +24,7 @@ export const CardsView = () => {
   }, [state])
 
   return (
-    <main>
+    <main className='cards-view'>
       {apiError === null ? (
         searchResults && searchResults.length > 0 ? (
           <CardsContainer>

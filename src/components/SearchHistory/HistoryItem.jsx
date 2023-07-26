@@ -9,15 +9,15 @@ import { RxCross1 } from 'react-icons/rx'
 import { searchHistory, userInput } from '../../atoms'
 import { deleteSearchHistoryItem } from '../../Utils/deleteSearchHistoryItem'
 
-const ItemContainer = styled.span`
+const StyledContainer = styled.span`
   cursor: pointer;
 `
 
-const DeleteButtonContainer = styled.span`
+const StyledDeleteContainer = styled.span`
   margin: 0 0 0 auto;
 `
 
-const DeleteButton = styled(RxCross1)`
+const StyledDeleteButton = styled(RxCross1)`
   cursor: pointer;
 `
 
@@ -36,12 +36,12 @@ export const HistoryItem = ({ text }) => {
 
   return (
     <>
-      <ItemContainer onClick={() => handleSetInput(text)}>
+      <StyledContainer onClick={() => handleSetInput(text)}>
         <GoHistory /> {text}
-      </ItemContainer>
-      <DeleteButtonContainer>
-        <DeleteButton onClick={() => handleDeleteItem(text)} />
-      </DeleteButtonContainer>
+      </StyledContainer>
+      <StyledDeleteContainer>
+        <StyledDeleteButton onClick={() => handleDeleteItem(text)} />
+      </StyledDeleteContainer>
     </>
   )
 }

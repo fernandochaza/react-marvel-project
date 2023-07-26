@@ -12,16 +12,16 @@ import theme from './theme'
 function App() {
   const router = createBrowserRouter([
     {
-      path: '/react-marvel-project/',
+      path: '/marvel-searcher/',
       element: <Header />,
       errorElement: <ErrorPage />,
       children: [
         {
-          path: '/react-marvel-project/',
+          path: '/marvel-searcher/',
           element: <CardsView />
         },
         {
-          path: '/react-marvel-project/comic/:comicId',
+          path: '/marvel-searcher/comic/:comicId',
           element: <ComicView />
         }
       ]
