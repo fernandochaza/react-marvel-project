@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAtom, useSetAtom } from 'jotai'
 import {
@@ -25,6 +25,7 @@ import {
   SubmitButton
 } from './styles'
 import { FavoriteCardsButton } from './FavoriteCardsButton'
+import useOnClickOutside from '../../hooks/useOnClickOutside'
 
 export const SearchForm = () => {
   const [displaySearchHistory, setDisplaySearchHistory] = useAtom(
@@ -38,6 +39,7 @@ export const SearchForm = () => {
   const [fetchUrlCharacter] = useFetchByUrl()
   const [searchParams] = useSearchParams()
   const inputRef = useRef(null)
+  const [searchHistoryRef, setSearchHistoryRef] = useState(null)
 
   const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
   const charactersEndpoint = useMemo(
@@ -97,9 +99,19 @@ export const SearchForm = () => {
     }
   }, [inputString])
 
+  const handleClickOutside = useCallback(() => {
+    setDisplaySearchHistory(false)
+  }, [])
+
+  useOnClickOutside(searchHistoryRef, handleClickOutside)
+
   return (
     <>
-      <StyledForm>
+      <StyledForm
+        onClick={(e) => {
+          e.stopPropagation()
+        }}
+      >
         <InputContainer>
           <Input
             type='text'
@@ -117,7 +129,7 @@ export const SearchForm = () => {
           </SubmitButton>
         </InputContainer>
         {!inputString && currentSearchHistory && displaySearchHistory ? (
-          <SearchHistoryContainer>
+          <SearchHistoryContainer ref={setSearchHistoryRef}>
             {currentSearchHistory.map((searchItem) => {
               return (
                 <SearchHistoryItem key={searchItem}>
