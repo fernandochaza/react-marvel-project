@@ -35,7 +35,7 @@ export const ModalComicItem = ({ character, comicUrl }) => {
   }, [fetchComicData])  
 
   return (
-    <StyledLink to={`/comic/${comicId}`} state={{ comicData }}>
+    <StyledLink to={`/marvel-searcher/comic/${comicId}`} state={{ comicData }}>
       <ComicItem>
         {isLoading ? (
           <p>Loading...</p>

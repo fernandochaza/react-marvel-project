@@ -8,6 +8,11 @@ const CardContainer = styled.article`
   height: 380px;
   border: 1px solid black;
   border-radius: 4px;
+  box-sizing: border-box;
+ 
+  &:focus {
+    box-shadow: #993a3a 2px 3px 8px;
+  }
 
   @media screen and (max-width: ${props => props.theme.breakpointSm}){
     min-width: 75%;

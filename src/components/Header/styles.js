@@ -20,9 +20,8 @@ const VerticalDivision = styled.div`
   height: 32px;
   margin-right: 40px;
 
-  @media screen and (max-width: ${props => props.theme.breakpointSm}){
-    display: none;
-  }
+  @media screen and (max-width: ${(props) => props.theme.breakpointMd}) {
+    display: none;  }
 `
 
 export { StyledHeader, VerticalDivision }

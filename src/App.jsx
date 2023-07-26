@@ -12,16 +12,16 @@ import theme from './theme'
 function App() {
   const router = createBrowserRouter([
     {
-      path: '/',
+      path: '/marvel-searcher/',
       element: <Header />,
       errorElement: <ErrorPage />,
       children: [
         {
-          path: '/',
+          path: '/marvel-searcher/',
           element: <CardsView />
         },
         {
-          path: 'comic/:comicId',
+          path: '/marvel-searcher/comic/:comicId',
           element: <ComicView />
         }
       ]
