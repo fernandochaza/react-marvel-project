@@ -134,6 +134,7 @@ export const SearchForm = () => {
               return (
                 <SearchHistoryItem key={searchItem}>
                   <HistoryItem
+                    tabIndex={0}
                     aria-label={`Search results for: ${searchItem}`}
                     text={searchItem}
                   />
@@ -142,7 +143,7 @@ export const SearchForm = () => {
             })}
           </SearchHistoryContainer>
         ) : null}
-        <FavoriteCardsButton />
+        <FavoriteCardsButton/>
       </StyledForm>
     </>
   )
