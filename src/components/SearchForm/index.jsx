@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useAtom, useSetAtom } from 'jotai'
 import {
@@ -6,7 +6,8 @@ import {
   favoriteCharacters,
   handleApiError,
   isSearchHistoryDisplayed,
-  searchHistory
+  searchHistory,
+  matchingResults,
 } from '../../atoms'
 
 import useFetchCharacters from '../../hooks/useFetchCharacters'
@@ -18,14 +19,15 @@ import { SearchHistoryContainer, SearchHistoryItem } from '../SearchHistory'
 import { HistoryItem } from '../SearchHistory/HistoryItem'
 
 import {
-  Input,
-  InputContainer,
-  SearchIcon,
   StyledForm,
-  SubmitButton
+  StyledInput,
+  StyledInputContainer,
+  StyledSearchIcon,
+  StyledSubmitButton
 } from './styles'
 import { FavoriteCardsButton } from './FavoriteCardsButton'
 import useOnClickOutside from '../../hooks/useOnClickOutside'
+import { ResultsList } from './ResultsList'
 
 export const SearchForm = () => {
   const [displaySearchHistory, setDisplaySearchHistory] = useAtom(
@@ -35,11 +37,13 @@ export const SearchForm = () => {
   const setApiError = useSetAtom(handleApiError)
   const setLocalFavorites = useSetAtom(favoriteCharacters)
   const setCardsData = useSetAtom(charactersResults)
+  const [currentMatchingResults, setCurrentMatchingResults] = useAtom(matchingResults)
   const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
   const [fetchUrlCharacter] = useFetchByUrl()
   const [searchParams] = useSearchParams()
   const inputRef = useRef(null)
-  const [searchHistoryRef, setSearchHistoryRef] = useState(null)
+  const searchHistoryRef = useRef(null)
+  const resultsListRef = useRef(null)
 
   const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
   const charactersEndpoint = useMemo(
@@ -99,11 +103,16 @@ export const SearchForm = () => {
     }
   }, [inputString])
 
-  const handleClickOutside = useCallback(() => {
+  const handleClickOutsideHistory = useCallback(() => {
     setDisplaySearchHistory(false)
   }, [])
+  
+  const handleClickOutsideResults = useCallback(() => {
+    setCurrentMatchingResults(null)
+  }, [])
 
-  useOnClickOutside(searchHistoryRef, handleClickOutside)
+  useOnClickOutside(searchHistoryRef, handleClickOutsideHistory)
+  useOnClickOutside(resultsListRef, handleClickOutsideResults)
 
   return (
     <>
@@ -112,8 +121,8 @@ export const SearchForm = () => {
           e.stopPropagation()
         }}
       >
-        <InputContainer>
-          <Input
+        <StyledInputContainer>
+          <StyledInput
             type='text'
             placeholder='Search...'
             autoComplete='on'
@@ -124,12 +133,12 @@ export const SearchForm = () => {
             onClick={handleDisplaySearchHistory}
             ref={inputRef}
           />
-          <SubmitButton type='submit'>
-            <SearchIcon aria-label='Search Button' />
-          </SubmitButton>
-        </InputContainer>
-        {!inputString && currentSearchHistory && displaySearchHistory ? (
-          <SearchHistoryContainer ref={setSearchHistoryRef}>
+          <StyledSubmitButton type='submit'>
+            <StyledSearchIcon aria-label='Search Button' />
+          </StyledSubmitButton>
+        </StyledInputContainer>
+        {!inputString && displaySearchHistory ? (
+          <SearchHistoryContainer ref={searchHistoryRef}>
             {currentSearchHistory.map((searchItem) => {
               return (
                 <SearchHistoryItem key={searchItem}>
@@ -143,7 +152,8 @@ export const SearchForm = () => {
             })}
           </SearchHistoryContainer>
         ) : null}
-        <FavoriteCardsButton/>
+        {inputString && <ResultsList ref={resultsListRef} results={currentMatchingResults} />}
+        <FavoriteCardsButton />
       </StyledForm>
     </>
   )

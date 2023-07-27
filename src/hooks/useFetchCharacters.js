@@ -54,7 +54,7 @@ const useFetchCharacters = () => {
           api: charactersEndpoint,
           apiKey,
           query: userQuery,
-          limit: 8
+          limit: 16
         })
         setLastFetch(results)
         setResultsList(results.results)
@@ -68,7 +68,7 @@ const useFetchCharacters = () => {
   useEffect(() => {
     const fetchByInputTimer = setTimeout(
       () => handleFetchMatchingResults(currentInput),
-      3000
+      1500
     )
     return () => clearTimeout(fetchByInputTimer)
   }, [currentInput])
@@ -82,6 +82,7 @@ const useFetchCharacters = () => {
       if (event.key === 'Enter') {
         handleFetchByInput(event.target.value)
         handleSearchHistory(event.target.value)
+        setResultsList(null)
         event.preventDefault()
       }
     },
