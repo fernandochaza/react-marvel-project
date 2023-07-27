@@ -6,24 +6,27 @@ import {
   favoriteCharacters,
   handleApiError,
   isSearchHistoryDisplayed,
-  searchHistory
+  searchHistory,
+  matchingResults
 } from '../../atoms'
 
 import useFetchCharacters from '../../hooks/useFetchCharacters'
 import useFetchByUrl from '../../hooks/useFetchByUrl'
+import useOnClickOutside from '../../hooks/useOnClickOutside'
 import { fetchCharacter } from '../../Utils/fetchers/fetchCharacter'
 import getRandomCharacter from '../../Utils/getRandomCharacter'
 
-import { FavoriteCardsButton } from './FavoriteCardsButton'
 import { SearchHistoryContainer, SearchHistoryItem } from '../SearchHistory'
+import { ResultsList } from '../ResultsList'
 import { HistoryItem } from '../SearchHistory/HistoryItem'
+import { FavoriteCardsButton } from './FavoriteCardsButton'
 
 import {
-  Input,
-  InputContainer,
-  SearchIcon,
   StyledForm,
-  SubmitButton
+  StyledInput,
+  StyledInputContainer,
+  StyledSearchIcon,
+  StyledSubmitButton
 } from './styles'
 
 export const SearchForm = () => {
@@ -34,10 +37,14 @@ export const SearchForm = () => {
   const setApiError = useSetAtom(handleApiError)
   const setLocalFavorites = useSetAtom(favoriteCharacters)
   const setCardsData = useSetAtom(charactersResults)
+  const [currentMatchingResults, setCurrentMatchingResults] =
+    useAtom(matchingResults)
   const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
   const [fetchUrlCharacter] = useFetchByUrl()
   const [searchParams] = useSearchParams()
   const inputRef = useRef(null)
+  const searchHistoryRef = useRef(null)
+  const resultsListRef = useRef(null)
 
   const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
   const charactersEndpoint = useMemo(
@@ -97,39 +104,60 @@ export const SearchForm = () => {
     }
   }, [inputString])
 
+  const handleClickOutsideHistory = useCallback(() => {
+    setDisplaySearchHistory(false)
+  }, [])
+
+  const handleClickOutsideResults = useCallback(() => {
+    setCurrentMatchingResults(null)
+  }, [])
+
+  useOnClickOutside(searchHistoryRef, handleClickOutsideHistory)
+  useOnClickOutside(resultsListRef, handleClickOutsideResults)
+
   return (
-    <StyledForm>
-      <InputContainer>
-        <Input
-          type='text'
-          placeholder='Search...'
-          autoComplete='on'
-          value={inputString}
-          aria-label='Search a Marvel character'
-          onChange={(event) => handleInputChange(event.target.value)}
-          onKeyDown={handleEnterKey}
-          onClick={handleDisplaySearchHistory}
-          ref={inputRef}
-        />
-        <SubmitButton type='submit'>
-          <SearchIcon aria-label='Search Button' />
-        </SubmitButton>
-      </InputContainer>
-      {!inputString && currentSearchHistory && displaySearchHistory ? (
-        <SearchHistoryContainer>
-          {currentSearchHistory.map((searchItem) => {
-            return (
-              <SearchHistoryItem key={searchItem}>
-                <HistoryItem
-                  aria-label={`Search results for: ${searchItem}`}
-                  text={searchItem}
-                />
-              </SearchHistoryItem>
-            )
-          })}
-        </SearchHistoryContainer>
-      ) : null}
-      <FavoriteCardsButton />
-    </StyledForm>
+    <>
+      <StyledForm
+        onClick={(e) => {
+          e.stopPropagation()
+        }}
+      >
+        <StyledInputContainer>
+          <StyledInput
+            type='text'
+            placeholder='Search...'
+            autoComplete='on'
+            value={inputString}
+            aria-label='Search a Marvel character'
+            onChange={(event) => handleInputChange(event.target.value)}
+            onKeyDown={handleEnterKey}
+            onClick={handleDisplaySearchHistory}
+            ref={inputRef}
+          />
+          <StyledSubmitButton type='submit'>
+            <StyledSearchIcon aria-label='Search Button' />
+          </StyledSubmitButton>
+        </StyledInputContainer>
+        {!inputString && displaySearchHistory ? (
+          <SearchHistoryContainer ref={searchHistoryRef}>
+            {currentSearchHistory.map((searchItem) => {
+              return (
+                <SearchHistoryItem key={searchItem}>
+                  <HistoryItem
+                    tabIndex={0}
+                    aria-label={`Search results for: ${searchItem}`}
+                    text={searchItem}
+                  />
+                </SearchHistoryItem>
+              )
+            })}
+          </SearchHistoryContainer>
+        ) : null}
+        {inputString && (
+          <ResultsList ref={resultsListRef} results={currentMatchingResults} />
+        )}
+        <FavoriteCardsButton />
+      </StyledForm>
+    </>
   )
 }

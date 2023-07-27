@@ -1,25 +1,36 @@
 import styled from 'styled-components'
 
-import { GoStar } from 'react-icons/go'
+import { PiStarThin } from 'react-icons/pi'
 
-const ButtonContainer = styled.div`
-  width: 36px;
-  min-width: 36px;
-  height: 36px;
-  cursor: pointer;
+const StyledFavButtonContainer = styled.div`
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  cursor: pointer;  
+  transition: all 0.3s ease-in-out;
+  filter: opacity(30%);
 
-  @media screen and (max-width: ${props => props.theme.breakpointSm}){
+  &:focus {
+    transform: scale(1.15);
+    filter: opacity(100%);
+  }
+  
+  &:hover {
+    transform: scale(1.2);
+    filter: opacity(100%);
+  }
+
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     width: 28px;
     height: 28px;
-    position: absolute;
-    top: 12px;
-    right: 32px;
+    margin-right: -40px;
   }
 `
 
-const FavoriteCardsIcon = styled(GoStar)`
+const FavoriteCardsIcon = styled(PiStarThin)`
   width: 100%;
   height: 100%;
 `
 
-export {ButtonContainer, FavoriteCardsIcon}
+export { StyledFavButtonContainer as ButtonContainer, FavoriteCardsIcon }

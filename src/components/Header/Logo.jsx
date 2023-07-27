@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const StyledLogo = styled.img`
@@ -23,7 +23,7 @@ const StyledLink = styled(Link)`
 export const Logo = ({ src, alt }) => {
   return (
     <>
-      <StyledLink to='/' state={{ refresh: true }}>
+      <StyledLink to='/marvel-searcher/' state={{ refresh: true }}>
         <StyledLogo src={src} alt={alt} />
       </StyledLink>
         <VerticalDivision />

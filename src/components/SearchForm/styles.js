@@ -2,7 +2,6 @@ import styled from 'styled-components'
 import { BsSearch } from 'react-icons/bs'
 
 const StyledForm = styled.form`
-  width: 50%;
   min-width: 400px;
   max-width: 600px;
   display: flex;
@@ -11,13 +10,15 @@ const StyledForm = styled.form`
   margin: 0 auto;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    width: 80%;
-    min-width: 300px;
+  }
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointMd}) {
+    min-width: 360px;
   }
 `
 
-const Input = styled.input`
-  width: 100%;
+const StyledInput = styled.input`
+  width: 90%;
   border: none;
   outline: none;
 
@@ -30,16 +31,15 @@ const Input = styled.input`
   }
 `
 
-const InputContainer = styled.div`
+const StyledInputContainer = styled.div`
   display: flex;
-  margin: 0 20px 0 0;
   border: 1px solid rgba(1, 1, 1, 0.1);
   border-radius: 8px;
-  width: 100%;
   min-width: 400px;
-  max-width: 800px;
+  max-width: 600px;
   height: 40px;
   padding-left: 8px;
+  margin-right: 40px;
 
   &:focus {
     outline: none;
@@ -49,20 +49,41 @@ const InputContainer = styled.div`
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     margin: 0;
-    padding: 0;
+    padding-left: 8px;
+  }
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointMd}) {
+    min-width: 360px;
+    margin-right: 12px;
   }
 `
 
-const SubmitButton = styled.button`
+const StyledSubmitButton = styled.button`
   background-color: transparent;
   border: none;
+  filter: opacity(25%);
+  transition: filter 0.3s ease-in;
+
+  &:hover {
+    filter: opacity(75%);
+  }
+
+  &:focus {
+    filter: opacity(75%);
+  }
 `
 
-const SearchIcon = styled(BsSearch)`
+const StyledSearchIcon = styled(BsSearch)`
   margin: 0 16px;
   width: 24px;
   height: 100%;
   cursor: pointer;
-  filter: opacity(15%);
+
 `
-export { StyledForm, Input, InputContainer, SubmitButton, SearchIcon }
+export {
+  StyledForm,
+  StyledInput,
+  StyledInputContainer,
+  StyledSubmitButton,
+  StyledSearchIcon
+}

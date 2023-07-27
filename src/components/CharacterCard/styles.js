@@ -8,8 +8,19 @@ const CardContainer = styled.article`
   height: 380px;
   border: 1px solid black;
   border-radius: 4px;
+  box-sizing: border-box;
 
-  @media screen and (max-width: ${props => props.theme.breakpointSm}){
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    transform: scale(1.03);
+  }
+
+  &:focus {
+    transform: scale(1.03);
+  }
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     min-width: 75%;
   }
 `
@@ -73,4 +84,12 @@ const CharacterName = styled.span`
   padding: 5px;
   z-index: 3;
 `
-export {CardContainer, BackgroundImage, IsFavoriteIcon as AddedFavorite, NotFavoriteIcon as NotFavorite, CardInnerShadow, AddFavoriteButton, CharacterName}
+export {
+  CardContainer,
+  BackgroundImage,
+  IsFavoriteIcon as AddedFavorite,
+  NotFavoriteIcon as NotFavorite,
+  CardInnerShadow,
+  AddFavoriteButton,
+  CharacterName
+}

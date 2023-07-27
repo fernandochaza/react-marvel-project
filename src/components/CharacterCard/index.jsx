@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import {
+  favoriteCardTooltip,
   favoriteCharacters,
   modalCharacter,
   modalVisibility
 } from '../../atoms'
+
+import FavoriteAddedTooltip from './FavoriteAddedTooltip'
 
 import {
   AddFavoriteButton,
@@ -24,6 +27,7 @@ export const CharacterCard = ({ character }) => {
   const setCurrentModalCharacter = useSetAtom(modalCharacter)
   const [isCurrentCharacterFavorite, setIsCurrentCharacterFavorite] =
     useState(false)
+  const [showTooltip, setShowTooltip] = useAtom(favoriteCardTooltip)
 
   const handleFavoriteCard = (character) => {
     if (character) {
@@ -41,6 +45,7 @@ export const CharacterCard = ({ character }) => {
         )
         setLocalFavorites(updatedFavorites)
         setIsCurrentCharacterFavorite(true)
+        setShowTooltip(true)
       } else {
         const updatedFavorites = favorites.filter(
           (item) => item.id !== character.id
@@ -52,6 +57,13 @@ export const CharacterCard = ({ character }) => {
         setLocalFavorites(updatedFavorites)
         setIsCurrentCharacterFavorite(false)
       }
+    }
+  }
+
+  const handleStarKeyPress = (event, character) => {
+    if (event.key === 'Enter') {
+      event.stopPropagation()
+      handleFavoriteCard(character)
     }
   }
 
@@ -71,9 +83,16 @@ export const CharacterCard = ({ character }) => {
     setCurrentModalCharacter(character)
   }, [])
 
+  const handleCardKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      setIsModalActive(true)
+      setCurrentModalCharacter(character)
+    }
+  }
+
   return (
     <>
-      <CardContainer>
+      <CardContainer tabIndex={0} onKeyDown={handleCardKeyPress}>
         <BackgroundImage
           src={
             character?.thumbnail?.path !==
@@ -81,17 +100,21 @@ export const CharacterCard = ({ character }) => {
               ? `${character?.thumbnail?.path}.${character?.thumbnail?.extension}`
               : 'https://i.pinimg.com/564x/db/b2/12/dbb2129035f83c491af200bb58e257cc.jpg'
           }
-          alt={character.name}
+          alt={`Card of ${character.name}. Directs to ${character.name} comics.`}
         />
-        <CardInnerShadow onClick={() => handleCardClick()} />
+        <CardInnerShadow aria-label='' onClick={() => handleCardClick()} />
         <AddFavoriteButton
+          tabIndex={0}
+          aria-label={`Button to add ${character.name} to your favorite cards`}
           alt='Add to favorite icon'
           onClick={() => handleFavoriteCard(character)}
+          onKeyDown={(event) => handleStarKeyPress(event, character)}
         >
           {isCurrentCharacterFavorite ? <AddedFavorite /> : <NotFavorite />}
         </AddFavoriteButton>
-        <CharacterName>{character.name}</CharacterName>
+        <CharacterName aria-hidden='true'>{character.name}</CharacterName>
       </CardContainer>
+      {showTooltip && <FavoriteAddedTooltip />}
     </>
   )
 }

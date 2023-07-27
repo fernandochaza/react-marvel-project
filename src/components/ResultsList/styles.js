@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const StyledListContainer = styled.ul`
+const StyledListContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -27,13 +27,14 @@ const StyledListContainer = styled.ul`
   @media screen and (max-width: ${(props) => props.theme.breakpointMd}) {
     min-width: 360px;
   }
-` 
+`
 
 const StyledListItem = styled.li`
   display: flex;
   align-items: center;
   padding-right: 24px;
   min-height: 40px;
+  cursor: pointer;
 `
 
 export { StyledListContainer, StyledListItem }
