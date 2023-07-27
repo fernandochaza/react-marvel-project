@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const ListContainer = styled.ul`
+const StyledListContainer = styled.ul`
   display: flex;
   flex-direction: column;
   margin: 0;
@@ -15,6 +15,7 @@ const ListContainer = styled.ul`
 
   min-width: 400px;
   max-width: 600px;
+  max-height: 200px;
 
   overflow-y: auto;
   list-style: none;
@@ -28,11 +29,11 @@ const ListContainer = styled.ul`
   }
 ` 
 
-const ListItem = styled.li`
+const StyledListItem = styled.li`
   display: flex;
   align-items: center;
   padding-right: 24px;
-  height: 40px;
+  min-height: 40px;
 `
 
-export { ListContainer, ListItem }
+export { StyledListContainer, StyledListItem }
