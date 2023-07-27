@@ -1,12 +1,15 @@
 import { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
-import { useSetAtom } from 'jotai'
+import { useAtom, useSetAtom } from 'jotai'
 import {
+  favoriteCardTooltip,
   favoriteCharacters,
   modalCharacter,
   modalVisibility
 } from '../../atoms'
+
+import FavoriteAddedTooltip from './FavoriteAddedTooltip'
 
 import {
   AddFavoriteButton,
@@ -24,6 +27,7 @@ export const CharacterCard = ({ character }) => {
   const setCurrentModalCharacter = useSetAtom(modalCharacter)
   const [isCurrentCharacterFavorite, setIsCurrentCharacterFavorite] =
     useState(false)
+  const [showTooltip, setShowTooltip] = useAtom(favoriteCardTooltip)
 
   const handleFavoriteCard = (character) => {
     if (character) {
@@ -41,6 +45,7 @@ export const CharacterCard = ({ character }) => {
         )
         setLocalFavorites(updatedFavorites)
         setIsCurrentCharacterFavorite(true)
+        setShowTooltip(true)
       } else {
         const updatedFavorites = favorites.filter(
           (item) => item.id !== character.id
@@ -57,7 +62,7 @@ export const CharacterCard = ({ character }) => {
 
   const handleStarKeyPress = (event, character) => {
     if (event.key === 'Enter') {
-      event.stopPropagation();
+      event.stopPropagation()
       handleFavoriteCard(character)
     }
   }
@@ -106,9 +111,10 @@ export const CharacterCard = ({ character }) => {
           onKeyDown={(event) => handleStarKeyPress(event, character)}
         >
           {isCurrentCharacterFavorite ? <AddedFavorite /> : <NotFavorite />}
-        </AddFavoriteButton >
+        </AddFavoriteButton>
         <CharacterName aria-hidden='true'>{character.name}</CharacterName>
       </CardContainer>
+      {showTooltip && <FavoriteAddedTooltip />}
     </>
   )
 }
