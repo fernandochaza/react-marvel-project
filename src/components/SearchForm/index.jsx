@@ -7,16 +7,19 @@ import {
   handleApiError,
   isSearchHistoryDisplayed,
   searchHistory,
-  matchingResults,
+  matchingResults
 } from '../../atoms'
 
 import useFetchCharacters from '../../hooks/useFetchCharacters'
 import useFetchByUrl from '../../hooks/useFetchByUrl'
+import useOnClickOutside from '../../hooks/useOnClickOutside'
 import { fetchCharacter } from '../../Utils/fetchers/fetchCharacter'
 import getRandomCharacter from '../../Utils/getRandomCharacter'
 
 import { SearchHistoryContainer, SearchHistoryItem } from '../SearchHistory'
+import { ResultsList } from '../ResultsList'
 import { HistoryItem } from '../SearchHistory/HistoryItem'
+import { FavoriteCardsButton } from './FavoriteCardsButton'
 
 import {
   StyledForm,
@@ -25,9 +28,6 @@ import {
   StyledSearchIcon,
   StyledSubmitButton
 } from './styles'
-import { FavoriteCardsButton } from './FavoriteCardsButton'
-import useOnClickOutside from '../../hooks/useOnClickOutside'
-import { ResultsList } from './ResultsList'
 
 export const SearchForm = () => {
   const [displaySearchHistory, setDisplaySearchHistory] = useAtom(
@@ -37,7 +37,8 @@ export const SearchForm = () => {
   const setApiError = useSetAtom(handleApiError)
   const setLocalFavorites = useSetAtom(favoriteCharacters)
   const setCardsData = useSetAtom(charactersResults)
-  const [currentMatchingResults, setCurrentMatchingResults] = useAtom(matchingResults)
+  const [currentMatchingResults, setCurrentMatchingResults] =
+    useAtom(matchingResults)
   const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
   const [fetchUrlCharacter] = useFetchByUrl()
   const [searchParams] = useSearchParams()
@@ -106,7 +107,7 @@ export const SearchForm = () => {
   const handleClickOutsideHistory = useCallback(() => {
     setDisplaySearchHistory(false)
   }, [])
-  
+
   const handleClickOutsideResults = useCallback(() => {
     setCurrentMatchingResults(null)
   }, [])
@@ -152,7 +153,9 @@ export const SearchForm = () => {
             })}
           </SearchHistoryContainer>
         ) : null}
-        {inputString && <ResultsList ref={resultsListRef} results={currentMatchingResults} />}
+        {inputString && (
+          <ResultsList ref={resultsListRef} results={currentMatchingResults} />
+        )}
         <FavoriteCardsButton />
       </StyledForm>
     </>

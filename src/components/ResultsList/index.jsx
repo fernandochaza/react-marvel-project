@@ -1,10 +1,10 @@
 import { forwardRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
-
 import { useSetAtom } from 'jotai'
+
 import { userInput } from '../../atoms'
 
-import { StyledListContainer, StyledListItem } from './ResultsListStyles'
+import { StyledListContainer, StyledListItem } from './styles'
 
 export const ResultsList = forwardRef(({ results, ...props }, ref) => {
  const setInput = useSetAtom(userInput)
