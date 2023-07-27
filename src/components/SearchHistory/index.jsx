@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
 
-import { ListContainer, ListItem } from './styles'
+import { StyledListContainer, StyledListItem } from './styles'
 import { forwardRef } from 'react';
 
 export const SearchHistoryContainer = forwardRef(({ children, ...props }, ref) => {
-  return <ListContainer ref={ref} {...props}>{children}</ListContainer>;
+  return <StyledListContainer ref={ref} {...props}>{children}</StyledListContainer>;
 });
 
 SearchHistoryContainer.propTypes = {
@@ -12,7 +12,7 @@ SearchHistoryContainer.propTypes = {
 }
 
 export const SearchHistoryItem = ({ children }) => {
-  return <ListItem>{children}</ListItem>
+  return <StyledListItem>{children}</StyledListItem>
 }
 
 SearchHistoryItem.propTypes = {

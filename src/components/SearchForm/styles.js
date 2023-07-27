@@ -17,7 +17,7 @@ const StyledForm = styled.form`
   }
 `
 
-const Input = styled.input`
+const StyledInput = styled.input`
   width: 90%;
   border: none;
   outline: none;
@@ -31,7 +31,7 @@ const Input = styled.input`
   }
 `
 
-const InputContainer = styled.div`
+const StyledInputContainer = styled.div`
   display: flex;
   border: 1px solid rgba(1, 1, 1, 0.1);
   border-radius: 8px;
@@ -58,16 +58,32 @@ const InputContainer = styled.div`
   }
 `
 
-const SubmitButton = styled.button`
+const StyledSubmitButton = styled.button`
   background-color: transparent;
   border: none;
+  filter: opacity(25%);
+  transition: filter 0.3s ease-in;
+
+  &:hover {
+    filter: opacity(75%);
+  }
+
+  &:focus {
+    filter: opacity(75%);
+  }
 `
 
-const SearchIcon = styled(BsSearch)`
+const StyledSearchIcon = styled(BsSearch)`
   margin: 0 16px;
   width: 24px;
   height: 100%;
   cursor: pointer;
-  filter: opacity(15%);
+
 `
-export { StyledForm, Input, InputContainer, SubmitButton, SearchIcon }
+export {
+  StyledForm,
+  StyledInput,
+  StyledInputContainer,
+  StyledSubmitButton,
+  StyledSearchIcon
+}

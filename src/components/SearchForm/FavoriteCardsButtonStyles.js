@@ -2,19 +2,22 @@ import styled from 'styled-components'
 
 import { PiStarThin } from 'react-icons/pi'
 
-const ButtonContainer = styled.div`
+const StyledFavButtonContainer = styled.div`
   width: 32px;
   min-width: 32px;
   height: 32px;
   cursor: pointer;  
   transition: all 0.3s ease-in-out;
+  filter: opacity(30%);
 
   &:focus {
-    transform: scale(1.2);
+    transform: scale(1.15);
+    filter: opacity(100%);
   }
   
   &:hover {
     transform: scale(1.2);
+    filter: opacity(100%);
   }
 
 
@@ -30,4 +33,4 @@ const FavoriteCardsIcon = styled(PiStarThin)`
   height: 100%;
 `
 
-export { ButtonContainer, FavoriteCardsIcon }
+export { StyledFavButtonContainer as ButtonContainer, FavoriteCardsIcon }
