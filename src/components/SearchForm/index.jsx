@@ -116,48 +116,46 @@ export const SearchForm = () => {
   useOnClickOutside(resultsListRef, handleClickOutsideResults)
 
   return (
-    <>
-      <StyledForm
-        onClick={(e) => {
-          e.stopPropagation()
-        }}
-      >
-        <StyledInputContainer>
-          <StyledInput
-            type='text'
-            placeholder='Search...'
-            autoComplete='on'
-            value={inputString}
-            aria-label='Search a Marvel character'
-            onChange={(event) => handleInputChange(event.target.value)}
-            onKeyDown={handleEnterKey}
-            onClick={handleDisplaySearchHistory}
-            ref={inputRef}
-          />
-          <StyledSubmitButton type='submit'>
-            <StyledSearchIcon aria-label='Search Button' />
-          </StyledSubmitButton>
-        </StyledInputContainer>
-        {!inputString && currentSearchHistory && displaySearchHistory ? (
-          <SearchHistoryContainer ref={searchHistoryRef}>
-            {currentSearchHistory.map((searchItem) => {
-              return (
-                <SearchHistoryItem key={searchItem}>
-                  <HistoryItem
-                    tabIndex={0}
-                    aria-label={`Search results for: ${searchItem}`}
-                    text={searchItem}
-                  />
-                </SearchHistoryItem>
-              )
-            })}
-          </SearchHistoryContainer>
-        ) : null}
-        {inputString && (
-          <ResultsList ref={resultsListRef} results={currentMatchingResults} />
-        )}
-        <FavoriteCardsButton />
-      </StyledForm>
-    </>
+    <StyledForm
+      onClick={(e) => {
+        e.stopPropagation()
+      }}
+    >
+      <StyledInputContainer>
+        <StyledInput
+          type='text'
+          placeholder='Search...'
+          autoComplete='on'
+          value={inputString}
+          aria-label='Search a Marvel character'
+          onChange={(event) => handleInputChange(event.target.value)}
+          onKeyDown={handleEnterKey}
+          onClick={handleDisplaySearchHistory}
+          ref={inputRef}
+        />
+        <StyledSubmitButton type='submit'>
+          <StyledSearchIcon aria-label='Search Button' />
+        </StyledSubmitButton>
+      </StyledInputContainer>
+      {!inputString && currentSearchHistory && displaySearchHistory ? (
+        <SearchHistoryContainer ref={searchHistoryRef}>
+          {currentSearchHistory.map((searchItem) => {
+            return (
+              <SearchHistoryItem key={searchItem}>
+                <HistoryItem
+                  tabIndex={0}
+                  aria-label={`Search results for: ${searchItem}`}
+                  text={searchItem}
+                />
+              </SearchHistoryItem>
+            )
+          })}
+        </SearchHistoryContainer>
+      ) : null}
+      {inputString && (
+        <ResultsList ref={resultsListRef} results={currentMatchingResults} />
+      )}
+      <FavoriteCardsButton />
+    </StyledForm>
   )
 }
