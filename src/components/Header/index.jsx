@@ -1,9 +1,10 @@
+import { useEffect, useState } from 'react'
+import { Outlet, useLocation } from 'react-router-dom'
+
 import { SearchForm } from '../SearchForm'
 import { Logo } from './Logo'
 
 import { StyledHeader, VerticalDivision } from './styles'
-import { Outlet, useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
 
 export const Header = () => {
   const [isComicView, setIsComicView] = useState(false)

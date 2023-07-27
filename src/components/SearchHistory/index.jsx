@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types'
-
-import { StyledListContainer, StyledListItem } from './styles'
 import { forwardRef } from 'react';
+import PropTypes from 'prop-types'
+import { StyledListContainer, StyledListItem } from './styles'
 
 export const SearchHistoryContainer = forwardRef(({ children, ...props }, ref) => {
   return <StyledListContainer ref={ref} {...props}>{children}</StyledListContainer>;
