@@ -138,7 +138,7 @@ export const SearchForm = () => {
             <StyledSearchIcon aria-label='Search Button' />
           </StyledSubmitButton>
         </StyledInputContainer>
-        {!inputString && displaySearchHistory ? (
+        {!inputString && currentSearchHistory && displaySearchHistory ? (
           <SearchHistoryContainer ref={searchHistoryRef}>
             {currentSearchHistory.map((searchItem) => {
               return (
