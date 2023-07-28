@@ -12,20 +12,20 @@ import { ErrorPage } from './components/Generic/ErrorPage'
 function App() {
   const router = createBrowserRouter([
     {
-      path: '/marvel-searcher/',
+      path: '/',
       element: <Header />,
       errorElement: <ErrorPage />,
       children: [
         {
-          path: '/marvel-searcher/',
+          path: '/',
           element: <CardsView />
         },
         {
-          path: '/marvel-searcher/favoriteCards',
+          path: '/favoriteCards',
           element: <CardsView />
         },
         {
-          path: '/marvel-searcher/comic/:comicId',
+          path: '/comic/:comicId',
           element: <ComicView />
         }
       ]
