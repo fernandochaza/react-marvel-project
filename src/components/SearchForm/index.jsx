@@ -36,7 +36,7 @@ export const SearchForm = () => {
   const [currentSearchHistory, setCurrentSearchHistory] = useAtom(searchHistory)
   const setApiError = useSetAtom(handleApiError)
   const setLocalFavorites = useSetAtom(favoriteCharacters)
-  const setCardsData = useSetAtom(charactersResults)
+  const [cardsData, setCardsData] = useAtom(charactersResults)
   const [currentMatchingResults, setCurrentMatchingResults] =
     useAtom(matchingResults)
   const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
@@ -74,7 +74,7 @@ export const SearchForm = () => {
     const characterParam = searchParams.get('character')
     if (characterParam) {
       fetchUrlCharacter()
-    } else if (!state?.clickedLogo) {
+    } else if (!state?.clickedLogo || cardsData.length <= 0) {
       handleFetchRandom()
     }
   }, [])
