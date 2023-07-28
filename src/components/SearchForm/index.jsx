@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { useAtom, useSetAtom } from 'jotai'
 import {
   charactersResults,
@@ -46,6 +46,8 @@ export const SearchForm = () => {
   const searchHistoryRef = useRef(null)
   const resultsListRef = useRef(null)
 
+  const { state } = useLocation()
+
   const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
   const charactersEndpoint = useMemo(
     () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
@@ -72,7 +74,7 @@ export const SearchForm = () => {
     const characterParam = searchParams.get('character')
     if (characterParam) {
       fetchUrlCharacter()
-    } else {
+    } else if (!state?.clickedLogo) {
       handleFetchRandom()
     }
   }, [])
@@ -116,48 +118,46 @@ export const SearchForm = () => {
   useOnClickOutside(resultsListRef, handleClickOutsideResults)
 
   return (
-    <>
-      <StyledForm
-        onClick={(e) => {
-          e.stopPropagation()
-        }}
-      >
-        <StyledInputContainer>
-          <StyledInput
-            type='text'
-            placeholder='Search...'
-            autoComplete='on'
-            value={inputString}
-            aria-label='Search a Marvel character'
-            onChange={(event) => handleInputChange(event.target.value)}
-            onKeyDown={handleEnterKey}
-            onClick={handleDisplaySearchHistory}
-            ref={inputRef}
-          />
-          <StyledSubmitButton type='submit'>
-            <StyledSearchIcon aria-label='Search Button' />
-          </StyledSubmitButton>
-        </StyledInputContainer>
-        {!inputString && displaySearchHistory ? (
-          <SearchHistoryContainer ref={searchHistoryRef}>
-            {currentSearchHistory.map((searchItem) => {
-              return (
-                <SearchHistoryItem key={searchItem}>
-                  <HistoryItem
-                    tabIndex={0}
-                    aria-label={`Search results for: ${searchItem}`}
-                    text={searchItem}
-                  />
-                </SearchHistoryItem>
-              )
-            })}
-          </SearchHistoryContainer>
-        ) : null}
-        {inputString && (
-          <ResultsList ref={resultsListRef} results={currentMatchingResults} />
-        )}
-        <FavoriteCardsButton />
-      </StyledForm>
-    </>
+    <StyledForm
+      onClick={(e) => {
+        e.stopPropagation()
+      }}
+    >
+      <StyledInputContainer>
+        <StyledInput
+          type='text'
+          placeholder='Search...'
+          autoComplete='on'
+          value={inputString}
+          aria-label='Search a Marvel character'
+          onChange={(event) => handleInputChange(event.target.value)}
+          onKeyDown={handleEnterKey}
+          onClick={handleDisplaySearchHistory}
+          ref={inputRef}
+        />
+        <StyledSubmitButton type='submit'>
+          <StyledSearchIcon aria-label='Search Button' />
+        </StyledSubmitButton>
+      </StyledInputContainer>
+      {!inputString && currentSearchHistory && displaySearchHistory ? (
+        <SearchHistoryContainer ref={searchHistoryRef}>
+          {currentSearchHistory.map((searchItem) => {
+            return (
+              <SearchHistoryItem key={searchItem}>
+                <HistoryItem
+                  tabIndex={0}
+                  aria-label={`Search results for: ${searchItem}`}
+                  text={searchItem}
+                />
+              </SearchHistoryItem>
+            )
+          })}
+        </SearchHistoryContainer>
+      ) : null}
+      {inputString && (
+        <ResultsList ref={resultsListRef} results={currentMatchingResults} />
+      )}
+      <FavoriteCardsButton />
+    </StyledForm>
   )
 }
