@@ -1,10 +1,10 @@
 const theme = {
-  // /* Color palette */
-  // primaryColor: '#13678a',
-  // secondaryColor: '#45c4b0',
-  // accent1Color: '#012030',
-  // accent2Color: '#9aeba3',
-  // accent3Color: '#dafdba',
+  /* Color palette */
+  primaryColor: '#ba113b',
+  secondaryColor: '#ba113b',
+  accent1Color: '#b8adad',
+  accent2Color: '#cfc6c6',
+  bgLightColor: '#fafafa',
 
   // /* Fonts */
   // fontFamily: '"Poppins", sans-serif',

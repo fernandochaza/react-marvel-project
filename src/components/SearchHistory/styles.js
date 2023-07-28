@@ -10,7 +10,7 @@ const StyledListContainer = styled.ul`
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 
   position: absolute;
-  top: 54px;
+  top: 60px;
   z-index: 4;
 
   min-width: 400px;
