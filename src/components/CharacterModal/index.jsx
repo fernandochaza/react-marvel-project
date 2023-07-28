@@ -2,14 +2,14 @@ import { useCallback } from 'react'
 import { useAtom, useAtomValue } from 'jotai'
 import { modalCharacter, modalVisibility } from '../../atoms'
 
-import { ModalComicItem } from './ComicItem'
+import { ComicListItem } from './ComicItem'
 
 import {
-  Background,
-  ModalContainer,
-  CloseButton,
-  ListContainer,
-  Title
+  StyledBackgroundDiv,
+  StyledModalContainer,
+  StyledCloseButton,
+  StyledListContainer,
+  StyledTitle
 } from './styles'
 
 export const CharacterModal = () => {
@@ -21,26 +21,26 @@ export const CharacterModal = () => {
   }, [])
 
   return (
-    <Background>
-      <ModalContainer>
-        <CloseButton onClick={handleCloseModal} />
-        <Title>{currentCharacter.name}</Title>
-        <ListContainer>
+    <StyledBackgroundDiv>
+      <StyledModalContainer>
+        <StyledCloseButton onClick={handleCloseModal} />
+        <StyledTitle>{currentCharacter.name}</StyledTitle>
+        <StyledListContainer>
           {currentCharacter.comics.items.length > 0 ? (
             currentCharacter.comics.items.map((comic) => {
               return (
-                <ModalComicItem
+                <ComicListItem
                   key={comic.resourceURI}
                   comicUrl={comic.resourceURI}
                   character={currentCharacter}
-                ></ModalComicItem>
+                ></ComicListItem>
               )
             })
           ) : (
             <h3>Sorry, there are not available comics to display</h3>
           )}
-        </ListContainer>
-      </ModalContainer>
-    </Background>
+        </StyledListContainer>
+      </StyledModalContainer>
+    </StyledBackgroundDiv>
   )
 }
