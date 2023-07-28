@@ -21,7 +21,7 @@ export const FavoriteCardsButton = () => {
 
   return (
     <Tooltip text={'My Favorite Cards'}>
-      <Link to={'/marvel-searcher/favoriteCards'}>
+      <Link to={'/favoriteCards'}>
         <ButtonContainer
           tabIndex={0}
           onClick={() => handleDisplayFavoriteCards()}

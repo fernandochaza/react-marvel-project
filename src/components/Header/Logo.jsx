@@ -23,7 +23,7 @@ const StyledLink = styled(Link)`
 export const Logo = ({ src, alt }) => {
   return (
     <>
-      <StyledLink to='/marvel-searcher/' state={{ refresh: true }}>
+      <StyledLink to='/' state={{ clickedLogo: true }}>
         <StyledLogo src={src} alt={alt} />
       </StyledLink>
         <VerticalDivision />

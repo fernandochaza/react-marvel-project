@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-const ComicItem = styled.li`
+const StyledListItem = styled.li`
   list-style: none;
   display: grid;
   grid-template-columns: 1fr, 1fr, 1fr;
   justify-content: start;
   margin-bottom: 1rem;
-  margin-right: .5rem;
+  margin-right: 0.5rem;
   cursor: pointer;
 
   &:hover {
@@ -17,7 +17,7 @@ const ComicItem = styled.li`
   }
 `
 
-const ComicThumbnail = styled.img`
+const StyledThumbnail = styled.img`
   width: 100px;
   height: 100px;
   border-radius: 16px;
@@ -25,7 +25,7 @@ const ComicThumbnail = styled.img`
   object-position: top;
 `
 
-const CharacterDescription = styled.p`
+const StyledDescriptionText = styled.p`
   margin-left: 1rem;
   margin-top: 0.5rem;
   padding-right: 1rem;
@@ -34,9 +34,14 @@ const CharacterDescription = styled.p`
   overflow: hidden;
 `
 
-const StyledLink = styled(Link)`
+const StyledContainerLink = styled(Link)`
   text-decoration: none;
   color: black;
 `
 
-export { ComicItem, ComicThumbnail, CharacterDescription, StyledLink }
+export {
+  StyledListItem,
+  StyledThumbnail,
+  StyledDescriptionText,
+  StyledContainerLink
+}

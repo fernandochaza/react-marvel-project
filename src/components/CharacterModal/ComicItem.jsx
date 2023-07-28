@@ -4,13 +4,13 @@ import PropTypes from 'prop-types'
 import { fetchComicById } from '../../Utils/fetchers/fetchComicById'
 
 import {
-  ComicItem,
-  ComicThumbnail,
-  CharacterDescription, 
-  StyledLink
+  StyledListItem,
+  StyledThumbnail,
+  StyledDescriptionText,
+  StyledContainerLink
 } from './ComicItemStyles'
 
-export const ModalComicItem = ({ character, comicUrl }) => {
+export const ComicListItem = ({ character, comicUrl }) => {
   const [comicData, setComicData] = useState({})
   const [isLoading, setIsLoading] = useState(true)
   const [comicId, setComicId] = useState('')
@@ -32,34 +32,32 @@ export const ModalComicItem = ({ character, comicUrl }) => {
 
   useEffect(() => {
     fetchComicData()
-  }, [fetchComicData])  
+  }, [fetchComicData])
 
-  return (
-    <StyledLink to={`/marvel-searcher/comic/${comicId}`} state={{ comicData }}>
-      <ComicItem>
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          <>
-            <ComicThumbnail
-              src={`${comicData?.thumbnail?.path}.${comicData?.thumbnail?.extension}`}
-              alt=''
-            />
-            <CharacterDescription>
-              {character.name}
-              <br />
-              {comicData?.description
-                ? comicData?.description
-                : 'No available comic description'}
-            </CharacterDescription>
-          </>
-        )}
-      </ComicItem>
-    </StyledLink>
+  return isLoading ? (
+    <p>Loading...</p>
+  ) : (
+    <StyledContainerLink to={`/comic/${comicId}`} state={{ comicData }}>
+      <StyledListItem>
+        <>
+          <StyledThumbnail
+            src={`${comicData?.thumbnail?.path}.${comicData?.thumbnail?.extension}`}
+            alt=''
+          />
+          <StyledDescriptionText>
+            {character.name}
+            <br />
+            {comicData?.description
+              ? comicData?.description
+              : 'No available comic description'}
+          </StyledDescriptionText>
+        </>
+      </StyledListItem>
+    </StyledContainerLink>
   )
 }
 
-ModalComicItem.propTypes = {
+ComicListItem.propTypes = {
   character: PropTypes.object.isRequired,
   comicUrl: PropTypes.string.isRequired
 }

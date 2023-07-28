@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useLocation, useSearchParams } from 'react-router-dom'
 import { useAtom, useSetAtom } from 'jotai'
 import {
   charactersResults,
@@ -36,7 +36,7 @@ export const SearchForm = () => {
   const [currentSearchHistory, setCurrentSearchHistory] = useAtom(searchHistory)
   const setApiError = useSetAtom(handleApiError)
   const setLocalFavorites = useSetAtom(favoriteCharacters)
-  const setCardsData = useSetAtom(charactersResults)
+  const [cardsData, setCardsData] = useAtom(charactersResults)
   const [currentMatchingResults, setCurrentMatchingResults] =
     useAtom(matchingResults)
   const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
@@ -45,6 +45,8 @@ export const SearchForm = () => {
   const inputRef = useRef(null)
   const searchHistoryRef = useRef(null)
   const resultsListRef = useRef(null)
+
+  const { state } = useLocation()
 
   const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
   const charactersEndpoint = useMemo(
@@ -72,7 +74,7 @@ export const SearchForm = () => {
     const characterParam = searchParams.get('character')
     if (characterParam) {
       fetchUrlCharacter()
-    } else {
+    } else if (!state?.clickedLogo || cardsData.length <= 0) {
       handleFetchRandom()
     }
   }, [])
