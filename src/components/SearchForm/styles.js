@@ -23,28 +23,70 @@ const StyledInput = styled.input`
   outline: none;
 
   &::placeholder {
-    color: rgb(214, 211, 211);
+    color: ${(props) => props.theme.accent2Color};
+    opacity: 0;
+  }
+
+  &:focus::placeholder {
+    transition: opacity 0.3s ease-in;
+    opacity: 1;
+  }
+
+  &:not(:placeholder-shown) + label,
+  &:focus + label {
+    transition: all 0.2s ease-in;
+    content: '';
+    color: ${(props) => props.theme.secondaryColor};
+    top: -10px;
+    font-size: 0.9rem;
+    padding: 0 8px;
+
+    &::after {
+      content: '';
+    }
+
   }
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     border-radius: 8px;
   }
 `
+const StyledLabel = styled.label`
+  position: absolute;
+  left: 8px;
+  top: 12px;
+  z-index: 1;
+
+  &::after {
+    content: '...'
+  }
+
+  &::before {
+    content: '';
+    height: 5px;
+    background-color: white;
+    position: absolute;
+    left: 0;
+    top: 8px;
+    width: 100%;
+    z-index: -1;
+  }
+`
 
 const StyledInputContainer = styled.div`
   display: flex;
-  border: 1px solid rgba(1, 1, 1, 0.1);
+  border: 1px solid ${(props) => props.theme.accent2Color};
   border-radius: 8px;
   min-width: 400px;
   max-width: 600px;
   height: 40px;
   padding-left: 8px;
   margin-right: 40px;
+  position: relative;
 
-  &:focus {
-    outline: none;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
-    transition: box-shadow 0.3s ease;
+  &:focus-within {
+    border: 1px solid ${(props) => props.theme.primaryColor};
+    transition: border 0.7s ease;
   }
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
@@ -78,12 +120,12 @@ const StyledSearchIcon = styled(BsSearch)`
   width: 24px;
   height: 100%;
   cursor: pointer;
-
 `
 export {
   StyledForm,
   StyledInput,
   StyledInputContainer,
   StyledSubmitButton,
-  StyledSearchIcon
+  StyledSearchIcon,
+  StyledLabel
 }

@@ -24,6 +24,7 @@ import { FavoriteCardsButton } from './FavoriteCardsButton'
 import {
   StyledForm,
   StyledInput,
+  StyledLabel,
   StyledInputContainer,
   StyledSearchIcon,
   StyledSubmitButton
@@ -125,9 +126,10 @@ export const SearchForm = () => {
     >
       <StyledInputContainer>
         <StyledInput
+        id='search'
           type='text'
-          placeholder='Search...'
-          autoComplete='on'
+          placeholder='Enter a Marvel character...'
+          autoComplete='off'
           value={inputString}
           aria-label='Search a Marvel character'
           onChange={(event) => handleInputChange(event.target.value)}
@@ -135,6 +137,7 @@ export const SearchForm = () => {
           onClick={handleDisplaySearchHistory}
           ref={inputRef}
         />
+        <StyledLabel htmlFor="search">Character name</StyledLabel>
         <StyledSubmitButton type='submit'>
           <StyledSearchIcon aria-label='Search Button' />
         </StyledSubmitButton>
