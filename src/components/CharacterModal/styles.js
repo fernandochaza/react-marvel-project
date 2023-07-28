@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { GrClose } from 'react-icons/gr'
 
-const Background = styled.div`
+const StyledBackgroundDiv = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
@@ -18,7 +18,7 @@ const Background = styled.div`
   }
 `
 
-const ModalContainer = styled.div`
+const StyledModalContainer = styled.div`
   width: 480px;
   height: 480px;
   z-index: 5;
@@ -36,7 +36,7 @@ const ModalContainer = styled.div`
   }
 `
 
-const ListContainer = styled.ul`
+const StyledListContainer = styled.ul`
   margin: 0;
   padding: 0;
   width: 100%;
@@ -89,7 +89,7 @@ const ListContainer = styled.ul`
   }
 `
 
-const CloseButton = styled(GrClose)`
+const StyledCloseButton = styled(GrClose)`
   width: 20px;
   height: 20px;
   position: absolute;
@@ -98,8 +98,14 @@ const CloseButton = styled(GrClose)`
   cursor: pointer;
 `
 
-const Title = styled.h2`
+const StyledTitle = styled.h2`
   margin: 1rem 0.2rem;
 `
 
-export { Background, ModalContainer, ListContainer, CloseButton, Title }
+export {
+  StyledBackgroundDiv,
+  StyledModalContainer,
+  StyledListContainer,
+  StyledCloseButton,
+  StyledTitle
+}
