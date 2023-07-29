@@ -1,13 +1,21 @@
-import { useAtom, useSetAtom } from 'jotai'
-import { charactersResults, favoriteCharacters } from '../../atoms'
-
-import { ButtonContainer, FavoriteCardsIcon } from './FavoriteCardsButtonStyles'
-import { Tooltip } from '../Generic/Tooltip'
 import { Link } from 'react-router-dom'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import {
+  charactersResults,
+  currentTheme,
+  favoriteCharacters
+} from '../../../atoms'
+
+import { Tooltip } from '../../Generic/Tooltip'
+import { LightStarIcon, DarkStarIcon } from './StarIcon'
+
+import { StyledFavButtonContainer } from './styles'
+import { darkTheme } from '../../../themes'
 
 export const FavoriteCardsButton = () => {
   const [favoriteCards] = useAtom(favoriteCharacters)
   const setCardsData = useSetAtom(charactersResults)
+  const theme = useAtomValue(currentTheme)
 
   const handleDisplayFavoriteCards = () => {
     setCardsData(favoriteCards)
@@ -22,14 +30,14 @@ export const FavoriteCardsButton = () => {
   return (
     <Tooltip text={'My Favorite Cards'}>
       <Link to={'/favoriteCards'}>
-        <ButtonContainer
+        <StyledFavButtonContainer
           tabIndex={0}
           onClick={() => handleDisplayFavoriteCards()}
           onKeyDown={handleKeyPress}
           aria-label='Directs to your favorite cards'
         >
-          <FavoriteCardsIcon />
-        </ButtonContainer>
+          {theme === darkTheme ? <LightStarIcon /> : <DarkStarIcon />}
+        </StyledFavButtonContainer>
       </Link>
     </Tooltip>
   )

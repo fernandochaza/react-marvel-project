@@ -7,9 +7,10 @@ const CardsContainer = styled.div`
   gap: 24px;
   place-items: center;
   max-width: 1100px;
-  margin: 2rem auto;
-  padding: 0 80px;
-  background-color: #fafafa;
+  margin: 0 auto;
+  padding: 2rem 80px;
+  background-color: ${(props) => props.theme.mainBg};
+  transition: background-color .75s ease;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     padding: 0 20px;

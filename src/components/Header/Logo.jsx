@@ -4,18 +4,20 @@ import styled from 'styled-components'
 
 const StyledLogo = styled.img`
   height: 32px;
-  margin: auto 1.2rem;
+  margin: 0 1.2rem;
 `
 const VerticalDivision = styled.div`
-  border-left: 2px solid rgba(0, 0, 0, 0.06);
+  border-left: 1px solid transparent;
+  box-shadow: 0 0 4px ${(props) => props.theme.mainTxt};
   height: 32px;
 
-  @media screen and (max-width: ${props => props.theme.breakpointSm}){
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     display: none;
   }
 `
 
 const StyledLink = styled(Link)`
+  display: flex;
   margin: 0;
   padding: 0;
 `
@@ -26,7 +28,7 @@ export const Logo = ({ src, alt }) => {
       <StyledLink to='/' state={{ clickedLogo: true }}>
         <StyledLogo src={src} alt={alt} />
       </StyledLink>
-        <VerticalDivision />
+      <VerticalDivision />
     </>
   )
 }

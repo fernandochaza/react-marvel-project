@@ -1,6 +1,6 @@
-import { useAtom } from 'jotai'
 import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { useAtom } from 'jotai'
 import { favoriteCardTooltip } from '../../atoms'
 
 const StyledMessage = styled.div`
@@ -9,7 +9,7 @@ const StyledMessage = styled.div`
   top: 12px;
   transform: translate(-50%);
 
-  background-color: #ed1d24;
+  background-color: ${(props) => props.theme.accent1Color};
   color: white;
   padding: 0.5rem;
   border-radius: 8px;

@@ -1,9 +1,12 @@
 import propTypes from 'prop-types'
 import { StyledButton } from './PaginationIconsStyle'
+import { ThemeContext } from 'styled-components'; 
+import { useContext } from 'react';
 
 const PreviousIcon = ({ onClick, disabled }) => {
+  const theme = useContext(ThemeContext);
   return (
-    <StyledButton onClick={onClick} positionX='left'>
+    <StyledButton onClick={onClick} positionX='left' disabled={disabled}>
       <svg
         viewBox='0 0 1024 1024'
         className='icon'
@@ -20,7 +23,7 @@ const PreviousIcon = ({ onClick, disabled }) => {
         <g id='SVGRepo_iconCarrier'>
           <path
             d='M659.2 917.333333l66.133333-66.133333L386.133333 512 725.333333 172.8 659.2 106.666667 256 512z'
-            fill={disabled? '#00000026' : '#000000'}
+            fill={disabled ? theme.accentBg : theme.mainTxt}
           ></path>
         </g>
       </svg>{' '}
@@ -29,8 +32,9 @@ const PreviousIcon = ({ onClick, disabled }) => {
 }
 
 const NextIcon = ({ onClick, disabled }) => {
+  const theme = useContext(ThemeContext);
   return (
-    <StyledButton onClick={onClick} position='right'>
+    <StyledButton onClick={onClick} position='right' disabled={disabled}>
       <svg
         viewBox='0 0 1024 1024'
         className='icon'
@@ -48,7 +52,7 @@ const NextIcon = ({ onClick, disabled }) => {
         <g id='SVGRepo_iconCarrier'>
           <path
             d='M659.2 917.333333l66.133333-66.133333L386.133333 512 725.333333 172.8 659.2 106.666667 256 512z'
-            fill={disabled ? '#00000026' : '#000000'}
+            fill={disabled ? theme.accentBg : theme.mainTxt}
           ></path>
         </g>
       </svg>{' '}

@@ -19,6 +19,16 @@ const StyledButton = styled('button').withConfig({
     filter: drop-shadow(2px 2px 2px);
   }
 
+  ${({ disabled }) =>
+    disabled &&
+    `
+    pointer-events: none;
+    &:hover {
+      transform: none;
+      filter: none;
+    }
+  `}
+
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     width: 40px;
     height: 40px;
