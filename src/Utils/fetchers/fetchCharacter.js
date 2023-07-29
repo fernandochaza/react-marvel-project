@@ -6,11 +6,7 @@ export const fetchCharacter = async ({ api, apiKey, query, limit, offset=0 }) =>
       url += `&offset=${offset}`
     }
 
-    const mockData = './data.json'
-
-    const response = await fetch(mockData)
-
-    console.log(response)
+    const response = await fetch(url)
 
     if (response.status === 401) {
       throw new Error('Unauthorized: You need to provide a valid API key.')

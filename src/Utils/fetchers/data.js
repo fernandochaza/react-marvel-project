@@ -1,4 +1,4 @@
-{
+export const mockData = {
   "results": [
     {
       "id": 1010727,
