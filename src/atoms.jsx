@@ -1,4 +1,5 @@
 import { atom } from 'jotai'
+import { darkTheme } from './themes'
 
 export const charactersResults = atom([])
 export const matchingResults = atom([])
@@ -15,3 +16,4 @@ export const nextPageData = atom([])
 export const favoriteCardTooltip = atom(false)
 export const currentPageData = atom([])
 export const resultsPages = atom(null)
+export const currentTheme = atom(darkTheme)

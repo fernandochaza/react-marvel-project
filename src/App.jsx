@@ -1,15 +1,26 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import styled, { ThemeProvider } from 'styled-components'
 
-import { CardsView } from './components/CardsView'
+import { useAtomValue } from 'jotai'
+import { currentTheme } from './atoms'
+
 import { Header } from './components/Header'
+import { CardsView } from './components/CardsView'
 import { ComicView } from './components/ComicView'
+import { ErrorPage } from './components/Generic/ErrorPage'
+import ThemeSwitcher from './components/Generic/ThemeSwitcher'
 
 import './App.css'
-import { ThemeProvider } from 'styled-components'
-import theme from './theme'
-import { ErrorPage } from './components/Generic/ErrorPage'
+
+const StyledDiv = styled.div`
+  height: 100vh;
+  place-content: center;
+  background-color: ${(props) => props.theme.mainBg};
+  transition: background-color 0.75s ease;
+`
 
 function App() {
+  const theme = useAtomValue(currentTheme)
   const router = createBrowserRouter([
     {
       path: '/',
@@ -34,9 +45,10 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <div className='App'>
+      <StyledDiv className='App'>
         <RouterProvider router={router} />
-      </div>
+        <ThemeSwitcher />
+      </StyledDiv>
     </ThemeProvider>
   )
 }
