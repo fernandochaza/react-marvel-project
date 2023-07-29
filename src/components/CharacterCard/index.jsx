@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
+
 import { useAtom, useSetAtom } from 'jotai'
 import {
   favoriteCardTooltip,
@@ -10,6 +11,7 @@ import {
 } from '../../atoms'
 
 import FavoriteAddedTooltip from './FavoriteAddedTooltip'
+import defaultCardImage from '../../assets/default-card-img-300-450.webp';
 
 import {
   AddFavoriteButton,
@@ -97,10 +99,12 @@ export const CharacterCard = ({ character }) => {
           src={
             character?.thumbnail?.path !==
             'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available'
-              ? `${character?.thumbnail?.path}.${character?.thumbnail?.extension}`
-              : 'https://i.pinimg.com/564x/db/b2/12/dbb2129035f83c491af200bb58e257cc.jpg'
+              ? `${character?.thumbnail?.path}/portrait_uncanny.${character?.thumbnail?.extension}`
+              : defaultCardImage
           }
           alt={`Card of ${character.name}. Directs to ${character.name} comics.`}
+          width='300'
+          height='450'
         />
         <CardInnerShadow aria-label='' onClick={() => handleCardClick()} />
         <AddFavoriteButton
