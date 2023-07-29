@@ -12,6 +12,7 @@ const CardsContainer = styled.div`
   background-color: #fafafa;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+    padding: 0 20px;
   }
 `
 
