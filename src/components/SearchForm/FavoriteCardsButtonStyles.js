@@ -13,13 +13,14 @@ const StyledFavButtonContainer = styled.div`
   &:focus {
     transform: scale(1.15);
     filter: opacity(100%);
+    color: ${(props) => props.theme.primaryColor}
   }
   
   &:hover {
     transform: scale(1.2);
     filter: opacity(100%);
+    color: ${(props) => props.theme.primaryColor}
   }
-
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     width: 28px;

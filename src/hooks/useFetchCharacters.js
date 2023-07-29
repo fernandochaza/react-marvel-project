@@ -28,7 +28,7 @@ const useFetchCharacters = () => {
           api: charactersEndpoint,
           apiKey,
           query,
-          limit: 8
+          limit: 32
         })
 
         setLastFetch(fetchedCharacters)

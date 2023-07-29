@@ -7,7 +7,8 @@ import {
   handleApiError,
   isSearchHistoryDisplayed,
   searchHistory,
-  matchingResults
+  matchingResults,
+  resultsPages
 } from '../../atoms'
 
 import useFetchCharacters from '../../hooks/useFetchCharacters'
@@ -46,6 +47,7 @@ export const SearchForm = () => {
   const inputRef = useRef(null)
   const searchHistoryRef = useRef(null)
   const resultsListRef = useRef(null)
+  const [, setResultsPerPage] = useAtom(resultsPages)
 
   const { state } = useLocation()
 
@@ -54,6 +56,18 @@ export const SearchForm = () => {
     () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
     []
   )
+
+  const handleResultsPerPage = useCallback(() => {
+    const resultsPerPage =
+      window.innerWidth <= 768
+        ? 2
+        : window.innerWidth <= 1024
+        ? 4
+        : window.innerWidth <= 1200
+        ? 6
+        : 8
+    setResultsPerPage(resultsPerPage)
+  }, [])
 
   const handleFetchRandom = useCallback(async () => {
     const query = getRandomCharacter()
@@ -78,6 +92,7 @@ export const SearchForm = () => {
     } else if (!state?.clickedLogo || cardsData.length <= 0) {
       handleFetchRandom()
     }
+    handleResultsPerPage()
   }, [])
 
   const displayFavoriteCards = useCallback(() => {
@@ -126,7 +141,7 @@ export const SearchForm = () => {
     >
       <StyledInputContainer>
         <StyledInput
-        id='search'
+          id='search'
           type='text'
           placeholder='Enter a Marvel character...'
           autoComplete='off'
@@ -137,7 +152,7 @@ export const SearchForm = () => {
           onClick={handleDisplaySearchHistory}
           ref={inputRef}
         />
-        <StyledLabel htmlFor="search">Character name</StyledLabel>
+        <StyledLabel htmlFor='search'>Character name</StyledLabel>
         <StyledSubmitButton type='submit'>
           <StyledSearchIcon aria-label='Search Button' />
         </StyledSubmitButton>

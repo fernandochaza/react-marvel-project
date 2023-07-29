@@ -4,10 +4,14 @@ import { useLocation } from 'react-router-dom'
 import { useAtom, useAtomValue } from 'jotai'
 import { charactersResults, handleApiError, modalVisibility } from '../../atoms'
 
-import { CharacterCard } from '../CharacterCard'
 import { CharacterModal } from '../CharacterModal'
+import { CardsPagination } from './CardsPagination'
 
-import { CardsContainer } from './styles'
+import styled from 'styled-components'
+
+const StyledContainer = styled.div`
+    background-color: #fafafa;
+`
 
 export const CardsView = () => {
   const searchResults = useAtomValue(charactersResults)
@@ -23,23 +27,15 @@ export const CardsView = () => {
   }, [state])
 
   return (
-    <main className='cards-view'>
-      {apiError === null ? (
-        searchResults && searchResults.length > 0 ? (
-          <CardsContainer>
-            {searchResults.map((character) => {
-              return <CharacterCard key={character.id} character={character} />
-            })}
-          </CardsContainer>
-        ) : (
-          <CardsContainer>
-            <p>No matching results.</p>
-          </CardsContainer>
-        )
-      ) : (
+    <StyledContainer>
+      {apiError !== null ? (
         <h1>API ERROR: {apiError}</h1>
+      ) : searchResults && searchResults.length > 0 ? (
+        <CardsPagination />
+      ) : (
+        <h2>No matching results.</h2>
       )}
       {isModalActive && <CharacterModal></CharacterModal>}
-    </main>
+    </StyledContainer>
   )
 }
