@@ -10,10 +10,30 @@ const StyledForm = styled.form`
   margin: 0 auto;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+    min-width: 280px;
+  }
+`
+
+const StyledInputContainer = styled.div`
+  display: flex;
+  border: 1px solid ${(props) => props.theme.accent2Color};
+  border-radius: 8px;
+  min-width: 400px;
+  max-width: 600px;
+  height: 40px;
+  padding-left: 8px;
+  margin-right: 40px;
+  position: relative;
+
+  &:focus-within {
+    border: 1px solid ${(props) => props.theme.primaryColor};
+    transition: border 0.7s ease;
   }
 
-  @media screen and (max-width: ${(props) => props.theme.breakpointMd}) {
-    min-width: 360px;
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+    min-width: 280px;
+    margin: 0;
+    padding-left: 8px;
   }
 `
 
@@ -44,13 +64,13 @@ const StyledInput = styled.input`
     &::after {
       content: '';
     }
-
   }
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     border-radius: 8px;
   }
 `
+
 const StyledLabel = styled.label`
   position: absolute;
   left: 8px;
@@ -58,7 +78,7 @@ const StyledLabel = styled.label`
   z-index: 1;
 
   &::after {
-    content: '...'
+    content: '...';
   }
 
   &::before {
@@ -70,33 +90,6 @@ const StyledLabel = styled.label`
     top: 8px;
     width: 100%;
     z-index: -1;
-  }
-`
-
-const StyledInputContainer = styled.div`
-  display: flex;
-  border: 1px solid ${(props) => props.theme.accent2Color};
-  border-radius: 8px;
-  min-width: 400px;
-  max-width: 600px;
-  height: 40px;
-  padding-left: 8px;
-  margin-right: 40px;
-  position: relative;
-
-  &:focus-within {
-    border: 1px solid ${(props) => props.theme.primaryColor};
-    transition: border 0.7s ease;
-  }
-
-  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    margin: 0;
-    padding-left: 8px;
-  }
-
-  @media screen and (max-width: ${(props) => props.theme.breakpointMd}) {
-    min-width: 360px;
-    margin-right: 12px;
   }
 `
 

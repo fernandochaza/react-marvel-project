@@ -8,9 +8,10 @@ const StyledHeader = styled.header`
   box-shadow: 0 2px 4px rgba(197, 197, 197, 0.5);
   margin-bottom: 4px;
 
-  @media screen and (max-width: ${props => props.theme.breakpointSm}){
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     flex-direction: column;
     height: 100px;
+    width: 100%;
     justify-content: space-evenly;
   }
 `
@@ -21,7 +22,8 @@ const VerticalDivision = styled.div`
   margin-right: 40px;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointMd}) {
-    display: none;  }
+    display: none;
+  }
 `
 
 export { StyledHeader, VerticalDivision }

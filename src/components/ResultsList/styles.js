@@ -22,10 +22,8 @@ const StyledListContainer = styled.div`
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     top: 95px;
-  }
-
-  @media screen and (max-width: ${(props) => props.theme.breakpointMd}) {
-    min-width: 360px;
+    min-width: 280px;
+    max-width: 280px;
   }
 `
 

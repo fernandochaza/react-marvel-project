@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const StyledButton = styled('button').withConfig({
-  shouldForwardProp: (prop) => prop !== 'positionX',
+  shouldForwardProp: (prop) => prop !== 'positionX'
 })`
   position: absolute;
   top: 46%;
@@ -17,6 +17,12 @@ const StyledButton = styled('button').withConfig({
   &:hover {
     transform: scale(1.1);
     filter: drop-shadow(2px 2px 2px);
+  }
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+    width: 40px;
+    height: 40px;
+    top: 47%;
   }
 `
 

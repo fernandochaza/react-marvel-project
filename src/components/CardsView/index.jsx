@@ -6,12 +6,7 @@ import { charactersResults, handleApiError, modalVisibility } from '../../atoms'
 
 import { CharacterModal } from '../CharacterModal'
 import { CardsPagination } from './CardsPagination'
-
-import styled from 'styled-components'
-
-const StyledContainer = styled.div`
-    background-color: #fafafa;
-`
+import { StyledContainer } from './styles'
 
 export const CardsView = () => {
   const searchResults = useAtomValue(charactersResults)
