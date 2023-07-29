@@ -32,7 +32,7 @@ export const ComicView = () => {
   const imgSrc = `${thumbnail?.path}.${thumbnail?.extension}`
 
   return (
-    <MainWrapper className='comic-view'>
+    <MainWrapper>
       <StyledImage src={imgSrc} alt={`${title || ''} cover image`} />
       <InformationWrapper>
         <Title>{title || 'Title not found'}</Title>

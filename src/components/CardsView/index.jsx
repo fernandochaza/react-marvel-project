@@ -6,7 +6,6 @@ import { charactersResults, handleApiError, modalVisibility } from '../../atoms'
 
 import { CharacterModal } from '../CharacterModal'
 import { CardsPagination } from './CardsPagination'
-import { StyledContainer } from './styles'
 
 export const CardsView = () => {
   const searchResults = useAtomValue(charactersResults)
@@ -22,7 +21,7 @@ export const CardsView = () => {
   }, [state])
 
   return (
-    <StyledContainer>
+    <>
       {apiError !== null ? (
         <h1>API ERROR: {apiError}</h1>
       ) : searchResults && searchResults.length > 0 ? (
@@ -31,6 +30,6 @@ export const CardsView = () => {
         <h2>No matching results.</h2>
       )}
       {isModalActive && <CharacterModal></CharacterModal>}
-    </StyledContainer>
+    </>
   )
 }

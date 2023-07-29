@@ -4,20 +4,24 @@ const StyledHeader = styled.header`
   display: flex;
   height: 72px;
   align-items: center;
-  background-color: white;
-  box-shadow: 0 2px 4px rgba(197, 197, 197, 0.5);
+  background-color: ${(props) => props.theme.mainBg};
+  box-shadow: 0 2px 4px ${(props) => props.theme.accentBg};
   margin-bottom: 4px;
+  transition:
+    background-color 0.75s ease,
+    box-shadow 0.3s ease;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     flex-direction: column;
-    height: 100px;
+    height: 116px;
     width: 100%;
     justify-content: space-evenly;
   }
 `
 
 const VerticalDivision = styled.div`
-  border-left: 2px solid rgba(0, 0, 0, 0.06);
+  border-left: 1px solid transparent;
+  box-shadow: 0 0 4px ${(props) => props.theme.mainTxt};
   height: 32px;
   margin-right: 40px;
 

@@ -7,10 +7,10 @@ const StyledListContainer = styled.ul`
   padding-left: 8px;
   background-color: #fafafa;
   border-radius: 4px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  box-shadow: ${(props) => props.theme.mainTxt} 0px 1px 4px;
 
   position: absolute;
-  top: 60px;
+  top: 64px;
   z-index: 4;
 
   min-width: 400px;
@@ -19,6 +19,8 @@ const StyledListContainer = styled.ul`
 
   overflow-y: auto;
   list-style: none;
+
+
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     top: 95px;

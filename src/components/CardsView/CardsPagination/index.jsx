@@ -1,9 +1,12 @@
+import { useCallback, useEffect, useMemo, useState } from 'react'
+
 import { useAtom, useAtomValue } from 'jotai'
 import { charactersResults, currentPageData, resultsPages } from '../../../atoms'
+
 import { CharacterCard } from '../../CharacterCard'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { CardsContainer } from './styles'
 import { NextIcon, PreviousIcon } from './PaginationIcons'
+
+import { CardsContainer } from './styles'
 
 export const CardsPagination = () => {
   const searchResults = useAtomValue(charactersResults)

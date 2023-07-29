@@ -17,9 +17,9 @@ import useOnClickOutside from '../../hooks/useOnClickOutside'
 import { fetchCharacter } from '../../Utils/fetchers/fetchCharacter'
 import getRandomCharacter from '../../Utils/getRandomCharacter'
 
-import { SearchHistoryContainer, SearchHistoryItem } from '../SearchHistory'
-import { ResultsList } from '../ResultsList'
-import { HistoryItem } from '../SearchHistory/HistoryItem'
+import { SearchHistoryContainer, SearchHistoryItem } from './SearchHistory'
+import { ResultsList } from './ResultsList'
+import { HistoryItem } from './SearchHistory/HistoryItem'
 import { FavoriteCardsButton } from './FavoriteCardsButton'
 
 import {
@@ -27,9 +27,10 @@ import {
   StyledInput,
   StyledLabel,
   StyledInputContainer,
-  StyledSearchIcon,
   StyledSubmitButton
 } from './styles'
+
+import { SearchIcon } from './SearchIcon'
 
 export const SearchForm = () => {
   const [displaySearchHistory, setDisplaySearchHistory] = useAtom(
@@ -154,7 +155,7 @@ export const SearchForm = () => {
         />
         <StyledLabel htmlFor='search'>Character name</StyledLabel>
         <StyledSubmitButton type='submit'>
-          <StyledSearchIcon aria-label='Search Button' />
+          <SearchIcon aria-label='Search Button' />
         </StyledSubmitButton>
       </StyledInputContainer>
       {!inputString && currentSearchHistory && displaySearchHistory ? (

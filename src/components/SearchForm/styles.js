@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { BsSearch } from 'react-icons/bs'
 
 const StyledForm = styled.form`
   min-width: 400px;
@@ -7,26 +6,28 @@ const StyledForm = styled.form`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin: 0 auto;
+  margin: 4px auto 0 auto;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     min-width: 280px;
+    margin: 0 auto;
   }
 `
 
 const StyledInputContainer = styled.div`
   display: flex;
-  border: 1px solid ${(props) => props.theme.accent2Color};
+  box-shadow: 0 0 2px ${(props) => props.theme.mainBorder};
   border-radius: 8px;
   min-width: 400px;
   max-width: 600px;
-  height: 40px;
+  height: 48px;
   padding-left: 8px;
   margin-right: 40px;
   position: relative;
+  background-color: ${(props) => props.theme.accentBg};
 
   &:focus-within {
-    border: 1px solid ${(props) => props.theme.primaryColor};
+    box-shadow: 0 0 4px 0 ${(props) => props.theme.accent1Color};
     transition: border 0.7s ease;
   }
 
@@ -41,9 +42,12 @@ const StyledInput = styled.input`
   width: 90%;
   border: none;
   outline: none;
+  padding-top: 6px;
+  background-color: ${(props) => props.theme.accentBg};
+  color: ${(props) => props.theme.mainTxt};
 
   &::placeholder {
-    color: ${(props) => props.theme.accent2Color};
+    color: ${(props) => props.theme.secondaryTxt};
     opacity: 0;
   }
 
@@ -56,7 +60,6 @@ const StyledInput = styled.input`
   &:focus + label {
     transition: all 0.2s ease-in;
     content: '';
-    color: ${(props) => props.theme.secondaryColor};
     top: -10px;
     font-size: 0.9rem;
     padding: 0 8px;
@@ -64,6 +67,12 @@ const StyledInput = styled.input`
     &::after {
       content: '';
     }
+  }
+
+  &:not(:placeholder-shown) + label::before,
+  &:focus + label::before {
+    background-color: ${(props) => props.theme.mainBg};
+    box-shadow: 0 0 4px 0 ${(props) => props.theme.accent1Color};
   }
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
@@ -74,29 +83,32 @@ const StyledInput = styled.input`
 const StyledLabel = styled.label`
   position: absolute;
   left: 8px;
-  top: 12px;
+  top: 16px;
   z-index: 1;
-
+  color: ${(props) => props.theme.mainTxt};
+  
   &::after {
     content: '...';
   }
 
   &::before {
     content: '';
-    height: 5px;
-    background-color: white;
+    height: 16px;
+    border-radius: 8px;
+    background-color: ${(props) => props.theme.accentBg};
     position: absolute;
     left: 0;
-    top: 8px;
+    top: 0;
     width: 100%;
     z-index: -1;
   }
 `
 
 const StyledSubmitButton = styled.button`
-  background-color: transparent;
   border: none;
-  filter: opacity(25%);
+  padding: 0;
+  background-color: transparent;
+  filter: opacity(50%);
   transition: filter 0.3s ease-in;
 
   &:hover {
@@ -108,17 +120,10 @@ const StyledSubmitButton = styled.button`
   }
 `
 
-const StyledSearchIcon = styled(BsSearch)`
-  margin: 0 16px;
-  width: 24px;
-  height: 100%;
-  cursor: pointer;
-`
 export {
   StyledForm,
   StyledInput,
   StyledInputContainer,
   StyledSubmitButton,
-  StyledSearchIcon,
   StyledLabel
 }
