@@ -24,7 +24,7 @@ export const CharacterModal = () => {
     <StyledBackgroundDiv>
       <StyledModalContainer>
         <StyledCloseButton onClick={handleCloseModal} />
-        <StyledTitle>{currentCharacter.name}</StyledTitle>
+        <StyledTitle>{currentCharacter.name} comics:</StyledTitle>
         <StyledListContainer>
           {currentCharacter.comics.items.length > 0 ? (
             currentCharacter.comics.items.map((comic) => {

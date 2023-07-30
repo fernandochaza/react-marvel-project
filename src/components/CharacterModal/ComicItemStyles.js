@@ -9,9 +9,11 @@ const StyledListItem = styled.li`
   margin-bottom: 1rem;
   margin-right: 0.5rem;
   cursor: pointer;
+  border-radius: 16px;
+  transition: background-color .2s ease-in-out, color .2s ease-in-out;
 
   &:hover {
-    background-color: #ed1d24;
+    background-color: ${(props) => props.theme.accent1Color};
     color: white;
     border-radius: 16px;
   }
