@@ -48,6 +48,7 @@ const InformationWrapper = styled.div`
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     margin-top: 1.5rem;
+    margin-bottom: 2rem;
     margin-left: 0;
   }
 `
