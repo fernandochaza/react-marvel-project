@@ -13,7 +13,7 @@ const CardsContainer = styled.div`
   transition: background-color .75s ease;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    padding: 0 20px;
+    padding: 2rem 20px;
   }
 `
 

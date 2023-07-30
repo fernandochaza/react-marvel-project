@@ -22,6 +22,7 @@ const CardContainer = styled.article`
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     min-width: 75%;
+    height: 85%;
   }
 `
 
