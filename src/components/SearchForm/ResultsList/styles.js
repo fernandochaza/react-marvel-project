@@ -20,6 +20,7 @@ const StyledDiv = styled.div`
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     top: 106px;
     min-width: 280px;
+    max-width: 280px;
   }
 `
 
@@ -77,6 +78,9 @@ const StyledListItem = styled.li`
   padding-right: 16px;
   min-height: 40px;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `
 
 export { StyledDiv, StyledListContainer, StyledListItem }

@@ -41,7 +41,7 @@ export const ComicListItem = ({ character, comicUrl }) => {
       <StyledListItem>
         <>
           <StyledThumbnail
-            src={`${comicData?.thumbnail?.path}.${comicData?.thumbnail?.extension}`}
+            src={`${comicData?.thumbnail?.path}/standard_medium.${comicData?.thumbnail?.extension}`}
             alt=''
           />
           <StyledDescriptionText>
