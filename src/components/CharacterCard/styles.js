@@ -9,7 +9,6 @@ const CardContainer = styled.article`
   box-shadow: ${(props) => props.theme.mainTxt} 0px 4px 12px;
   border-radius: 4px;
   box-sizing: border-box;
-
   transition: all 0.3s ease-in-out;
 
   &:hover {

@@ -20,10 +20,8 @@ const StyledListContainer = styled.ul`
   overflow-y: auto;
   list-style: none;
 
-
-
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    top: 95px;
+    top: 106px;
     min-width: 280px;
   }
 `

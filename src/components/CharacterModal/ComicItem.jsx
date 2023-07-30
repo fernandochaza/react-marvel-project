@@ -49,6 +49,8 @@ export const ComicListItem = ({ character, comicUrl }) => {
             <br />
             {comicData?.description
               ? comicData?.description
+                  .replace(/<ul>|<\/ul>/g, '')
+                  .replace(/<li>|<\/li>/g, ' ')
               : 'No available comic description'}
           </StyledDescriptionText>
         </>
