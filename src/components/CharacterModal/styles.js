@@ -49,11 +49,11 @@ const StyledListContainer = styled.ul`
     width: 8px;
   }
   &::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.theme.marvelRed};
+    background-color: ${(props) => props.theme.scrollbar};
     border-radius: 4px;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background-color: ${(props) => props.theme.mainBg};
+    background-color: ${(props) => props.theme.dark};
   }
 
   /* Firefox */
@@ -62,12 +62,12 @@ const StyledListContainer = styled.ul`
   }
 
   &::-moz-scrollbar-thumb {
-    background-color: ${(props) => props.theme.marvelRed};
+    background-color: ${(props) => props.theme.scrollbar};
     border-radius: 4px;
   }
 
   &::-moz-scrollbar-thumb:hover {
-    background-color: ${(props) => props.theme.mainBg};
+    background-color: ${(props) => props.theme.dark};
   }
 
   /* Microsoft (Edge, Internet Explorer) */
@@ -76,12 +76,12 @@ const StyledListContainer = styled.ul`
   }
 
   &::-ms-scrollbar-thumb {
-    background-color: ${(props) => props.theme.marvelRed};
+    background-color: ${(props) => props.theme.scrollbar};
     border-radius: 4px;
   }
 
   &::-ms-scrollbar-thumb:hover {
-    background-color: ${(props) => props.theme.mainBg};
+    background-color: ${(props) => props.theme.dark};
   }
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {

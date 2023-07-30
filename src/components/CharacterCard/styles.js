@@ -22,6 +22,7 @@ const CardContainer = styled.article`
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     min-width: 75%;
+    height: 85%;
   }
 `
 
@@ -31,6 +32,16 @@ const BackgroundImage = styled.img`
   object-fit: cover;
   position: relative;
   border-radius: 4px;
+  animation: fade .2s ease-in;
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `
 
 const IsFavoriteIcon = styled(AiFillStar)`

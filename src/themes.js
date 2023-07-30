@@ -1,4 +1,3 @@
-
 const breakpointSm = '576px'
 const breakpointMd = '768px'
 const breakpointLg = '1024px'
@@ -32,6 +31,8 @@ const darkTheme = {
   mainTxt: '#dee4e7',
   secondaryTxt: '#555555',
 
+  scrollbar: accent1Color,
+
   /* Breakpoints */
   breakpointSm,
   breakpointMd,
@@ -58,6 +59,8 @@ const lightTheme = {
 
   mainTxt: '#37474f',
   secondaryTxt: '#555555',
+
+  scrollbar: accent1Color,
 
   /* Breakpoints */
   breakpointSm,
