@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
-
 import { useAtom, useSetAtom } from 'jotai'
 import {
   favoriteCardTooltip,
@@ -11,7 +10,8 @@ import {
 } from '../../atoms'
 
 import FavoriteAddedTooltip from './FavoriteAddedTooltip'
-import defaultCardImage from '../../assets/default-card-img-300-450.webp';
+import loadingImage from '../../assets/loading-img-300-450.webp'
+import imageNotFound from '../../assets/not-available-img-300-450.webp'
 
 import {
   AddFavoriteButton,
@@ -30,6 +30,8 @@ export const CharacterCard = ({ character }) => {
   const [isCurrentCharacterFavorite, setIsCurrentCharacterFavorite] =
     useState(false)
   const [showTooltip, setShowTooltip] = useAtom(favoriteCardTooltip)
+
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
 
   const handleFavoriteCard = (character) => {
     if (character) {
@@ -100,12 +102,24 @@ export const CharacterCard = ({ character }) => {
             character?.thumbnail?.path !==
             'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available'
               ? `${character?.thumbnail?.path}/portrait_uncanny.${character?.thumbnail?.extension}`
-              : defaultCardImage
+              : imageNotFound
           }
           alt={`Card of ${character.name}. Directs to ${character.name} comics.`}
           width='300'
           height='450'
+          onLoad={() => {
+            setIsImageLoaded(true)
+          }}
+          style={{ display: isImageLoaded ? 'block' : 'none' }}
         />
+        <BackgroundImage
+          src={loadingImage}
+          alt='Default Card Image'
+          width='300'
+          height='450'
+          style={{ display: isImageLoaded ? 'none' : 'block' }}
+        />
+
         <CardInnerShadow aria-label='' onClick={() => handleCardClick()} />
         <AddFavoriteButton
           tabIndex={0}
