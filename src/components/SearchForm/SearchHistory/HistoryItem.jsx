@@ -6,8 +6,8 @@ import { useSetAtom } from 'jotai'
 import { GoHistory } from 'react-icons/go'
 import { RxCross1 } from 'react-icons/rx'
 
-import { searchHistory, userInput } from '../../atoms'
-import { deleteSearchHistoryItem } from '../../Utils/deleteSearchHistoryItem'
+import { searchHistory, userInput } from '../../../atoms'
+import { deleteSearchHistoryItem } from '../../../Utils/deleteSearchHistoryItem'
 
 const StyledContainer = styled.span`
   cursor: pointer;

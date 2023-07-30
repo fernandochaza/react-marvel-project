@@ -6,7 +6,7 @@ const CardContainer = styled.article`
   position: relative;
   width: 256px;
   height: 380px;
-  border: 1px solid black;
+  box-shadow: ${(props) => props.theme.mainTxt} 0px 4px 12px;
   border-radius: 4px;
   box-sizing: border-box;
 
@@ -22,6 +22,7 @@ const CardContainer = styled.article`
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     min-width: 75%;
+    height: 85%;
   }
 `
 
@@ -31,6 +32,16 @@ const BackgroundImage = styled.img`
   object-fit: cover;
   position: relative;
   border-radius: 4px;
+  animation: fade .2s ease-in;
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 `
 
 const IsFavoriteIcon = styled(AiFillStar)`
@@ -79,10 +90,13 @@ const CharacterName = styled.span`
   bottom: 10px;
   left: 10px;
   width: auto;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: ${(props) => props.theme.secondaryColor};
+  border-radius: 4px;
   color: white;
   padding: 5px;
   z-index: 3;
+  margin-right: 8px;
+  text-align: center;
 `
 export {
   CardContainer,

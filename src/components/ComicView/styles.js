@@ -4,7 +4,8 @@ const MainWrapper = styled.main`
   font-family: 'Montserrat', sans-serif;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background-color: #fafafa;
+  background-color: ${(props) => props.theme.mainBg};
+  color: ${(props) => props.theme.mainTxt};
   max-height: calc(100vh - 80px);
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
@@ -19,7 +20,9 @@ const StyledImage = styled.img`
   margin-top: 3rem;
   max-height: 70%;
   width: auto;
-  justify-self: end;
+  justify-self: end;  
+  border-radius: 8px;
+  box-shadow: ${(props) => props.theme.mainTxt} 0px 4px 12px;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     width: 60%;
@@ -59,6 +62,7 @@ const FieldsWrapper = styled.div`
 const TextField = styled.p`
   margin: 0;
   font-weight: 600;
+  line-height: 1.5rem;
 `
 
 const Description = styled.p`

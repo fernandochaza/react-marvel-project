@@ -29,10 +29,10 @@ export const ComicView = () => {
     { field: 'Cover Artist', role: 'penciller (cover)' }
   ]
 
-  const imgSrc = `${thumbnail?.path}.${thumbnail?.extension}`
+  const imgSrc = `${thumbnail?.path}/detail.${thumbnail?.extension}`
 
   return (
-    <MainWrapper className='comic-view'>
+    <MainWrapper>
       <StyledImage src={imgSrc} alt={`${title || ''} cover image`} />
       <InformationWrapper>
         <Title>{title || 'Title not found'}</Title>

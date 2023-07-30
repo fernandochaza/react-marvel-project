@@ -21,6 +21,7 @@ export const fetchCharacter = async ({ api, apiKey, query, limit, offset=0 }) =>
     }
 
     const data = await response.json()
+
     return data.data
   } catch (error) {
     console.error('Error fetching data:', error.message)

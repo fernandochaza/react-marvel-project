@@ -7,7 +7,8 @@ import {
   handleApiError,
   isSearchHistoryDisplayed,
   searchHistory,
-  matchingResults
+  matchingResults,
+  resultsPages
 } from '../../atoms'
 
 import useFetchCharacters from '../../hooks/useFetchCharacters'
@@ -16,18 +17,20 @@ import useOnClickOutside from '../../hooks/useOnClickOutside'
 import { fetchCharacter } from '../../Utils/fetchers/fetchCharacter'
 import getRandomCharacter from '../../Utils/getRandomCharacter'
 
-import { SearchHistoryContainer, SearchHistoryItem } from '../SearchHistory'
-import { ResultsList } from '../ResultsList'
-import { HistoryItem } from '../SearchHistory/HistoryItem'
+import { SearchHistoryContainer, SearchHistoryItem } from './SearchHistory'
+import { ResultsList } from './ResultsList'
+import { HistoryItem } from './SearchHistory/HistoryItem'
 import { FavoriteCardsButton } from './FavoriteCardsButton'
 
 import {
   StyledForm,
   StyledInput,
+  StyledLabel,
   StyledInputContainer,
-  StyledSearchIcon,
   StyledSubmitButton
 } from './styles'
+
+import { SearchIcon } from './SearchIcon'
 
 export const SearchForm = () => {
   const [displaySearchHistory, setDisplaySearchHistory] = useAtom(
@@ -45,6 +48,7 @@ export const SearchForm = () => {
   const inputRef = useRef(null)
   const searchHistoryRef = useRef(null)
   const resultsListRef = useRef(null)
+  const [, setResultsPerPage] = useAtom(resultsPages)
 
   const { state } = useLocation()
 
@@ -53,6 +57,18 @@ export const SearchForm = () => {
     () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
     []
   )
+
+  const handleResultsPerPage = useCallback(() => {
+    const resultsPerPage =
+      window.innerWidth <= 768
+        ? 2
+        : window.innerWidth <= 1024
+        ? 4
+        : window.innerWidth <= 1200
+        ? 6
+        : 8
+    setResultsPerPage(resultsPerPage)
+  }, [])
 
   const handleFetchRandom = useCallback(async () => {
     const query = getRandomCharacter()
@@ -77,6 +93,7 @@ export const SearchForm = () => {
     } else if (!state?.clickedLogo || cardsData.length <= 0) {
       handleFetchRandom()
     }
+    handleResultsPerPage()
   }, [])
 
   const displayFavoriteCards = useCallback(() => {
@@ -125,9 +142,10 @@ export const SearchForm = () => {
     >
       <StyledInputContainer>
         <StyledInput
+          id='search'
           type='text'
-          placeholder='Search...'
-          autoComplete='on'
+          placeholder='Enter a Marvel character...'
+          autoComplete='off'
           value={inputString}
           aria-label='Search a Marvel character'
           onChange={(event) => handleInputChange(event.target.value)}
@@ -135,8 +153,9 @@ export const SearchForm = () => {
           onClick={handleDisplaySearchHistory}
           ref={inputRef}
         />
+        <StyledLabel htmlFor='search'>Character name</StyledLabel>
         <StyledSubmitButton type='submit'>
-          <StyledSearchIcon aria-label='Search Button' />
+          <SearchIcon aria-label='Search Button' />
         </StyledSubmitButton>
       </StyledInputContainer>
       {!inputString && currentSearchHistory && displaySearchHistory ? (

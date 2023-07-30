@@ -18,10 +18,7 @@ export const Header = () => {
   return (
     <>
       <StyledHeader>
-        <Logo
-          src='https://upload.wikimedia.org/wikipedia/commons/b/b9/Marvel_Logo.svg'
-          alt='Marvel Logo'
-        />
+        <Logo />
         {!isComicView ? <SearchForm /> : ''}
         <VerticalDivision />
       </StyledHeader>
