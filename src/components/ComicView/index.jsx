@@ -1,4 +1,7 @@
 import { useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import loadingImage from '../../assets/loading-img-300-450.webp'
+
 import {
   MainWrapper,
   StyledImage,
@@ -12,6 +15,7 @@ import {
 export const ComicView = () => {
   // const { comicId } = useParams()  // Use when accessing from the url to fetch the comic
   const location = useLocation()
+  const [isImageLoaded, setIsImageLoaded] = useState(false)
   const { comicData } = location.state
 
   const { title, description, dates, thumbnail, creators } = comicData || {}
@@ -23,6 +27,9 @@ export const ComicView = () => {
     comicRelease = dateObj.toISOString().split('T')[0]
   }
 
+  const removeUl = description?.replace(/<ul>|<\/ul>/g, '')
+  const cleanDescription = removeUl?.replace(/<li>|<\/li>/g, ' ')
+
   const comicFields = [
     { field: 'Writer', role: 'writer' },
     { field: 'Penciler', role: 'penciller' },
@@ -33,7 +40,23 @@ export const ComicView = () => {
 
   return (
     <MainWrapper>
-      <StyledImage src={imgSrc} alt={`${title || ''} cover image`} />
+      <StyledImage
+        src={imgSrc}
+        alt={`${title || ''} cover image`}
+        onLoad={() => {
+          setIsImageLoaded(true)
+        }}
+        style={{ display: isImageLoaded ? 'block' : 'none' }}
+        width='550'
+        height='835'
+      />
+      <StyledImage
+        src={loadingImage}
+        alt='Default Card Image'
+        width='550'
+        height='835'
+        style={{ display: isImageLoaded ? 'none' : 'block' }}
+      />
       <InformationWrapper>
         <Title>{title || 'Title not found'}</Title>
         <FieldsWrapper>
@@ -49,7 +72,7 @@ export const ComicView = () => {
             )
           })}{' '}
         </FieldsWrapper>
-        <Description>{description || 'No available Description'}</Description>
+        <Description>{cleanDescription || 'No available Description'}</Description>
       </InformationWrapper>
     </MainWrapper>
   )

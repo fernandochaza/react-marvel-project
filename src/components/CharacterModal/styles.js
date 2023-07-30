@@ -30,9 +30,9 @@ const StyledModalContainer = styled.div`
   padding-right: 1rem;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    width: 400px;
+    width: 100%;
     height: 400px;
-    margin-left: -12px;
+    padding: 0;
   }
 `
 
@@ -40,13 +40,12 @@ const StyledListContainer = styled.ul`
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 370px;
-
+  height: 400px;
   overflow-y: auto;
 
   /* WebKit (Chrome, Safari, etc.) */
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 12px;
   }
   &::-webkit-scrollbar-thumb {
     background-color: ${(props) => props.theme.scrollbar};
@@ -85,7 +84,9 @@ const StyledListContainer = styled.ul`
   }
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    height: 320px;
+    height: 310px;
+    width: 94%;
+    padding-left: 8px;
   }
 `
 

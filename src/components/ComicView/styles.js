@@ -6,13 +6,12 @@ const MainWrapper = styled.main`
   grid-template-columns: 1fr 1fr;
   background-color: ${(props) => props.theme.mainBg};
   color: ${(props) => props.theme.mainTxt};
-  max-height: calc(100vh - 80px);
+  transition: background-color 0.75s ease;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-height: 100vh;
   }
 `
 
@@ -20,12 +19,23 @@ const StyledImage = styled.img`
   margin-top: 3rem;
   max-height: 70%;
   width: auto;
-  justify-self: end;  
+  justify-self: end;
   border-radius: 8px;
   box-shadow: ${(props) => props.theme.mainTxt} 0px 4px 12px;
+  animation: fade 0.2s ease-in;
+
+  @keyframes fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    width: 60%;
+    width: 70%;
+    height: auto;
     margin-top: 1rem;
   }
 `
@@ -37,7 +47,8 @@ const InformationWrapper = styled.div`
   max-width: 70%;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+    margin-left: 0;
   }
 `
 
@@ -55,7 +66,7 @@ const FieldsWrapper = styled.div`
   margin-top: 3rem;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 `
 
@@ -63,12 +74,15 @@ const TextField = styled.p`
   margin: 0;
   font-weight: 600;
   line-height: 1.5rem;
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+  }
 `
 
 const Description = styled.p`
   margin-top: 3rem;
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    margin-top: 1rem;
+    margin-top: 2rem;
   }
 `
 
