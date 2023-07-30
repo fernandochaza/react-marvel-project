@@ -4,9 +4,9 @@ const CardsContainer = styled.div`
   position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
-  gap: 24px;
+  gap: 28px;
   place-items: center;
-  max-width: 1100px;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 2rem 80px;
   background-color: ${(props) => props.theme.mainBg};
