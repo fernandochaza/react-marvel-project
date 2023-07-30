@@ -3,23 +3,25 @@ import styled from 'styled-components'
 const MainWrapper = styled.main`
   font-family: 'Montserrat', sans-serif;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  margin-top: 72px;
   background-color: ${(props) => props.theme.mainBg};
   color: ${(props) => props.theme.mainTxt};
   transition: background-color 0.75s ease;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     display: flex;
+    margin-top: 114px;
     flex-direction: column;
     align-items: center;
   }
 `
 
 const StyledImage = styled.img`
-  margin-top: 3rem;
-  max-height: 70%;
-  width: auto;
-  justify-self: end;
+  margin: 3rem auto 1rem auto;
+  width: 80%;
+  max-width: 500px;
+  height: auto;
   border-radius: 8px;
   box-shadow: ${(props) => props.theme.mainTxt} 0px 4px 12px;
   animation: fade 0.2s ease-in;

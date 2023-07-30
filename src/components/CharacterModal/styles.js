@@ -9,7 +9,7 @@ const StyledBackgroundDiv = styled.div`
   background-color: rgba(0, 0, 0, 0.7);
   position: fixed;
   top: 0;
-  z-index: 4;
+  z-index: 6;
 
   align-items: center;
   justify-content: center;

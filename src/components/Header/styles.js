@@ -2,10 +2,16 @@ import styled from 'styled-components'
 
 const StyledHeader = styled.header`
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  width: 100%;
   height: 72px;
   align-items: center;
   background-color: ${(props) => props.theme.mainBg};
-  box-shadow: 0 2px 4px ${(props) => props.theme.accentBg};
+  box-shadow: 0 3px 4px ${(props) => props.theme.accentBg};
   margin-bottom: 4px;
   transition:
     background-color 0.75s ease,

@@ -13,7 +13,7 @@ import ThemeSwitcher from './components/Generic/ThemeSwitcher'
 import './App.css'
 
 const StyledDiv = styled.div`
-  height: 100vh;
+  height: calc(100vh - 74px);
   place-content: center;
   background-color: ${(props) => props.theme.mainBg};
   transition: background-color 0.75s ease;
