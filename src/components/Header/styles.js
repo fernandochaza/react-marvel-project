@@ -15,7 +15,7 @@ const StyledHeader = styled.header`
   margin-bottom: 4px;
   transition:
     background-color 0.75s ease,
-    box-shadow 0.3s ease;
+    box-shadow 0.75s ease;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     flex-direction: column;

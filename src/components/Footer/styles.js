@@ -11,7 +11,8 @@ const StyledFooter = styled.footer`
   background-color: ${(props) => props.theme.mainBg};
   transition:
     background-color 0.75s ease,
-    color 0.75s ease;
+    color 0.75s ease,
+    box-shadow 0.75s ease;
 `
 
 const StyledLink = styled.a`
@@ -26,7 +27,7 @@ const StyledSign = styled.p`
 `
 
 const StyledContainer = styled.div`
-  margin-top: .75rem;
+  margin-top: 0.75rem;
 `
 
 export { StyledFooter, StyledLink, StyledSign, StyledContainer }
