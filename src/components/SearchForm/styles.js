@@ -25,6 +25,8 @@ const StyledInputContainer = styled.div`
   margin-right: 40px;
   position: relative;
   background-color: ${(props) => props.theme.accentBg};
+  transition: background-color 0.75s ease;
+
 
   &:focus-within {
     box-shadow: 0 0 4px 0 ${(props) => props.theme.accent1Color};
@@ -43,8 +45,11 @@ const StyledInput = styled.input`
   border: none;
   outline: none;
   padding-top: 6px;
+  font-size: 1rem;
   background-color: ${(props) => props.theme.accentBg};
   color: ${(props) => props.theme.mainTxt};
+  transition: background-color 0.75s ease, color 0.75s ease;
+
 
   &::placeholder {
     color: ${(props) => props.theme.secondaryTxt};
@@ -101,6 +106,8 @@ const StyledLabel = styled.label`
     top: 0;
     width: 100%;
     z-index: -1;
+    transition: background-color 0.75s ease;
+
   }
 `
 
