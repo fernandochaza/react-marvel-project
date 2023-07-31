@@ -2,7 +2,12 @@ import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { useAtom, useAtomValue } from 'jotai'
-import { charactersResults, handleApiError, loadingCards, modalVisibility } from '../../atoms'
+import {
+  charactersResults,
+  handleApiError,
+  loadingCards,
+  modalVisibility
+} from '../../atoms'
 
 import { CharacterModal } from '../CharacterModal'
 import { CardsPagination } from './CardsPagination'
@@ -25,12 +30,16 @@ export const CardsView = () => {
 
   return (
     <>
-      {apiError !== null ? (
-        <MainMessage>Sorry, we have an API error: <br/> {apiError}</MainMessage>
+      {isLoading ? (
+        <MainMessage>Loading...</MainMessage>
+      ) : apiError !== null ? (
+        <MainMessage>
+          Sorry, we have an API error: <br /> {apiError}
+        </MainMessage>
       ) : searchResults && searchResults.length > 0 ? (
         <CardsPagination />
       ) : (
-      isLoading && <MainMessage>Loading...</MainMessage>
+        <MainMessage>Sorry, we didn&apos;t find matching results</MainMessage>
       )}
       {isModalActive && <CharacterModal></CharacterModal>}
       <Footer />
