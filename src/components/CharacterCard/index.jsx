@@ -101,7 +101,10 @@ export const CharacterCard = ({ character }) => {
           src={
             character?.thumbnail?.path !==
             'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available'
-              ? `${character?.thumbnail?.path}/portrait_uncanny.${character?.thumbnail?.extension}`
+              ? `${character?.thumbnail?.path.replace(
+                  'http://',
+                  'https://'
+                )}/portrait_uncanny.${character?.thumbnail?.extension}`
               : imageNotFound
           }
           alt={`Card of ${character.name}. Directs to ${character.name} comics.`}

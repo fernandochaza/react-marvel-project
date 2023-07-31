@@ -37,7 +37,9 @@ export const ComicView = () => {
     { field: 'Cover Artist', role: 'penciller (cover)' }
   ]
 
-  const imgSrc = `${thumbnail?.path}/detail.${thumbnail?.extension}`
+  const imgSrc = `${thumbnail?.path.replace('http://', 'https://')}/detail.${
+    thumbnail?.extension
+  }`
 
   return (
     <>
