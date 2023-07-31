@@ -19,7 +19,7 @@ const useFetchCharacters = () => {
     []
   )
 
-  const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
+  const apiKey = useMemo(() => import.meta.env.VITE_PUBLIC_API_KEY, [])
 
   const handleFetchByInput = useCallback(async (query) => {
     if (query !== '') {
@@ -32,13 +32,13 @@ const useFetchCharacters = () => {
         })
 
         setCardsData(fetchedCharacters.results)
-        setIsLoading(false)
         setSearchParams({ character: `"${query}"` })
         setApiError(null)
 
       } catch (error) {
         setApiError('Error fetching data: ' + error.message)
       }
+      setIsLoading(false)
     }
   }, [])
 

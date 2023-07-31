@@ -11,7 +11,7 @@ const useFetchByUrl = () => {
   const [searchParams] = useSearchParams()
   const setIsLoading = useSetAtom(loadingCards)
 
-  const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
+  const apiKey = useMemo(() => import.meta.env.VITE_PUBLIC_API_KEY, [])
   const charactersEndpoint = useMemo(
     () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
     []
