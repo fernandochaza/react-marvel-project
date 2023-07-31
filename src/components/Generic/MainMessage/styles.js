@@ -21,6 +21,10 @@ const StyledMessage = styled.h2`
   width: 100%;
   font-size: 3rem;
   text-align: center;
+
+  @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
+    font-size: 2rem;
+  }
 `
 
 export { StyledContainer, StyledMessage }
