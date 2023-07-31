@@ -8,7 +8,7 @@ export const fetchComicsByCharacter = async ({
 }) => {
   const timestamp = new Date().getTime().toString()
   const privateKey = import.meta.env.VITE_PRIVATE_API_KEY
-  const publicKey = import.meta.env.VITE_API_KEY
+  const publicKey = import.meta.env.VITE_PUBLIC_API_KEY
 
   const hash = md5(timestamp + privateKey + publicKey)
 
