@@ -6,6 +6,7 @@ import { charactersResults, handleApiError, modalVisibility } from '../../atoms'
 
 import { CharacterModal } from '../CharacterModal'
 import { CardsPagination } from './CardsPagination'
+import Footer from '../Footer'
 
 export const CardsView = () => {
   const searchResults = useAtomValue(charactersResults)
@@ -30,6 +31,7 @@ export const CardsView = () => {
         <h2>No matching results.</h2>
       )}
       {isModalActive && <CharacterModal></CharacterModal>}
+      <Footer />
     </>
   )
 }
