@@ -93,7 +93,6 @@ export const SearchForm = () => {
     const characterParam = searchParams.get('character')
     if (characterParam) {
       fetchUrlCharacter()
-      setIsLoading(false)
     } else if (!state?.clickedLogo || cardsData.length <= 0) {
       handleFetchRandom()
     }
