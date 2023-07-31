@@ -12,5 +12,5 @@ const MainMessage = ({ children }) => {
 export default MainMessage
 
 MainMessage.propTypes = {
-  children: propTypes.string.isRequired
+  children: propTypes.oneOfType([propTypes.string, propTypes.array])
 }

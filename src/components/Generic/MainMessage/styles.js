@@ -20,10 +20,11 @@ const StyledMessage = styled.h2`
   width: 100%;
   font-size: 3rem;
   text-align: center;
+  padding: 0 1rem;
   text-shadow: 1px 1px 4px ${(props) => props.theme.accent1Color};
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
 `
 
