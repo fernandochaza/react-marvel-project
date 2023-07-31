@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 import { charactersResults, handleApiError, matchingResults, userInput, loadingCards } from '../atoms'
 import { fetchCharacter } from '../Utils/fetchers/fetchCharacter'
 import { handleSearchHistory } from '../Utils/handleSearchHistory'
+import { getMatchingResults } from '../Utils/getMatchingResults'
 
 const useFetchCharacters = () => {
   const [currentInput, setCurrentInput] = useAtom(userInput)
@@ -30,7 +31,6 @@ const useFetchCharacters = () => {
           limit: 32
         })
 
-        setResultsList(fetchedCharacters.results)
         setCardsData(fetchedCharacters.results)
         setIsLoading(false)
         setSearchParams({ character: `"${query}"` })
@@ -47,26 +47,14 @@ const useFetchCharacters = () => {
   }, [])
 
   const handleFetchMatchingResults = useCallback(async (userQuery) => {
-    if (userQuery !== '') {
-      try {
-          const results = await fetchCharacter({
-          api: charactersEndpoint,
-          apiKey,
-          query: userQuery,
-          limit: 16
-        })
-        setResultsList(results.results)
-        setApiError(null)
-      } catch (error) {
-        setApiError(error)
-      }
-    }
+    const matchingResults = getMatchingResults(userQuery)
+    setResultsList(matchingResults)
   }, [])
 
   useEffect(() => {
     const fetchByInputTimer = setTimeout(
       () => handleFetchMatchingResults(currentInput),
-      1500
+      400
     )
     return () => clearTimeout(fetchByInputTimer)
   }, [currentInput])

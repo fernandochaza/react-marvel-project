@@ -20,10 +20,10 @@ export const ResultsList = forwardRef(({ results, ...props }, ref) => {
           ? results.map((result) => {
               return (
                 <StyledListItem
-                  key={result.id}
-                  onClick={() => handleClick(result.name)}
+                  key={result}
+                  onClick={() => handleClick(result)}
                 >
-                  {result.name}
+                  {result}
                 </StyledListItem>
               )
             })
