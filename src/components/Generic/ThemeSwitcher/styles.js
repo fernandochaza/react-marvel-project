@@ -5,6 +5,7 @@ const SwitchWrapper = styled.label`
   position: fixed;
   top: 74px;
   left: 30px;
+  z-index: 6;
   width: 60px;
   height: 28px;
   cursor: pointer;

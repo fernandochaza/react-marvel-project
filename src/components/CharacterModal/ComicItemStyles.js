@@ -32,7 +32,7 @@ const StyledDescriptionText = styled.p`
   margin-top: 0.5rem;
   padding-right: 1rem;
   grid-column: 2/3;
-  max-height: 70px;
+  max-height: 76px;
   overflow: hidden;
 `
 

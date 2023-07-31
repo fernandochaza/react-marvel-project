@@ -11,6 +11,7 @@ import {
   FieldsWrapper,
   Title
 } from './styles'
+import Footer from '../Footer'
 
 export const ComicView = () => {
   // const { comicId } = useParams()  // Use when accessing from the url to fetch the comic
@@ -36,44 +37,51 @@ export const ComicView = () => {
     { field: 'Cover Artist', role: 'penciller (cover)' }
   ]
 
-  const imgSrc = `${thumbnail?.path}/detail.${thumbnail?.extension}`
+  const imgSrc = `${thumbnail?.path.replace('http://', 'https://')}/detail.${
+    thumbnail?.extension
+  }`
 
   return (
-    <MainWrapper>
-      <StyledImage
-        src={imgSrc}
-        alt={`${title || ''} cover image`}
-        onLoad={() => {
-          setIsImageLoaded(true)
-        }}
-        style={{ display: isImageLoaded ? 'block' : 'none' }}
-        width='550'
-        height='835'
-      />
-      <StyledImage
-        src={loadingImage}
-        alt='Default Card Image'
-        width='550'
-        height='835'
-        style={{ display: isImageLoaded ? 'none' : 'block' }}
-      />
-      <InformationWrapper>
-        <Title>{title || 'Title not found'}</Title>
-        <FieldsWrapper>
-          <TextField>Published: {comicRelease || date}</TextField>
-          {comicFields.map(({ field, role }) => {
-            const names = (creators?.items || [])
-              .filter((creator) => creator.role === role)
-              .map((creator) => creator.name)
-            return (
-              <TextField key={role}>{`${field}: ${
-                names.join(', ') || "Sorry, we didn't find this information"
-              }`}</TextField>
-            )
-          })}{' '}
-        </FieldsWrapper>
-        <Description>{cleanDescription || 'No available Description'}</Description>
-      </InformationWrapper>
-    </MainWrapper>
+    <>
+      <MainWrapper>
+        <StyledImage
+          src={imgSrc}
+          alt={`${title || ''} cover image`}
+          onLoad={() => {
+            setIsImageLoaded(true)
+          }}
+          style={{ display: isImageLoaded ? 'block' : 'none' }}
+          width='550'
+          height='835'
+        />
+        <StyledImage
+          src={loadingImage}
+          alt='Default Card Image'
+          width='550'
+          height='835'
+          style={{ display: isImageLoaded ? 'none' : 'block' }}
+        />
+        <InformationWrapper>
+          <Title>{title || 'Title not found'}</Title>
+          <FieldsWrapper>
+            <TextField>Published: {comicRelease || date}</TextField>
+            {comicFields.map(({ field, role }) => {
+              const names = (creators?.items || [])
+                .filter((creator) => creator.role === role)
+                .map((creator) => creator.name)
+              return (
+                <TextField key={role}>{`${field}: ${
+                  names.join(', ') || "Sorry, we didn't find this information"
+                }`}</TextField>
+              )
+            })}{' '}
+          </FieldsWrapper>
+          <Description>
+            {cleanDescription || 'No available Description'}
+          </Description>
+        </InformationWrapper>
+      </MainWrapper>
+      <Footer />
+    </>
   )
 }

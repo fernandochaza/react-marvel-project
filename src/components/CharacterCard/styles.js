@@ -4,8 +4,8 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 
 const CardContainer = styled.article`
   position: relative;
-  width: 256px;
-  height: 380px;
+  width: 220px;
+  aspect-ratio: 2/3;
   box-shadow: ${(props) => props.theme.mainTxt} 0px 4px 12px;
   border-radius: 4px;
   box-sizing: border-box;
@@ -20,8 +20,7 @@ const CardContainer = styled.article`
   }
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    min-width: 75%;
-    height: 85%;
+    height: 308px;
   }
 `
 
@@ -89,9 +88,12 @@ const CharacterName = styled.span`
   bottom: 10px;
   left: 10px;
   width: auto;
-  background-color: ${(props) => props.theme.secondaryColor};
+  background-color: ${(props) => props.theme.mainBg};
+  box-shadow: 0 0 4px ${(props) => props.theme.accent1Color};
   border-radius: 4px;
-  color: white;
+  color: ${(props) => props.theme.mainTxt};
+  text-shadow: 1px 1px 4px ${(props) => props.theme.accent1Color};
+  font-weight: 500;
   padding: 5px;
   z-index: 3;
   margin-right: 8px;

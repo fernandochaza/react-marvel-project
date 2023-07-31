@@ -25,6 +25,7 @@ const StyledInputContainer = styled.div`
   margin-right: 40px;
   position: relative;
   background-color: ${(props) => props.theme.accentBg};
+  transition: background-color 0.75s ease;
 
   &:focus-within {
     box-shadow: 0 0 4px 0 ${(props) => props.theme.accent1Color};
@@ -39,12 +40,17 @@ const StyledInputContainer = styled.div`
 `
 
 const StyledInput = styled.input`
+  font-family: 'SF UI Text', system-ui, sans-serif;
   width: 90%;
   border: none;
   outline: none;
   padding-top: 6px;
+  font-size: 1rem;
   background-color: ${(props) => props.theme.accentBg};
   color: ${(props) => props.theme.mainTxt};
+  transition:
+    background-color 0.75s ease,
+    color 0.75s ease;
 
   &::placeholder {
     color: ${(props) => props.theme.secondaryTxt};
@@ -60,7 +66,7 @@ const StyledInput = styled.input`
   &:focus + label {
     transition: all 0.2s ease-in;
     content: '';
-    top: -10px;
+    top: -8px;
     font-size: 0.9rem;
     padding: 0 8px;
 
@@ -71,6 +77,7 @@ const StyledInput = styled.input`
 
   &:not(:placeholder-shown) + label::before,
   &:focus + label::before {
+    padding-bottom: 4px;
     background-color: ${(props) => props.theme.mainBg};
     box-shadow: 0 0 4px 0 ${(props) => props.theme.accent1Color};
   }
@@ -86,7 +93,7 @@ const StyledLabel = styled.label`
   top: 16px;
   z-index: 1;
   color: ${(props) => props.theme.mainTxt};
-  
+
   &::after {
     content: '...';
   }
@@ -101,6 +108,7 @@ const StyledLabel = styled.label`
     top: 0;
     width: 100%;
     z-index: -1;
+    transition: background-color 0.75s ease-out;
   }
 `
 

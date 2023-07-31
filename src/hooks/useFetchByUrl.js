@@ -3,13 +3,13 @@ import { useSearchParams } from 'react-router-dom'
 import { fetchCharacter } from '../Utils/fetchers/fetchCharacter'
 import { fetchComicsByCharacter } from '../Utils/fetchers/fetchComicsByCharacter'
 import { useSetAtom } from 'jotai'
-import { charactersResults, handleApiError, lastFetchData } from '../atoms'
+import { charactersResults, handleApiError, loadingCards} from '../atoms'
 
 const useFetchByUrl = () => {
   const setCardsData = useSetAtom(charactersResults)
   const setApiError = useSetAtom(handleApiError)
   const [searchParams] = useSearchParams()
-  const setLastFetch = useSetAtom(lastFetchData)  // To implement pagination
+  const setIsLoading = useSetAtom(loadingCards)
 
   const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
   const charactersEndpoint = useMemo(
@@ -18,7 +18,6 @@ const useFetchByUrl = () => {
   )
 
   const fetchUrlCharacter = useCallback(async () => {
-
     const characterParam = searchParams.get('character')
       ? encodeURIComponent(searchParams.get('character').replace(/"/g, ''))
       : undefined
@@ -43,11 +42,10 @@ const useFetchByUrl = () => {
           })
 
           Promise.all([character, characterComics]).then((values) => {
-            console.log(values)
           })
         } else {
           setCardsData(character.results)
-          setLastFetch(character)
+          setIsLoading(false)
         }
       } catch (error) {
         setApiError(error)

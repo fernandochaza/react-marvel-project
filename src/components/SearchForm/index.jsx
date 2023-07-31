@@ -8,7 +8,8 @@ import {
   isSearchHistoryDisplayed,
   searchHistory,
   matchingResults,
-  resultsPages
+  resultsPages,
+  loadingCards
 } from '../../atoms'
 
 import useFetchCharacters from '../../hooks/useFetchCharacters'
@@ -49,6 +50,7 @@ export const SearchForm = () => {
   const searchHistoryRef = useRef(null)
   const resultsListRef = useRef(null)
   const [, setResultsPerPage] = useAtom(resultsPages)
+  const setIsLoading = useSetAtom(loadingCards)
 
   const { state } = useLocation()
 
@@ -81,6 +83,7 @@ export const SearchForm = () => {
       })
       setApiError(null)
       setCardsData(results.results)
+      setIsLoading(false)
     } catch (error) {
       setApiError('Error fetching data: ' + error.message)
     }
