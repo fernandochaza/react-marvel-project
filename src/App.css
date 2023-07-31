@@ -5,7 +5,7 @@
 
 html {
   box-sizing: border-box;
-  font-family: 'SF UI Text', sans-serif;
+  font-family: 'SF UI Text', system-ui, sans-serif;
   color: #3E3E3E;
 }
 

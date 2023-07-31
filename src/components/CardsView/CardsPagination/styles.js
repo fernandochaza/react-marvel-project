@@ -10,7 +10,7 @@ const CardsContainer = styled.div`
   margin: 0 auto;
   margin-top: 72px;
   margin-bottom: 2px;
-  padding: 2rem 80px;
+  padding: 1.7rem 80px;
   background-color: ${(props) => props.theme.mainBg};
   transition: background-color .75s ease;
   min-height: calc(100vh - 233px);

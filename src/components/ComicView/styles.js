@@ -1,7 +1,11 @@
 import styled from 'styled-components'
 
 const MainWrapper = styled.main`
-  font-family: 'Montserrat', sans-serif;
+  font-family:
+    'Montserrat',
+    system-ui,
+    -apple-system,
+    sans-serif;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   margin-top: 72px;
@@ -18,9 +22,9 @@ const MainWrapper = styled.main`
 `
 
 const StyledImage = styled.img`
-  margin: 3rem auto 1rem auto;
+  margin: 3rem auto;
   width: 80%;
-  max-width: 500px;
+  max-width: 420px;
   height: auto;
   border-radius: 8px;
   box-shadow: ${(props) => props.theme.mainTxt} 0px 4px 12px;
