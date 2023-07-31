@@ -17,7 +17,8 @@ const StyledFooter = styled.footer`
 
 const StyledLink = styled.a`
   text-decoration: none;
-  color: ${(props) => props.theme.accent1Color};
+  color: ${(props) => props.theme.mainTxt};
+  text-shadow: 1px 1px 4px ${(props) => props.theme.accent1Color};
   transition: color 0.75s ease;
 `
 

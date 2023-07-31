@@ -7,7 +7,7 @@ const StyledContainer = styled.div`
   min-height: calc(100vh - 177px);
   margin-top: 72px;
   background-color: ${(props) => props.theme.mainBg};
-  color: ${(props) => props.theme.accent1Color};
+  color: ${(props) => props.theme.mainTxt};
   transition: background-color 0.75s ease;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
@@ -20,6 +20,7 @@ const StyledMessage = styled.h2`
   width: 100%;
   font-size: 3rem;
   text-align: center;
+  text-shadow: 1px 1px 4px ${(props) => props.theme.accent1Color};
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     font-size: 2rem;
