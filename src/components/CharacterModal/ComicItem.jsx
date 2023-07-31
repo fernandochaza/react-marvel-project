@@ -48,7 +48,7 @@ export const ComicListItem = ({ character, comicUrl }) => {
             alt=''
           />
           <StyledDescriptionText>
-            {character.name}
+            {comicData?.title || 'Untitled'}
             <br />
             {comicData?.description
               ? comicData?.description

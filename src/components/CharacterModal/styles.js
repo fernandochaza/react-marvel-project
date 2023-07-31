@@ -24,10 +24,12 @@ const StyledModalContainer = styled.div`
   z-index: 5;
 
   position: fixed;
-  background-color: white;
   border-radius: 16px;
   padding-left: 1rem;
   padding-right: 1rem;
+  background-color: ${(props) => props.theme.secondaryBg};
+  color: ${(props) => props.theme.mainTxt};
+  transition: background-color .75s ease;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     width: 100%;
@@ -42,6 +44,9 @@ const StyledListContainer = styled.ul`
   width: 100%;
   height: 400px;
   overflow-y: auto;
+  color: ${(props) => props.theme.mainTxt};
+  transition: color .75s ease;
+
 
   /* WebKit (Chrome, Safari, etc.) */
   &::-webkit-scrollbar {
@@ -52,7 +57,7 @@ const StyledListContainer = styled.ul`
     border-radius: 4px;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background-color: ${(props) => props.theme.dark};
+    background-color: ${(props) => props.theme.black};
   }
 
   /* Firefox */
@@ -100,6 +105,7 @@ const StyledCloseButton = styled(GrClose)`
 `
 
 const StyledTitle = styled.h2`
+  max-width: 90%;
   margin: 1rem 0.2rem;
 `
 
