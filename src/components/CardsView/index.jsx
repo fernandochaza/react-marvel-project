@@ -33,9 +33,16 @@ export const CardsView = () => {
       {isLoading ? (
         <MainMessage>Loading...</MainMessage>
       ) : apiError !== null ? (
-        <MainMessage>
-          Sorry, we have an API error: <br /> {apiError}
-        </MainMessage>
+        apiError.includes('Daily request limit exceeded') ? (
+          <MainMessage>
+            We&apos;ve reached the daily limit of requests allowed by Marvel.
+            <br /> Don&apos;t worry, you can still explore more characters
+            tomorrow!
+            <br /> Thank you for visiting!
+          </MainMessage>
+        ) : (
+          <MainMessage></MainMessage>
+        )
       ) : searchResults && searchResults.length > 0 ? (
         <CardsPagination />
       ) : (
