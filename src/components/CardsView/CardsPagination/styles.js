@@ -9,13 +9,16 @@ const CardsContainer = styled.div`
   max-width: 1180px;
   margin: 0 auto;
   margin-top: 72px;
+  margin-bottom: 2px;
   padding: 2rem 80px;
   background-color: ${(props) => props.theme.mainBg};
   transition: background-color .75s ease;
+  min-height: calc(100vh - 233px);
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     padding: 2rem 20px;
     margin-top: 116px;
+    min-height: calc(100vh - 278px);
   }
 `
 

@@ -4,8 +4,8 @@ import { AiFillStar, AiOutlineStar } from 'react-icons/ai'
 
 const CardContainer = styled.article`
   position: relative;
-  width: 256px;
-  height: 380px;
+  width: 220px;
+  aspect-ratio: 2/3;
   box-shadow: ${(props) => props.theme.mainTxt} 0px 4px 12px;
   border-radius: 4px;
   box-sizing: border-box;
@@ -20,8 +20,7 @@ const CardContainer = styled.article`
   }
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
-    min-width: 75%;
-    height: 85%;
+    height: 308px;
   }
 `
 
