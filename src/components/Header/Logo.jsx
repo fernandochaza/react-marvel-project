@@ -1,5 +1,7 @@
+import { useSetAtom } from 'jotai'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { refreshPage } from '../../atoms'
 
 const StyledLogo = styled.svg`
   margin: 0 18px;
@@ -22,9 +24,15 @@ const StyledLink = styled(Link)`
 `
 
 export const Logo = () => {
+  const setRefreshPage = useSetAtom(refreshPage)
+
+  const handleRefreshPage = () => {
+    setRefreshPage(true)
+  }
+
   return (
     <>
-      <StyledLink to='/' state={{ clickedLogo: true }}>
+      <StyledLink to='/' onClick={handleRefreshPage}>
         <StyledLogo
           version='1.1'
           xmlns='http://www.w3.org/2000/svg'

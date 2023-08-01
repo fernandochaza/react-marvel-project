@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react'
-import { useLocation, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import {
   charactersResults,
@@ -49,8 +49,6 @@ export const SearchForm = () => {
   const searchHistoryRef = useRef(null)
   const resultsListRef = useRef(null)
 
-  const { state } = useLocation()
-
   const handleResultsPerPage = useCallback(() => {
     const resultsPerPage =
       window.innerWidth <= 768
@@ -67,7 +65,7 @@ export const SearchForm = () => {
     const characterParam = searchParams.get('character')
     if (characterParam) {
       fetchUrlCharacter()
-    } else if (!state?.clickedLogo || cardsData.length <= 0) {
+    } else if (cardsData.length <= 0) {
       handleFetchRandom()
     }
     handleResultsPerPage()
