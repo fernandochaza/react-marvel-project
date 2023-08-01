@@ -41,12 +41,14 @@ export const CardsView = () => {
             <br /> Thank you for visiting!
           </MainMessage>
         ) : (
-          <MainMessage></MainMessage>
+          <MainMessage>
+            We are experiencing problems retrieving the data
+          </MainMessage>
         )
       ) : searchResults && searchResults.length > 0 ? (
         <CardsPagination />
       ) : (
-        <MainMessage>Sorry, we didn&apos;t find matching results</MainMessage>
+        <MainMessage>We didn&apos;t find matching results</MainMessage>
       )}
       {isModalActive && <CharacterModal></CharacterModal>}
       <Footer />
