@@ -46,7 +46,9 @@ npm install
 3. Create environment variables and add your Marvel API keys:
 
 - Go to https://developer.marvel.com/.  
--  Click on "Get a Key" to sign up and get your personal keys.  
+- Click on "Get a Key" to sign up and get your personal keys.  
+- (!!!) Don't forget to edit "Your authorized referrers" in your Marvel Developer account.  
+This is bellow your API keys. (If you will make request from a local environment, add "`localhost`" to the domains list)
 - Go to the `.env` file in the project's root directory ans paste your `public key` in the `VITE_PUBLIC_API_KEY` variable.  
 - Create a file named `.env.local` in the root directory of the project and add the variable `VITE_PRIVATE_API_KEY`. Then, paste your `private key` into that variable.  
 - Make sure to keep your private key PRIVATE!  
