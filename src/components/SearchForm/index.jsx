@@ -1,22 +1,18 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { useLocation, useSearchParams } from 'react-router-dom'
-import { useAtom, useSetAtom } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import {
   charactersResults,
   favoriteCharacters,
-  handleApiError,
   isSearchHistoryDisplayed,
   searchHistory,
   matchingResults,
-  resultsPages,
-  loadingCards
+  resultsPages
 } from '../../atoms'
 
 import useFetchCharacters from '../../hooks/useFetchCharacters'
 import useFetchByUrl from '../../hooks/useFetchByUrl'
 import useOnClickOutside from '../../hooks/useOnClickOutside'
-import { fetchCharacter } from '../../Utils/fetchers/fetchCharacter'
-import getRandomCharacter from '../../Utils/getRandomCharacter'
 
 import { SearchHistoryContainer, SearchHistoryItem } from './SearchHistory'
 import { ResultsList } from './ResultsList'
@@ -32,33 +28,28 @@ import {
 } from './styles'
 
 import { SearchIcon } from './SearchIcon'
+import useFetchRandom from '../../hooks/useFetchRandom'
 
 export const SearchForm = () => {
   const [displaySearchHistory, setDisplaySearchHistory] = useAtom(
     isSearchHistoryDisplayed
   )
   const [currentSearchHistory, setCurrentSearchHistory] = useAtom(searchHistory)
-  const setApiError = useSetAtom(handleApiError)
   const setLocalFavorites = useSetAtom(favoriteCharacters)
-  const [cardsData, setCardsData] = useAtom(charactersResults)
+  const setResultsPerPage = useSetAtom(resultsPages)
   const [currentMatchingResults, setCurrentMatchingResults] =
     useAtom(matchingResults)
+  const cardsData = useAtomValue(charactersResults)
   const [handleInputChange, handleEnterKey, inputString] = useFetchCharacters()
   const [fetchUrlCharacter] = useFetchByUrl()
+  const [handleFetchRandom] = useFetchRandom()
   const [searchParams] = useSearchParams()
+
   const inputRef = useRef(null)
   const searchHistoryRef = useRef(null)
   const resultsListRef = useRef(null)
-  const [, setResultsPerPage] = useAtom(resultsPages)
-  const setIsLoading = useSetAtom(loadingCards)
 
   const { state } = useLocation()
-
-  const apiKey = useMemo(() => import.meta.env.VITE_PUBLIC_API_KEY, [])
-  const charactersEndpoint = useMemo(
-    () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
-    []
-  )
 
   const handleResultsPerPage = useCallback(() => {
     const resultsPerPage =
@@ -71,23 +62,6 @@ export const SearchForm = () => {
         : 8
     setResultsPerPage(resultsPerPage)
   }, [])
-
-  const handleFetchRandom = useCallback(async () => {
-    const query = getRandomCharacter()
-    try {
-      const results = await fetchCharacter({
-        api: charactersEndpoint,
-        apiKey,
-        query,
-        limit: 30
-      })
-      setApiError(null)
-      setCardsData(results.data.results)
-    } catch (error) {
-      setApiError('Error fetching data: ' + error.message)
-    }
-    setIsLoading(false)
-  })
 
   useEffect(() => {
     const characterParam = searchParams.get('character')
