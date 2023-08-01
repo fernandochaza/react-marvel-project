@@ -12,6 +12,7 @@ import {
   Title
 } from './styles'
 import Footer from '../Footer'
+import { getComicInfo } from '../../Utils/getComicInfo'
 
 export const ComicView = () => {
   // const { comicId } = useParams()  // Use when accessing from the url to fetch the comic
@@ -19,27 +20,16 @@ export const ComicView = () => {
   const [isImageLoaded, setIsImageLoaded] = useState(false)
   const { comicData } = location.state
 
-  const { title, description, dates, thumbnail, creators } = comicData || {}
-
-  const date = dates?.[0]?.date || 'Not available'
-  let comicRelease
-  if (date) {
-    const dateObj = new Date(date)
-    comicRelease = dateObj.toISOString().split('T')[0]
-  }
-
-  const removeUl = description?.replace(/<ul>|<\/ul>/g, '')
-  const cleanDescription = removeUl?.replace(/<li>|<\/li>/g, ' ')
-
-  const comicFields = [
-    { field: 'Writer', role: 'writer' },
-    { field: 'Penciler', role: 'penciller' },
-    { field: 'Cover Artist', role: 'penciller (cover)' }
-  ]
-
-  const imgSrc = `${thumbnail?.path.replace('http://', 'https://')}/detail.${
-    thumbnail?.extension
-  }`
+  const {
+    title,
+    comicRelease,
+    cleanDescription,
+    penciler,
+    writer,
+    coverArtist,
+    imgSrc,
+    date
+  } = getComicInfo(comicData)
 
   return (
     <>
@@ -65,16 +55,13 @@ export const ComicView = () => {
           <Title>{title || 'Title not found'}</Title>
           <FieldsWrapper>
             <TextField>Published: {comicRelease || date}</TextField>
-            {comicFields.map(({ field, role }) => {
-              const names = (creators?.items || [])
-                .filter((creator) => creator.role === role)
-                .map((creator) => creator.name)
-              return (
-                <TextField key={role}>{`${field}: ${
-                  names.join(', ') || "Sorry, we didn't find this information"
-                }`}</TextField>
-              )
-            })}{' '}
+            <TextField>Writer/s: {writer.join(', ') || 'Not found'}</TextField>
+            <TextField>
+              Penciler/s: {penciler.join(', ') || 'Not found'}
+            </TextField>
+            <TextField>
+              Cover Artist/s: {coverArtist.join(', ') || 'Not found'}
+            </TextField>
           </FieldsWrapper>
           <Description>
             {cleanDescription || 'No available Description'}
