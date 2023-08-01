@@ -37,15 +37,10 @@ const useFetchCharacters = () => {
         const regex = /issue\/(\d+)/
         const matchResults = query.match(regex)
         const issueNumber = matchResults[1]
-        console.log(issueNumber)
         try {
-          console.log('fetching comic')
           const comicData = await fetchComicById(issueNumber)
-          console.log(comicData)
 
           if (comicData?.id) {
-            console.log('navigating')
-
             navigate(`/comic/${issueNumber}`, { state: { comicData } })
             setCurrentInput('')
           }
