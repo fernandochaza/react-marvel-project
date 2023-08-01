@@ -82,7 +82,7 @@ export const SearchForm = () => {
         limit: 30
       })
       setApiError(null)
-      setCardsData(results.results)
+      setCardsData(results.data.results)
     } catch (error) {
       setApiError('Error fetching data: ' + error.message)
     }
