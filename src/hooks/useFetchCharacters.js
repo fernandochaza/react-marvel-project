@@ -1,6 +1,6 @@
 import { useAtom, useSetAtom } from 'jotai'
 import { useCallback, useEffect, useMemo } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import {
   charactersResults,
   handleApiError,
@@ -13,6 +13,7 @@ import { handleSearchHistory } from '../Utils/handleSearchHistory'
 import { getMatchingResults } from '../Utils/getMatchingResults'
 import { saveQueryInLocalStorage } from '../Utils/saveQueryInLocalStorage'
 import { getStoredEtag } from '../Utils/getStoredEtag'
+import { fetchComicById } from '../Utils/fetchers/fetchComicById'
 
 const useFetchCharacters = () => {
   const [currentInput, setCurrentInput] = useAtom(userInput)
@@ -21,6 +22,7 @@ const useFetchCharacters = () => {
   const setCardsData = useSetAtom(charactersResults)
   const setIsLoading = useSetAtom(loadingCards)
   const [, setSearchParams] = useSearchParams('')
+  const navigate = useNavigate()
 
   const charactersEndpoint = useMemo(
     () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
@@ -31,27 +33,48 @@ const useFetchCharacters = () => {
 
   const handleFetchByInput = useCallback(async (query) => {
     if (query !== '') {
-      const etag = getStoredEtag(query)
-      try {
-        const fetchedCharacters = await fetchCharacter({
-          api: charactersEndpoint,
-          apiKey,
-          query,
-          limit: 32,
-          etag
-        })
+      if (query.includes('http')) {
+        const regex = /issue\/(\d+)/
+        const matchResults = query.match(regex)
+        const issueNumber = matchResults[1]
+        console.log(issueNumber)
+        try {
+          console.log('fetching comic')
+          const comicData = await fetchComicById(issueNumber)
+          console.log(comicData)
 
-        setCardsData(fetchedCharacters.data.results)
-        setSearchParams({ character: `"${query}"` })
-        setApiError(null)
-        if (fetchedCharacters.data.results.length > 0) {
-          saveQueryInLocalStorage(query, fetchedCharacters)
+          if (comicData?.id) {
+            console.log('navigating')
+
+            navigate(`/comic/${issueNumber}`, { state: { comicData } })
+            setCurrentInput('')
+          }
+        } catch (error) {
+          setApiError('Error fetching data: ' + error.message)
         }
-      } catch (error) {
-        setApiError('Error fetching data: ' + error.message)
+      } else {
+        const etag = getStoredEtag(query)
+        try {
+          const fetchedCharacters = await fetchCharacter({
+            api: charactersEndpoint,
+            apiKey,
+            query,
+            limit: 32,
+            etag
+          })
+
+          setCardsData(fetchedCharacters.data.results)
+          setSearchParams({ character: `"${query}"` })
+          setApiError(null)
+          if (fetchedCharacters.data.results.length > 0) {
+            saveQueryInLocalStorage(query, fetchedCharacters)
+          }
+        } catch (error) {
+          setApiError('Error fetching data: ' + error.message)
+        }
       }
-      setIsLoading(false)
     }
+    setIsLoading(false)
   }, [])
 
   useEffect(() => {
