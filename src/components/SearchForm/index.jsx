@@ -54,7 +54,7 @@ export const SearchForm = () => {
 
   const { state } = useLocation()
 
-  const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
+  const apiKey = useMemo(() => import.meta.env.VITE_PUBLIC_API_KEY, [])
   const charactersEndpoint = useMemo(
     () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
     []
@@ -82,11 +82,11 @@ export const SearchForm = () => {
         limit: 30
       })
       setApiError(null)
-      setCardsData(results.results)
-      setIsLoading(false)
+      setCardsData(results.data.results)
     } catch (error) {
       setApiError('Error fetching data: ' + error.message)
     }
+    setIsLoading(false)
   })
 
   useEffect(() => {

@@ -1,9 +1,19 @@
 import { useAtom, useSetAtom } from 'jotai'
 import { useCallback, useEffect, useMemo } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { charactersResults, handleApiError, matchingResults, userInput, loadingCards } from '../atoms'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import {
+  charactersResults,
+  handleApiError,
+  matchingResults,
+  userInput,
+  loadingCards
+} from '../atoms'
 import { fetchCharacter } from '../Utils/fetchers/fetchCharacter'
 import { handleSearchHistory } from '../Utils/handleSearchHistory'
+import { getMatchingResults } from '../Utils/getMatchingResults'
+import { saveQueryInLocalStorage } from '../Utils/saveQueryInLocalStorage'
+import { getStoredEtag } from '../Utils/getStoredEtag'
+import { fetchComicById } from '../Utils/fetchers/fetchComicById'
 
 const useFetchCharacters = () => {
   const [currentInput, setCurrentInput] = useAtom(userInput)
@@ -12,34 +22,59 @@ const useFetchCharacters = () => {
   const setCardsData = useSetAtom(charactersResults)
   const setIsLoading = useSetAtom(loadingCards)
   const [, setSearchParams] = useSearchParams('')
+  const navigate = useNavigate()
 
   const charactersEndpoint = useMemo(
     () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
     []
   )
 
-  const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
+  const apiKey = useMemo(() => import.meta.env.VITE_PUBLIC_API_KEY, [])
 
   const handleFetchByInput = useCallback(async (query) => {
     if (query !== '') {
-       try {
+      if (query.includes('http')) {
+        const regex = /issue\/(\d+)/
+        const matchResults = query.match(regex)
+        const issueNumber = matchResults[1]
+        console.log(issueNumber)
+        try {
+          console.log('fetching comic')
+          const comicData = await fetchComicById(issueNumber)
+          console.log(comicData)
+
+          if (comicData?.id) {
+            console.log('navigating')
+
+            navigate(`/comic/${issueNumber}`, { state: { comicData } })
+            setCurrentInput('')
+          }
+        } catch (error) {
+          setApiError('Error fetching data: ' + error.message)
+        }
+      } else {
+        const etag = getStoredEtag(query)
+        try {
           const fetchedCharacters = await fetchCharacter({
-          api: charactersEndpoint,
-          apiKey,
-          query,
-          limit: 32
-        })
+            api: charactersEndpoint,
+            apiKey,
+            query,
+            limit: 32,
+            etag
+          })
 
-        setResultsList(fetchedCharacters.results)
-        setCardsData(fetchedCharacters.results)
-        setIsLoading(false)
-        setSearchParams({ character: `"${query}"` })
-        setApiError(null)
-
-      } catch (error) {
-        setApiError('Error fetching data: ' + error.message)
+          setCardsData(fetchedCharacters.data.results)
+          setSearchParams({ character: `"${query}"` })
+          setApiError(null)
+          if (fetchedCharacters.data.results.length > 0) {
+            saveQueryInLocalStorage(query, fetchedCharacters)
+          }
+        } catch (error) {
+          setApiError('Error fetching data: ' + error.message)
+        }
       }
     }
+    setIsLoading(false)
   }, [])
 
   useEffect(() => {
@@ -47,26 +82,14 @@ const useFetchCharacters = () => {
   }, [])
 
   const handleFetchMatchingResults = useCallback(async (userQuery) => {
-    if (userQuery !== '') {
-      try {
-          const results = await fetchCharacter({
-          api: charactersEndpoint,
-          apiKey,
-          query: userQuery,
-          limit: 16
-        })
-        setResultsList(results.results)
-        setApiError(null)
-      } catch (error) {
-        setApiError(error)
-      }
-    }
+    const matchingResults = getMatchingResults(userQuery)
+    setResultsList(matchingResults)
   }, [])
 
   useEffect(() => {
     const fetchByInputTimer = setTimeout(
       () => handleFetchMatchingResults(currentInput),
-      1500
+      400
     )
     return () => clearTimeout(fetchByInputTimer)
   }, [currentInput])

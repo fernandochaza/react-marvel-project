@@ -3,10 +3,10 @@ import md5 from 'md5'
 export const fetchComicById = async (comicId) => {
   const timestamp = new Date().getTime().toString()
   const privateKey = import.meta.env.VITE_PRIVATE_API_KEY
-  const publicKey = import.meta.env.VITE_API_KEY
+  const publicKey = import.meta.env.VITE_PUBLIC_API_KEY
 
   const hash = md5(timestamp + privateKey + publicKey)
-  const url = `https://gateway.marvel.com/v1/public/comics/${comicId}?limit=2&ts=${timestamp}&hash=${hash}&apikey=${publicKey}`
+  const url = `https://gateway.marvel.com/v1/public/comics/${comicId}?limit=1&ts=${timestamp}&hash=${hash}&apikey=${publicKey}`
 
   try {
     const response = await fetch(url)

@@ -4,8 +4,8 @@ const StyledDiv = styled.div`
   display: flex;
   flex-direction: column;
   margin: 0;
-  padding: 0 6px 0 0;
-  background-color: #fafafa;
+  background-color: ${(props) => props.theme.accentBg};
+  color: ${(props) => props.theme.mainTxt};
   border-radius: 4px;
   box-shadow: ${(props) => props.theme.mainTxt} 0px 1px 4px;
 
@@ -13,14 +13,14 @@ const StyledDiv = styled.div`
   top: 64px;
   z-index: 4;
 
-  min-width: 400px;
-  max-width: 600px;
+  min-width: 408px;
+  max-width: 608px;
   max-height: 200px;
 
   @media screen and (max-width: ${(props) => props.theme.breakpointSm}) {
     top: 106px;
-    min-width: 280px;
-    max-width: 280px;
+    min-width: 288px;
+    max-width: 288px;
   }
 `
 
@@ -31,8 +31,8 @@ const StyledListContainer = styled.ul`
   overflow-y: auto;
   list-style: none;
 
-    /* WebKit (Chrome, Safari, etc.) */
-    &::-webkit-scrollbar {
+  /* WebKit (Chrome, Safari, etc.) */
+  &::-webkit-scrollbar {
     width: 10px;
   }
   &::-webkit-scrollbar-thumb {

@@ -108,7 +108,7 @@ const StyledLabel = styled.label`
     top: 0;
     width: 100%;
     z-index: -1;
-    transition: background-color 0.75s ease-out;
+    transition: background-color 0.75s ease;
   }
 `
 

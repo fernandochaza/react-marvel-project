@@ -14,8 +14,13 @@ const StyledListItem = styled.li`
 
   &:hover {
     background-color: ${(props) => props.theme.accent1Color};
-    color: white;
     border-radius: 16px;
+  }
+
+  &:hover > p{
+    color: ${(props) => props.theme.white};
+    text-shadow: 1px 1px 4px ${(props) => props.theme.black};
+    font-weight: 500;
   }
 `
 
@@ -32,8 +37,15 @@ const StyledDescriptionText = styled.p`
   margin-top: 0.5rem;
   padding-right: 1rem;
   grid-column: 2/3;
-  max-height: 76px;
+  max-height: 84px;
   overflow: hidden;
+  color: ${(props) => props.theme.mainTxt};
+  transition: color .2s ease-in-out, color .2s ease-in-out;
+
+  &::first-line{
+    text-decoration: underline;
+  }
+
 `
 
 const StyledContainerLink = styled(Link)`

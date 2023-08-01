@@ -2,15 +2,16 @@
 
 Welcome! 👋  
 <br>
-This is a web application built with React and Vite that allows users to search and explore characters from the Marvel Universe.
+This is a React web application that allows users to search and explore characters from the Marvel Universe.
 
 ## Built with
 
 - [React](https://reactjs.org/)
 - [Vite](https://vitejs.dev/)
 - [Styled Components](https://styled-components.com/)
-- [Vercel](https://vercel.com/)
+- [Jotai](https://jotai.org/)
 - [Marvel API](https://developer.marvel.com/)
+- [Vercel](https://vercel.com/)
 
 ## Live Demo
 

@@ -3,7 +3,9 @@ import { useSearchParams } from 'react-router-dom'
 import { fetchCharacter } from '../Utils/fetchers/fetchCharacter'
 import { fetchComicsByCharacter } from '../Utils/fetchers/fetchComicsByCharacter'
 import { useSetAtom } from 'jotai'
-import { charactersResults, handleApiError, loadingCards} from '../atoms'
+import { charactersResults, handleApiError, loadingCards } from '../atoms'
+import { getStoredEtag } from '../Utils/getStoredEtag'
+import { saveQueryInLocalStorage } from '../Utils/saveQueryInLocalStorage'
 
 const useFetchByUrl = () => {
   const setCardsData = useSetAtom(charactersResults)
@@ -11,7 +13,7 @@ const useFetchByUrl = () => {
   const [searchParams] = useSearchParams()
   const setIsLoading = useSetAtom(loadingCards)
 
-  const apiKey = useMemo(() => import.meta.env.VITE_API_KEY, [])
+  const apiKey = useMemo(() => import.meta.env.VITE_PUBLIC_API_KEY, [])
   const charactersEndpoint = useMemo(
     () => import.meta.env.VITE_API_CHARACTERS_ENDPOINT,
     []
@@ -25,27 +27,31 @@ const useFetchByUrl = () => {
       ? encodeURIComponent(searchParams.get('comic').replace(/"/g, ''))
       : undefined
     if (characterParam) {
+      const etag = getStoredEtag(characterParam)
       try {
-          const character = await fetchCharacter({
+        const character = await fetchCharacter({
           api: charactersEndpoint,
           apiKey,
           query: characterParam,
-          limit: 8
+          limit: 40,
+          etag
         })
 
         if (comicParam) {
           const characterComics = await fetchComicsByCharacter({
             apiKey,
-            characterId: character.id,
+            characterId: character.data.id,
             comic: comicParam,
             limit: 20
           })
 
-          Promise.all([character, characterComics]).then((values) => {
-          })
+          Promise.all([character, characterComics]).then((values) => {})
         } else {
-          setCardsData(character.results)
+          setCardsData(character.data.results)
           setIsLoading(false)
+          if (character.data.results.length > 0) {
+            saveQueryInLocalStorage(characterParam, character)
+          }
         }
       } catch (error) {
         setApiError(error)
